@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>🚭 مساعد الإقلاع عن التدخين</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+      background: #f4f7fc;
+      min-height: 100vh;
+      padding: 20px 12px;
+      display: flex;
+      justify-content: center;
+      color: #1e2b3a;
+    }
+    .app-container {
+      max-width: 650px;
+      width: 100%;
+      background: white;
+      border-radius: 40px 40px 28px 28px;
+      box-shadow: 0 20px 40px rgba(0, 10, 20, 0.12);
+      padding: 24px 20px 32px;
+      transition: all 0.2s;
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #0b2a3b;
+      border-bottom: 2px solid #eef3f8;
+      padding-bottom: 16px;
+      margin-bottom: 22px;
+    }
+    h1 small {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #3d6379;
+      margin-right: auto;
+    }
+    .card {
+      background: #f9fcff;
+      border-radius: 28px;
+      padding: 18px 20px 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 12px rgba(0, 20, 30, 0.04);
+      border: 1px solid #e8edf3;
+    }
+    .card-title {
+      font-weight: 600;
+      color: #1d4a5e;
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 10px;
+    }
+    .stat-item {
+      background: white;
+      border-radius: 18px;
+      padding: 14px 6px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      border: 1px solid #dfe8f0;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #5f7b8f;
+      font-weight: 600;
+    }
+    .stat-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #0f384b;
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+    .stat-value.small {
+      font-size: 1.1rem;
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+      justify-content: center;
+    }
+    .btn {
+      border: none;
+      background: white;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1e3e50;
+      box-shadow: 0 4px 10px rgba(0, 20, 30, 0.04);
+      border: 1px solid #dae3ec;
+      transition: all 0.15s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 0 auto;
+      justify-content: center;
+    }
+    .btn-primary {
+      background: #1f4b61;
+      border-color: #1f4b61;
+      color: white;
+      box-shadow: 0 6px 14px rgba(26, 67, 88, 0.25);
+    }
+    .btn-primary:active { background: #123845; transform: scale(0.96); }
+    .btn-outline { background: transparent; border-color: #bccddb; }
+    .btn-outline:active { background: #e3ecf5; }
+    .btn-danger { background: #c44545; border-color: #b13a3a; color: white; }
+    .btn-danger:active { background: #a13232; }
+    .btn-success { background: #2b7a62; border-color: #1f6953; color: white; }
+    .btn-success:active { background: #1a5a47; }
+
+    .report-box {
+      background: #f0f6fd;
+      border-radius: 24px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-size: 0.95rem;
+      border-right: 4px solid #2b7a62;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .flex-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+    }
+    .subnote {
+      font-size: 0.8rem;
+      color: #4a6d82;
+      margin-top: 6px;
+    }
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    @media (max-width: 480px) {
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .btn { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container" id="app">
+  <h1>
+    🚬 أقلع الآن
+    <small>v1.0</small>
+  </h1>
+
+  <!-- بطاقة اليوم -->
+  <div class="card">
+    <div class="card-title">📆 اليوم</div>
+    <div class="stat-grid">
+      <div class="stat-item"><span class="stat-label">🚬 السجائر</span><div class="stat-value" id="todayCount">0</div></div>
+      <div class="stat-item"><span class="stat-label">⏱️ متوسط الفاصل</span><div class="stat-value small" id="avgInterval">--</div></div>
+      <div class="stat-item"><span class="stat-label">📦 فتح العلبة</span><div class="stat-value small" id="packOpenTime">--</div></div>
+      <div class="stat-item"><span class="stat-label">⏳ آخر سجارة</span><div class="stat-value small" id="lastCigTime">--</div></div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" id="logCigBtn">➕ سجارة الآن</button>
+      <button class="btn btn-outline" id="resetPackBtn">📦 فتح علبة جديدة</button>
+    </div>
+    <div class="subnote" style="margin-top:12px;">* يتم حساب الوقت بين كل سجارة والتي قبلها تلقائياً.</div>
+  </div>
+
+  <!-- تقارير -->
+  <div class="card">
+    <div class="flex-row">
+      <span class="card-title" style="margin-bottom:0;">📊 التقارير</span>
+      <div style="display:flex; gap:6px;">
+        <button class="btn btn-outline" style="padding:6px 14px; flex:0;" id="reportDaily">يومي</button>
+        <button class="btn btn-outline" style="padding:6px 14px; flex:0;" id="reportWeekly">أسبوعي</button>
+        <button class="btn btn-outline" style="padding:6px 14px; flex:0;" id="reportMonthly">شهري</button>
+      </div>
+    </div>
+    <div class="report-box" id="reportContent">اختر تقريراً لعرض الإحصائيات</div>
+  </div>
+
+  <!-- إجراءات إضافية -->
+  <div class="footer-actions">
+    <button class="btn btn-outline" style="flex:1;" id="clearAllBtn">🗑️ مسح كل البيانات</button>
+    <button class="btn btn-outline" style="flex:1;" id="exportDataBtn">📤 تصدير (نصي)</button>
+  </div>
+  <div style="font-size:0.7rem; color:#6b8a9e; text-align:center; margin-top:18px;">جميع البيانات محفوظة محلياً في متصفحك</div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ----------  المفاتيح  ----------
+    const STORAGE_KEY = 'quitSmokeData';
+    const DEFAULT_DATA = {
+      cigarettes: [],         // [{ timestamp: number }]
+      packOpenTime: null,     // timestamp (milliseconds)
+    };
+
+    // ----------  القراءة والكتابة  ----------
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
+        const parsed = JSON.parse(raw);
+        // التأكد من وجود الحقول
+        if (!Array.isArray(parsed.cigarettes)) parsed.cigarettes = [];
+        if (!parsed.packOpenTime) parsed.packOpenTime = null;
+        return parsed;
+      } catch (e) {
+        return JSON.parse(JSON.stringify(DEFAULT_DATA));
+      }
+    }
+
+    function saveData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // ----------  مساعدات  ----------
+    function formatTime(ts) {
+      if (!ts) return '--';
+      const d = new Date(ts);
+      return d.toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    function formatDate(ts) {
+      if (!ts) return '--';
+      const d = new Date(ts);
+      return d.toLocaleDateString('ar-EG', { day:'2-digit', month:'short' });
+    }
+
+    function formatFullDate(ts) {
+      if (!ts) return '--';
+      const d = new Date(ts);
+      return d.toLocaleString('ar-EG', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    }
+
+    // إرجاع بداية اليوم (منتصف الليل)
+    function startOfDay(ts) {
+      const d = new Date(ts);
+      d.setHours(0,0,0,0);
+      return d.getTime();
+    }
+
+    // بداية الأسبوع (الأحد)
+    function startOfWeek(ts) {
+      const d = new Date(ts);
+      d.setHours(0,0,0,0);
+      const day = d.getDay(); // 0 الأحد
+      d.setDate(d.getDate() - day);
+      return d.getTime();
+    }
+
+    // بداية الشهر
+    function startOfMonth(ts) {
+      const d = new Date(ts);
+      d.setHours(0,0,0,0);
+      d.setDate(1);
+      return d.getTime();
+    }
+
+    // حساب متوسط الفاصل بين السجائر (بالدقائق) لصفيف من التايمز
+    function calcAvgInterval(timestamps) {
+      if (!timestamps || timestamps.length < 2) return null;
+      const sorted = [...timestamps].sort((a,b) => a-b);
+      let totalMinutes = 0;
+      let count = 0;
+      for (let i = 1; i < sorted.length; i++) {
+        const diffMinutes = (sorted[i] - sorted[i-1]) / (1000 * 60);
+        if (diffMinutes > 0 && diffMinutes < 600) { // تجاهل الفواصل الكبيرة جداً (>10 ساعات)
+          totalMinutes += diffMinutes;
+          count++;
+        }
+      }
+      if (count === 0) return null;
+      return totalMinutes / count;
+    }
+
+    // الحصول على السجائر في فترة (من startTs إلى now)
+    function getCigsInRange(data, startTs, endTs = Date.now()) {
+      return data.cigarettes.filter(ts => ts >= startTs && ts <= endTs);
+    }
+
+    // ----------  تحديث واجهة المستخدم  ----------
+    function updateUI() {
+      const data = loadData();
+      const now = Date.now();
+      const todayStart = startOfDay(now);
+
+      // سجائر اليوم
+      const todayCigs = getCigsInRange(data, todayStart, now);
+      const todayCount = todayCigs.length;
+      document.getElementById('todayCount').innerText = todayCount;
+
+      // متوسط الفاصل اليومي
+      const avgMin = calcAvgInterval(todayCigs);
+      document.getElementById('avgInterval').innerText = avgMin !== null ? avgMin.toFixed(0) + ' د' : '--';
+
+      // وقت فتح العلبة
+      if (data.packOpenTime) {
+        document.getElementById('packOpenTime').innerText = formatFullDate(data.packOpenTime);
+      } else {
+        document.getElementById('packOpenTime').innerText = '--';
+      }
+
+      // آخر سجارة
+      const lastCig = data.cigarettes.length > 0 ? data.cigarettes[data.cigarettes.length - 1] : null;
+      if (lastCig) {
+        document.getElementById('lastCigTime').innerText = formatTime(lastCig) + ' (' + formatDate(lastCig) + ')';
+      } else {
+        document.getElementById('lastCigTime').innerText = '--';
+      }
+    }
+
+    // ----------  التقارير  ----------
+    function generateReport(period) {
+      const data = loadData();
+      const now = Date.now();
+      let startTs;
+      let periodName = '';
+      if (period === 'daily') {
+        startTs = startOfDay(now);
+        periodName = 'اليوم';
+      } else if (period === 'weekly') {
+        startTs = startOfWeek(now);
+        periodName = 'هذا الأسبوع';
+      } else if (period === 'monthly') {
+        startTs = startOfMonth(now);
+        periodName = 'هذا الشهر';
+      } else {
+        return 'فترة غير معروفة';
+      }
+
+      const cigsInPeriod = getCigsInRange(data, startTs, now);
+      const count = cigsInPeriod.length;
+      const avg = calcAvgInterval(cigsInPeriod);
+
+      // وقت أول وآخر سجارة في الفترة
+      let firstCig = count > 0 ? cigsInPeriod[0] : null;
+      let lastCig = count > 0 ? cigsInPeriod[cigsInPeriod.length - 1] : null;
+
+      let lines = [];
+      lines.push(`📋 تقرير ${periodName}`);
+      lines.push(`📅 من ${formatFullDate(startTs)} إلى الآن`);
+      lines.push(`🚬 عدد السجائر: ${count}`);
+      if (avg !== null) {
+        lines.push(`⏱️ متوسط الفاصل: ${avg.toFixed(1)} دقيقة`);
+      } else {
+        lines.push(`⏱️ متوسط الفاصل: -- (سجيرة واحدة أو أقل)`);
+      }
+      if (firstCig) lines.push(`🕒 أول سجارة: ${formatTime(firstCig)}`);
+      if (lastCig) lines.push(`🕒 آخر سجارة: ${formatTime(lastCig)}`);
+
+      // تفاصيل السجائر (الأوقات)
+      if (count > 0) {
+        const timesStr = cigsInPeriod.map(ts => formatTime(ts)).join('  ');
+        lines.push(`📌 الأوقات: ${timesStr}`);
+      } else {
+        lines.push(`📌 لا توجد سجائر في هذه الفترة`);
+      }
+
+      // معلومات علبة السجائر
+      if (data.packOpenTime && data.packOpenTime >= startTs) {
+        lines.push(`📦 علبة جديدة: ${formatFullDate(data.packOpenTime)}`);
+      } else if (data.packOpenTime) {
+        lines.push(`📦 العلبة الحالية مفتوحة منذ ${formatFullDate(data.packOpenTime)}`);
+      } else {
+        lines.push(`📦 لم يتم تسجيل فتح علبة`);
+      }
+
+      return lines.join('\n');
+    }
+
+    // عرض التقرير في الـ box
+    function showReport(period) {
+      const content = generateReport(period);
+      document.getElementById('reportContent').innerText = content;
+    }
+
+    // ----------  الإجراءات  ----------
+    function addCigarette() {
+      const data = loadData();
+      const now = Date.now();
+      data.cigarettes.push(now);
+      // إذا لم تكن هناك علبة مفتوحة، نفتح علبة افتراضية (اختياري لكننا نضعها)
+      if (!data.packOpenTime) {
+        data.packOpenTime = now;
+      }
+      saveData(data);
+      updateUI();
+      // عرض تقرير يومي بعد الإضافة
+      showReport('daily');
+    }
+
+    function resetPack() {
+      const data = loadData();
+      data.packOpenTime = Date.now();
+      // لا نقوم بمسح السجائر، فقط نحدد وقت فتح علبة جديدة
+      saveData(data);
+      updateUI();
+      document.getElementById('reportContent').innerText = '📦 تم تسجيل فتح علبة جديدة';
+    }
+
+    function clearAllData() {
+      if (confirm('هل أنت متأكد؟ سيتم حذف جميع السجائر والتوقيتات.')) {
+        localStorage.removeItem(STORAGE_KEY);
+        updateUI();
+        document.getElementById('reportContent').innerText = '🗑️ تم مسح جميع البيانات';
+      }
+    }
+
+    function exportData() {
+      const data = loadData();
+      let text = 'تقرير تصدير البيانات\n';
+      text += `عدد السجائر الكلي: ${data.cigarettes.length}\n`;
+      if (data.packOpenTime) text += `فتح العلبة: ${formatFullDate(data.packOpenTime)}\n`;
+      text += '--- السجائر (توقيت) ---\n';
+      if (data.cigarettes.length === 0) text += '(لا توجد سجائر)\n';
+      else {
+        const sorted = [...data.cigarettes].sort((a,b) => a-b);
+        sorted.forEach((ts, idx) => {
+          text += `${idx+1}. ${formatFullDate(ts)}\n`;
+        });
+      }
+      // تقرير سريع يومي
+      const dailyReport = generateReport('daily');
+      text += '\n--- تقرير اليوم ---\n' + dailyReport;
+
+      // نافذة تحميل
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `تقرير_التدخين_${new Date().toISOString().slice(0,10)}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // ----------  ربط الأزرار  ----------
+    document.addEventListener('DOMContentLoaded', function() {
+      // أزرار رئيسية
+      document.getElementById('logCigBtn').addEventListener('click', addCigarette);
+      document.getElementById('resetPackBtn').addEventListener('click', resetPack);
+      document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
+      document.getElementById('exportDataBtn').addEventListener('click', exportData);
+
+      // تقارير
+      document.getElementById('reportDaily').addEventListener('click', function() { showReport('daily'); });
+      document.getElementById('reportWeekly').addEventListener('click', function() { showReport('weekly'); });
+      document.getElementById('reportMonthly').addEventListener('click', function() { showReport('monthly'); });
+
+      // تحديث أولي
+      updateUI();
+      // عرض تقرير يومي افتراضي
+      showReport('daily');
+
+      // إضافة تأكيد لإعادة التحديث عند العودة للصفحة (غير ضروري لكنه جيد)
+      window.addEventListener('focus', function() {
+        updateUI();
+      });
+    });
+
+  })();
+</script>
+</body>
+</html>
