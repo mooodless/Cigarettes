@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>🚭 مساعد الإقلاع عن التدخين</title>
-  <style>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+   <title>🚭 مساعد الإقلاع - النسخة المطورة</title>
+   <link rel="icon" type="image/png" href="/cigarette-box.png">
+   <link rel="manifest" href="/manifest.json">
+   <style>
     * {
       box-sizing: border-box;
       margin: 0;
@@ -12,159 +14,291 @@
     }
     body {
       font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
-      background: #f4f7fc;
+      background: #eef3f8;
       min-height: 100vh;
-      padding: 20px 12px;
       display: flex;
+      align-items: center;
       justify-content: center;
+      padding: 16px;
       color: #1e2b3a;
     }
     .app-container {
-      max-width: 650px;
+      max-width: 550px;
       width: 100%;
       background: white;
-      border-radius: 40px 40px 28px 28px;
-      box-shadow: 0 20px 40px rgba(0, 10, 20, 0.12);
-      padding: 24px 20px 32px;
+      border-radius: 48px 48px 32px 32px;
+      box-shadow: 0 20px 40px rgba(0, 10, 20, 0.15);
+      padding: 28px 20px 36px;
       transition: all 0.2s;
+      position: relative;
     }
     h1 {
-      font-size: 1.9rem;
+      font-size: 1.8rem;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       color: #0b2a3b;
-      border-bottom: 2px solid #eef3f8;
-      padding-bottom: 16px;
-      margin-bottom: 22px;
+      border-bottom: 2px solid #e3ecf5;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
     }
     h1 small {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 400;
       color: #3d6379;
       margin-right: auto;
     }
-    .card {
-      background: #f9fcff;
+
+    /* بطاقة الإحصائيات */
+    .stats-card {
+      background: #f4faff;
       border-radius: 28px;
-      padding: 18px 20px 22px;
-      margin-bottom: 22px;
-      box-shadow: 0 4px 12px rgba(0, 20, 30, 0.04);
-      border: 1px solid #e8edf3;
-    }
-    .card-title {
-      font-weight: 600;
-      color: #1d4a5e;
-      margin-bottom: 12px;
-      font-size: 1.15rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      padding: 16px 12px 20px;
+      margin-bottom: 28px;
+      border: 1px solid #dfe9f2;
+      box-shadow: inset 0 2px 6px rgba(0,20,30,0.02);
     }
     .stat-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px 10px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
     }
     .stat-item {
       background: white;
-      border-radius: 18px;
-      padding: 14px 6px;
+      border-radius: 20px;
+      padding: 10px 4px;
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-      border: 1px solid #dfe8f0;
+      border: 1px solid #dce6ef;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
     .stat-label {
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
       color: #5f7b8f;
       font-weight: 600;
     }
     .stat-value {
-      font-size: 1.7rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: #0f384b;
-      line-height: 1.4;
-      margin-top: 4px;
+      line-height: 1.3;
+      margin-top: 2px;
     }
-    .stat-value.small {
-      font-size: 1.1rem;
-    }
-    .btn-group {
+    .stat-value.small { font-size: 0.95rem; }
+    .stat-value.warning { color: #b13a3a; }
+
+    /* الحاوية الرئيسية للزر الدائري والأزرار الجانبية */
+    .circle-layout {
+      position: relative;
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 18px;
+      align-items: center;
       justify-content: center;
+      min-height: 220px;
+      margin: 8px 0 12px;
     }
-    .btn {
+
+    /* زر الإضافة الدائري الكبير */
+    .btn-circle-main {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #1f4b61;
+      border: none;
+      color: white;
+      font-size: 1.6rem;
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(26, 67, 88, 0.35), 0 0 0 4px rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.2;
+      position: relative;
+      z-index: 5;
+      border: 3px solid white;
+    }
+    .btn-circle-main:active {
+      transform: scale(0.92);
+      background: #123845;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+    .btn-circle-main span {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: -6px;
+    }
+    .btn-circle-main small {
+      font-size: 0.8rem;
+      font-weight: 400;
+      opacity: 0.85;
+    }
+
+    /* الأزرار الدائرية الصغيرة (الزوايا) */
+    .corner-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
       border: none;
       background: white;
-      padding: 12px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1rem;
-      color: #1e3e50;
-      box-shadow: 0 4px 10px rgba(0, 20, 30, 0.04);
-      border: 1px solid #dae3ec;
-      transition: all 0.15s;
+      box-shadow: 0 6px 14px rgba(0, 20, 30, 0.08), 0 0 0 1px #dae3ec;
+      font-size: 1.4rem;
       cursor: pointer;
-      display: inline-flex;
+      transition: all 0.1s;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      flex: 1 0 auto;
       justify-content: center;
+      position: absolute;
+      color: #1e3e50;
+      font-weight: 500;
+      border: 2px solid white;
     }
-    .btn-primary {
-      background: #1f4b61;
-      border-color: #1f4b61;
-      color: white;
-      box-shadow: 0 6px 14px rgba(26, 67, 88, 0.25);
+    .corner-btn:active {
+      transform: scale(0.88);
+      background: #eaf1f9;
     }
-    .btn-primary:active { background: #123845; transform: scale(0.96); }
-    .btn-outline { background: transparent; border-color: #bccddb; }
-    .btn-outline:active { background: #e3ecf5; }
-    .btn-danger { background: #c44545; border-color: #b13a3a; color: white; }
-    .btn-danger:active { background: #a13232; }
-    .btn-success { background: #2b7a62; border-color: #1f6953; color: white; }
-    .btn-success:active { background: #1a5a47; }
+    .corner-btn.undo {
+      background: #fef2f0;
+      border-color: #fadad6;
+      color: #a13d3d;
+    }
+    .corner-btn.undo:active { background: #fce4e0; }
+    .corner-btn.reset {
+      background: #e7f3f0;
+      border-color: #c5dfd9;
+      color: #1f6b5a;
+    }
+    .corner-btn.reset:active { background: #d4ece6; }
+    .corner-btn.export-btn {
+      background: #f0f4fe;
+      border-color: #d0ddf5;
+      color: #1f4b7a;
+    }
+    .corner-btn.export-btn:active { background: #e3ebfb; }
+    .corner-btn.clear-btn {
+      background: #fcf2f0;
+      border-color: #f5d6d0;
+      color: #b1463a;
+    }
+    .corner-btn.clear-btn:active { background: #fae8e4; }
 
+    /* وضع الأزرار في الزوايا */
+    .corner-top-left {
+      top: 5px;
+      left: 5px;
+    }
+    .corner-top-right {
+      top: 5px;
+      right: 5px;
+    }
+    .corner-bottom-left {
+      bottom: 5px;
+      left: 5px;
+    }
+    .corner-bottom-right {
+      bottom: 5px;
+      right: 5px;
+    }
+
+    /* شريط التقدم للسجائر */
+    .progress-wrapper {
+      margin: 12px 0 18px;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #1f4a5e;
+      font-weight: 500;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: #e1eaf2;
+      border-radius: 30px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2b7a62, #48a38a);
+      border-radius: 30px;
+      transition: width 0.2s;
+    }
+    .progress-fill.warning { background: linear-gradient(90deg, #b13a3a, #d95a5a); }
+
+    /* منطقة التقرير */
+    .report-card {
+      background: #f4faff;
+      border-radius: 28px;
+      padding: 14px 16px 18px;
+      margin-top: 20px;
+      border: 1px solid #dfe9f2;
+    }
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .report-header .title {
+      font-weight: 600;
+      color: #1d4a5e;
+      font-size: 1.05rem;
+    }
+    .report-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .report-tabs button {
+      background: white;
+      border: 1px solid #cbdae7;
+      border-radius: 30px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1e3e50;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .report-tabs button:active { background: #d5e2ef; }
+    .report-tabs button.active { background: #1f4b61; color: white; border-color: #1f4b61; }
     .report-box {
-      background: #f0f6fd;
-      border-radius: 24px;
-      padding: 12px 16px;
-      margin-top: 14px;
-      font-size: 0.95rem;
+      background: white;
+      border-radius: 20px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
       border-right: 4px solid #2b7a62;
       white-space: pre-wrap;
       word-break: break-word;
-      max-height: 180px;
+      max-height: 160px;
       overflow-y: auto;
-    }
-    .flex-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 6px 12px;
-    }
-    .subnote {
-      font-size: 0.8rem;
-      color: #4a6d82;
-      margin-top: 6px;
-    }
-    .footer-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 10px;
       margin-top: 8px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+      border: 1px solid #e3ecf5;
+      font-family: monospace;
+      line-height: 1.5;
+      color: #1b3345;
     }
+    .footer-note {
+      font-size: 0.65rem;
+      color: #6b8a9e;
+      text-align: center;
+      margin-top: 18px;
+    }
+
     @media (max-width: 480px) {
-      .stat-grid { grid-template-columns: 1fr 1fr; }
-      .btn { flex: 1 1 100%; }
+      .stat-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .corner-btn { width: 52px; height: 52px; font-size: 1.2rem; }
+      .btn-circle-main { width: 120px; height: 120px; font-size: 1.3rem; }
+      .btn-circle-main span { font-size: 1.8rem; }
+      .app-container { padding: 20px 14px 28px; }
     }
   </style>
 </head>
@@ -172,69 +306,87 @@
 <div class="app-container" id="app">
   <h1>
     🚬 أقلع الآن
-    <small>v1.0</small>
+    <small>v2.0</small>
   </h1>
 
-  <!-- بطاقة اليوم -->
-  <div class="card">
-    <div class="card-title">📆 اليوم</div>
+  <!-- إحصائيات سريعة -->
+  <div class="stats-card">
     <div class="stat-grid">
-      <div class="stat-item"><span class="stat-label">🚬 السجائر</span><div class="stat-value" id="todayCount">0</div></div>
+      <div class="stat-item"><span class="stat-label">🚬 اليوم</span><div class="stat-value" id="todayCount">0</div></div>
+      <div class="stat-item"><span class="stat-label">📦 في العلبة</span><div class="stat-value" id="packCount">0/20</div></div>
       <div class="stat-item"><span class="stat-label">⏱️ متوسط الفاصل</span><div class="stat-value small" id="avgInterval">--</div></div>
-      <div class="stat-item"><span class="stat-label">📦 فتح العلبة</span><div class="stat-value small" id="packOpenTime">--</div></div>
-      <div class="stat-item"><span class="stat-label">⏳ آخر سجارة</span><div class="stat-value small" id="lastCigTime">--</div></div>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-primary" id="logCigBtn">➕ سجارة الآن</button>
-      <button class="btn btn-outline" id="resetPackBtn">📦 فتح علبة جديدة</button>
-    </div>
-    <div class="subnote" style="margin-top:12px;">* يتم حساب الوقت بين كل سجارة والتي قبلها تلقائياً.</div>
   </div>
 
-  <!-- تقارير -->
-  <div class="card">
-    <div class="flex-row">
-      <span class="card-title" style="margin-bottom:0;">📊 التقارير</span>
-      <div style="display:flex; gap:6px;">
-        <button class="btn btn-outline" style="padding:6px 14px; flex:0;" id="reportDaily">يومي</button>
-        <button class="btn btn-outline" style="padding:6px 14px; flex:0;" id="reportWeekly">أسبوعي</button>
-        <button class="btn btn-outline" style="padding:6px 14px; flex:0;" id="reportMonthly">شهري</button>
+  <!-- التصميم الدائري مع الأزرار في الزوايا -->
+  <div class="circle-layout">
+    <!-- زر الإضافة الرئيسي (وسط) -->
+    <button class="btn-circle-main" id="logCigBtn">
+      <span>🚬</span>
+      <small>أضف سجارة</small>
+    </button>
+
+    <!-- أزرار الزوايا الأربعة -->
+    <button class="corner-btn undo corner-top-left" id="undoBtn" title="الغاء آخر إضافة">↩️</button>
+    <button class="corner-btn reset corner-top-right" id="resetPackBtn" title="فتح علبة جديدة (تصفير)">📦</button>
+    <button class="corner-btn export-btn corner-bottom-left" id="exportDataBtn" title="تصدير البيانات">📤</button>
+    <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtn" title="مسح كل البيانات">🗑️</button>
+  </div>
+
+  <!-- شريط تقدم العلبة -->
+  <div class="progress-wrapper">
+    <div class="progress-label">
+      <span>السجائر المستهلكة</span>
+      <span id="progressText">0 / 20</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-fill" id="progressFill" style="width:0%;"></div>
+    </div>
+  </div>
+
+  <!-- التقارير -->
+  <div class="report-card">
+    <div class="report-header">
+      <span class="title">📊 التقرير</span>
+      <div class="report-tabs">
+        <button id="reportDaily" class="active">يومي</button>
+        <button id="reportWeekly">أسبوعي</button>
+        <button id="reportMonthly">شهري</button>
       </div>
     </div>
     <div class="report-box" id="reportContent">اختر تقريراً لعرض الإحصائيات</div>
   </div>
-
-  <!-- إجراءات إضافية -->
-  <div class="footer-actions">
-    <button class="btn btn-outline" style="flex:1;" id="clearAllBtn">🗑️ مسح كل البيانات</button>
-    <button class="btn btn-outline" style="flex:1;" id="exportDataBtn">📤 تصدير (نصي)</button>
-  </div>
-  <div style="font-size:0.7rem; color:#6b8a9e; text-align:center; margin-top:18px;">جميع البيانات محفوظة محلياً في متصفحك</div>
+  <div class="footer-note">جميع البيانات محفوظة محلياً · حد 20 سجارة لكل علبة</div>
 </div>
 
 <script>
   (function(){
     "use strict";
-
-    // ----------  المفاتيح  ----------
     const STORAGE_KEY = 'quitSmokeData';
-    const DEFAULT_DATA = {
-      cigarettes: [],         // [{ timestamp: number }]
-      packOpenTime: null,     // timestamp (milliseconds)
-    };
+    const MAX_PER_PACK = 20;
 
-    // ----------  القراءة والكتابة  ----------
+    // البيانات الافتراضية
+    function getDefaultData() {
+      return {
+        cigarettes: [],         // array of timestamps (ms)
+        packOpenTime: null,     // timestamp (ms)
+        packCount: 0            // عدد السجائر المستهلكة في العلبة الحالية (0-20)
+      };
+    }
+
     function loadData() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
+        if (!raw) return getDefaultData();
         const parsed = JSON.parse(raw);
-        // التأكد من وجود الحقول
         if (!Array.isArray(parsed.cigarettes)) parsed.cigarettes = [];
-        if (!parsed.packOpenTime) parsed.packOpenTime = null;
+        if (typeof parsed.packCount !== 'number') parsed.packCount = 0;
+        // ضمان أن packCount بين 0 و 20
+        if (parsed.packCount > MAX_PER_PACK) parsed.packCount = MAX_PER_PACK;
+        if (parsed.packCount < 0) parsed.packCount = 0;
         return parsed;
       } catch (e) {
-        return JSON.parse(JSON.stringify(DEFAULT_DATA));
+        return getDefaultData();
       }
     }
 
@@ -242,217 +394,197 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
-    // ----------  مساعدات  ----------
+    // helpers
     function formatTime(ts) {
       if (!ts) return '--';
-      const d = new Date(ts);
-      return d.toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' });
+      return new Date(ts).toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' });
     }
-
-    function formatDate(ts) {
-      if (!ts) return '--';
-      const d = new Date(ts);
-      return d.toLocaleDateString('ar-EG', { day:'2-digit', month:'short' });
-    }
-
     function formatFullDate(ts) {
       if (!ts) return '--';
-      const d = new Date(ts);
-      return d.toLocaleString('ar-EG', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      return new Date(ts).toLocaleString('ar-EG', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
     }
-
-    // إرجاع بداية اليوم (منتصف الليل)
     function startOfDay(ts) {
-      const d = new Date(ts);
-      d.setHours(0,0,0,0);
-      return d.getTime();
+      const d = new Date(ts); d.setHours(0,0,0,0); return d.getTime();
     }
-
-    // بداية الأسبوع (الأحد)
     function startOfWeek(ts) {
-      const d = new Date(ts);
-      d.setHours(0,0,0,0);
-      const day = d.getDay(); // 0 الأحد
-      d.setDate(d.getDate() - day);
-      return d.getTime();
+      const d = new Date(ts); d.setHours(0,0,0,0); const day = d.getDay(); d.setDate(d.getDate() - day); return d.getTime();
     }
-
-    // بداية الشهر
     function startOfMonth(ts) {
-      const d = new Date(ts);
-      d.setHours(0,0,0,0);
-      d.setDate(1);
-      return d.getTime();
+      const d = new Date(ts); d.setHours(0,0,0,0); d.setDate(1); return d.getTime();
     }
 
-    // حساب متوسط الفاصل بين السجائر (بالدقائق) لصفيف من التايمز
     function calcAvgInterval(timestamps) {
       if (!timestamps || timestamps.length < 2) return null;
       const sorted = [...timestamps].sort((a,b) => a-b);
-      let totalMinutes = 0;
-      let count = 0;
+      let total = 0, count = 0;
       for (let i = 1; i < sorted.length; i++) {
-        const diffMinutes = (sorted[i] - sorted[i-1]) / (1000 * 60);
-        if (diffMinutes > 0 && diffMinutes < 600) { // تجاهل الفواصل الكبيرة جداً (>10 ساعات)
-          totalMinutes += diffMinutes;
-          count++;
-        }
+        const diff = (sorted[i] - sorted[i-1]) / (1000 * 60);
+        if (diff > 0 && diff < 600) { total += diff; count++; }
       }
-      if (count === 0) return null;
-      return totalMinutes / count;
+      return count === 0 ? null : total / count;
     }
 
-    // الحصول على السجائر في فترة (من startTs إلى now)
     function getCigsInRange(data, startTs, endTs = Date.now()) {
       return data.cigarettes.filter(ts => ts >= startTs && ts <= endTs);
     }
 
-    // ----------  تحديث واجهة المستخدم  ----------
+    // تحديث الواجهة
     function updateUI() {
       const data = loadData();
       const now = Date.now();
       const todayStart = startOfDay(now);
-
-      // سجائر اليوم
       const todayCigs = getCigsInRange(data, todayStart, now);
       const todayCount = todayCigs.length;
       document.getElementById('todayCount').innerText = todayCount;
 
-      // متوسط الفاصل اليومي
-      const avgMin = calcAvgInterval(todayCigs);
-      document.getElementById('avgInterval').innerText = avgMin !== null ? avgMin.toFixed(0) + ' د' : '--';
+      // pack count
+      const packCount = data.packCount || 0;
+      document.getElementById('packCount').innerText = `${packCount}/${MAX_PER_PACK}`;
+      // progress
+      const pct = Math.min(100, (packCount / MAX_PER_PACK) * 100);
+      const fill = document.getElementById('progressFill');
+      fill.style.width = pct + '%';
+      if (pct >= 85) fill.classList.add('warning'); else fill.classList.remove('warning');
+      document.getElementById('progressText').innerText = `${packCount} / ${MAX_PER_PACK}`;
 
-      // وقت فتح العلبة
-      if (data.packOpenTime) {
-        document.getElementById('packOpenTime').innerText = formatFullDate(data.packOpenTime);
-      } else {
-        document.getElementById('packOpenTime').innerText = '--';
-      }
-
-      // آخر سجارة
-      const lastCig = data.cigarettes.length > 0 ? data.cigarettes[data.cigarettes.length - 1] : null;
-      if (lastCig) {
-        document.getElementById('lastCigTime').innerText = formatTime(lastCig) + ' (' + formatDate(lastCig) + ')';
-      } else {
-        document.getElementById('lastCigTime').innerText = '--';
-      }
+      // avg
+      const avg = calcAvgInterval(todayCigs);
+      document.getElementById('avgInterval').innerText = avg !== null ? avg.toFixed(0) + ' د' : '--';
     }
 
-    // ----------  التقارير  ----------
+    // التقارير
     function generateReport(period) {
       const data = loadData();
       const now = Date.now();
-      let startTs;
-      let periodName = '';
-      if (period === 'daily') {
-        startTs = startOfDay(now);
-        periodName = 'اليوم';
-      } else if (period === 'weekly') {
-        startTs = startOfWeek(now);
-        periodName = 'هذا الأسبوع';
-      } else if (period === 'monthly') {
-        startTs = startOfMonth(now);
-        periodName = 'هذا الشهر';
-      } else {
-        return 'فترة غير معروفة';
-      }
+      let startTs, periodName;
+      if (period === 'daily') { startTs = startOfDay(now); periodName = 'اليوم'; }
+      else if (period === 'weekly') { startTs = startOfWeek(now); periodName = 'هذا الأسبوع'; }
+      else if (period === 'monthly') { startTs = startOfMonth(now); periodName = 'هذا الشهر'; }
+      else return 'فترة غير معروفة';
 
-      const cigsInPeriod = getCigsInRange(data, startTs, now);
-      const count = cigsInPeriod.length;
-      const avg = calcAvgInterval(cigsInPeriod);
-
-      // وقت أول وآخر سجارة في الفترة
-      let firstCig = count > 0 ? cigsInPeriod[0] : null;
-      let lastCig = count > 0 ? cigsInPeriod[cigsInPeriod.length - 1] : null;
+      const cigs = getCigsInRange(data, startTs, now);
+      const count = cigs.length;
+      const avg = calcAvgInterval(cigs);
+      const first = count > 0 ? cigs[0] : null;
+      const last = count > 0 ? cigs[cigs.length-1] : null;
 
       let lines = [];
       lines.push(`📋 تقرير ${periodName}`);
       lines.push(`📅 من ${formatFullDate(startTs)} إلى الآن`);
       lines.push(`🚬 عدد السجائر: ${count}`);
-      if (avg !== null) {
-        lines.push(`⏱️ متوسط الفاصل: ${avg.toFixed(1)} دقيقة`);
-      } else {
-        lines.push(`⏱️ متوسط الفاصل: -- (سجيرة واحدة أو أقل)`);
-      }
-      if (firstCig) lines.push(`🕒 أول سجارة: ${formatTime(firstCig)}`);
-      if (lastCig) lines.push(`🕒 آخر سجارة: ${formatTime(lastCig)}`);
-
-      // تفاصيل السجائر (الأوقات)
-      if (count > 0) {
-        const timesStr = cigsInPeriod.map(ts => formatTime(ts)).join('  ');
-        lines.push(`📌 الأوقات: ${timesStr}`);
-      } else {
-        lines.push(`📌 لا توجد سجائر في هذه الفترة`);
-      }
-
-      // معلومات علبة السجائر
-      if (data.packOpenTime && data.packOpenTime >= startTs) {
-        lines.push(`📦 علبة جديدة: ${formatFullDate(data.packOpenTime)}`);
-      } else if (data.packOpenTime) {
-        lines.push(`📦 العلبة الحالية مفتوحة منذ ${formatFullDate(data.packOpenTime)}`);
-      } else {
-        lines.push(`📦 لم يتم تسجيل فتح علبة`);
-      }
-
+      lines.push(`⏱️ متوسط الفاصل: ${avg !== null ? avg.toFixed(1)+' دقيقة' : '-- (سجيرة واحدة أو أقل)'}`);
+      if (first) lines.push(`🕒 أول سجارة: ${formatTime(first)}`);
+      if (last) lines.push(`🕒 آخر سجارة: ${formatTime(last)}`);
+      if (count > 0) lines.push(`📌 الأوقات: ${cigs.map(t=>formatTime(t)).join('  ')}`);
+      else lines.push(`📌 لا توجد سجائر في هذه الفترة`);
+      if (data.packOpenTime) lines.push(`📦 علبة مفتوحة: ${formatFullDate(data.packOpenTime)}`);
+      else lines.push(`📦 لم يتم تسجيل فتح علبة`);
       return lines.join('\n');
     }
 
-    // عرض التقرير في الـ box
     function showReport(period) {
       const content = generateReport(period);
       document.getElementById('reportContent').innerText = content;
+      // تحديث active tab
+      document.querySelectorAll('.report-tabs button').forEach(b => b.classList.remove('active'));
+      const map = { daily:'reportDaily', weekly:'reportWeekly', monthly:'reportMonthly' };
+      const activeBtn = document.getElementById(map[period]);
+      if (activeBtn) activeBtn.classList.add('active');
     }
 
     // ----------  الإجراءات  ----------
     function addCigarette() {
       const data = loadData();
+      // التحقق من الحد الأقصى للعلبة
+      if (data.packCount >= MAX_PER_PACK) {
+        alert('⚠️ لقد استهلكت 20 سجارة في هذه العلبة. يرجى فتح علبة جديدة.');
+        return;
+      }
       const now = Date.now();
       data.cigarettes.push(now);
-      // إذا لم تكن هناك علبة مفتوحة، نفتح علبة افتراضية (اختياري لكننا نضعها)
-      if (!data.packOpenTime) {
-        data.packOpenTime = now;
-      }
+      data.packCount = (data.packCount || 0) + 1;
+      if (!data.packOpenTime) data.packOpenTime = now;
       saveData(data);
       updateUI();
-      // عرض تقرير يومي بعد الإضافة
       showReport('daily');
     }
 
+    // التراجع عن آخر إضافة (سجارة أو فتح علبة)
+    function undoLastAction() {
+      const data = loadData();
+      if (data.cigarettes.length === 0 && data.packCount === 0) {
+        alert('لا توجد إجراءات للتراجع عنها.');
+        return;
+      }
+      // إذا كان هناك سجائر، نتراجع عن آخر سجارة
+      if (data.cigarettes.length > 0) {
+        const lastCig = data.cigarettes[data.cigarettes.length - 1];
+        data.cigarettes.pop();
+        // نخفض عدد العلبة بشرط ألا يقل عن 0
+        if (data.packCount > 0) data.packCount -= 1;
+        // إذا أصبحت العلبة فارغة (packCount=0) ولا توجد سجائر، يمكن ترك packOpenTime لكن لا بأس
+        saveData(data);
+        updateUI();
+        showReport('daily');
+        return;
+      }
+      // إذا لم توجد سجائر لكن packCount > 0 (حالة نادرة) نقوم بتصحيح
+      if (data.packCount > 0) {
+        data.packCount = 0;
+        saveData(data);
+        updateUI();
+        showReport('daily');
+      }
+    }
+
+    // فتح علبة جديدة (تصفير العداد)
     function resetPack() {
       const data = loadData();
-      data.packOpenTime = Date.now();
-      // لا نقوم بمسح السجائر، فقط نحدد وقت فتح علبة جديدة
-      saveData(data);
-      updateUI();
-      document.getElementById('reportContent').innerText = '📦 تم تسجيل فتح علبة جديدة';
+      // إذا كان العدد 0 والعلبة فارغة، نؤكد الفتح
+      if (data.packCount === 0) {
+        // مجرد تحديث وقت الفتح
+        data.packOpenTime = Date.now();
+        saveData(data);
+        updateUI();
+        document.getElementById('reportContent').innerText = '📦 تم فتح علبة جديدة (العداد صفر)';
+        return;
+      }
+      // تأكيد
+      if (confirm('فتح علبة جديدة سيؤدي إلى تصفير عداد السجائر في العلبة الحالية. هل أنت متأكد؟')) {
+        data.packCount = 0;
+        data.packOpenTime = Date.now();
+        // لا نقوم بمسح السجائر التاريخية
+        saveData(data);
+        updateUI();
+        document.getElementById('reportContent').innerText = '📦 تم فتح علبة جديدة وتصفير العداد';
+        showReport('daily');
+      }
     }
 
     function clearAllData() {
-      if (confirm('هل أنت متأكد؟ سيتم حذف جميع السجائر والتوقيتات.')) {
+      if (confirm('⚠️ سيتم حذف جميع السجائر والتوقيتات. هل أنت متأكد؟')) {
         localStorage.removeItem(STORAGE_KEY);
         updateUI();
         document.getElementById('reportContent').innerText = '🗑️ تم مسح جميع البيانات';
+        showReport('daily');
       }
     }
 
     function exportData() {
       const data = loadData();
-      let text = 'تقرير تصدير البيانات\n';
-      text += `عدد السجائر الكلي: ${data.cigarettes.length}\n`;
+      let text = '--- تقرير التصدير ---\n';
+      text += `إجمالي السجائر: ${data.cigarettes.length}\n`;
+      text += `العلبة الحالية: ${data.packCount}/${MAX_PER_PACK}\n`;
       if (data.packOpenTime) text += `فتح العلبة: ${formatFullDate(data.packOpenTime)}\n`;
       text += '--- السجائر (توقيت) ---\n';
       if (data.cigarettes.length === 0) text += '(لا توجد سجائر)\n';
       else {
-        const sorted = [...data.cigarettes].sort((a,b) => a-b);
-        sorted.forEach((ts, idx) => {
-          text += `${idx+1}. ${formatFullDate(ts)}\n`;
-        });
+        const sorted = [...data.cigarettes].sort((a,b)=>a-b);
+        sorted.forEach((ts, i) => { text += `${i+1}. ${formatFullDate(ts)}\n`; });
       }
-      // تقرير سريع يومي
-      const dailyReport = generateReport('daily');
-      text += '\n--- تقرير اليوم ---\n' + dailyReport;
+      const daily = generateReport('daily');
+      text += '\n--- تقرير اليوم ---\n' + daily;
 
-      // نافذة تحميل
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -464,28 +596,21 @@
       URL.revokeObjectURL(url);
     }
 
-    // ----------  ربط الأزرار  ----------
+    // ربط الأحداث
     document.addEventListener('DOMContentLoaded', function() {
-      // أزرار رئيسية
       document.getElementById('logCigBtn').addEventListener('click', addCigarette);
+      document.getElementById('undoBtn').addEventListener('click', undoLastAction);
       document.getElementById('resetPackBtn').addEventListener('click', resetPack);
       document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
       document.getElementById('exportDataBtn').addEventListener('click', exportData);
 
-      // تقارير
       document.getElementById('reportDaily').addEventListener('click', function() { showReport('daily'); });
       document.getElementById('reportWeekly').addEventListener('click', function() { showReport('weekly'); });
       document.getElementById('reportMonthly').addEventListener('click', function() { showReport('monthly'); });
 
-      // تحديث أولي
       updateUI();
-      // عرض تقرير يومي افتراضي
       showReport('daily');
-
-      // إضافة تأكيد لإعادة التحديث عند العودة للصفحة (غير ضروري لكنه جيد)
-      window.addEventListener('focus', function() {
-        updateUI();
-      });
+      window.addEventListener('focus', function() { updateUI(); });
     });
 
   })();
