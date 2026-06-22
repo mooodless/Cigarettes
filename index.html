@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-   <title>🚭 مساعد الإقلاع - النسخة المطورة</title>
+   <title>🚭 مساعد الإقلاع - النسخة المتقدمة</title>
    <link rel="icon" type="image/png" href="/cigarette-box.png">
    <link rel="manifest" href="/manifest.json">
    <style>
@@ -48,6 +48,41 @@
       font-weight: 400;
       color: #3d6379;
       margin-right: auto;
+    }
+
+    /* التبويبات */
+    .tabs-container {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: #f0f5fa;
+      border-radius: 30px;
+      padding: 4px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 26px;
+      background: transparent;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #4a6a7e;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .tab-btn.active {
+      background: white;
+      color: #1f4b61;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .tab-btn:active { transform: scale(0.96); }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
     }
 
     /* بطاقة الإحصائيات */
@@ -111,7 +146,7 @@
       font-weight: 700;
       box-shadow: 0 12px 28px rgba(26, 67, 88, 0.35), 0 0 0 4px rgba(255,255,255,0.6);
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.2s;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -136,6 +171,17 @@
       font-weight: 400;
       opacity: 0.85;
     }
+    .btn-circle-main.ready {
+      background: #ffffff;
+      color: #1f4b61;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 0 0 4px rgba(31,75,97,0.15);
+    }
+    .btn-circle-main.ready:active { background: #eef3f8; }
+    .btn-circle-main.waiting {
+      background: #c44545;
+      box-shadow: 0 12px 28px rgba(196, 69, 69, 0.35), 0 0 0 4px rgba(255,255,255,0.6);
+    }
+    .btn-circle-main.waiting:active { background: #a13232; }
 
     /* الأزرار الدائرية الصغيرة (الزوايا) */
     .corner-btn {
@@ -184,6 +230,12 @@
       color: #b1463a;
     }
     .corner-btn.clear-btn:active { background: #fae8e4; }
+    .corner-btn.settings-btn {
+      background: #f0f7fa;
+      border-color: #c5dae8;
+      color: #1f5a7a;
+    }
+    .corner-btn.settings-btn:active { background: #e0edf5; }
 
     /* وضع الأزرار في الزوايا */
     .corner-top-left {
@@ -293,6 +345,86 @@
       margin-top: 18px;
     }
 
+    /* مودال الإعدادات */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: white;
+      border-radius: 32px;
+      max-width: 400px;
+      width: 100%;
+      padding: 30px 24px 26px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-box h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #0b2a3b;
+    }
+    .modal-box label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #1d4a5e;
+      margin-top: 14px;
+      margin-bottom: 4px;
+    }
+    .modal-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #dce6ef;
+      border-radius: 16px;
+      font-size: 1rem;
+      background: #f8fbfe;
+      transition: 0.15s;
+      font-family: inherit;
+    }
+    .modal-box input:focus {
+      border-color: #1f4b61;
+      outline: none;
+      background: white;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .modal-actions button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .modal-actions .btn-save {
+      background: #1f4b61;
+      color: white;
+    }
+    .modal-actions .btn-save:active { background: #123845; }
+    .modal-actions .btn-cancel {
+      background: #eef3f8;
+      color: #1e3e50;
+    }
+    .modal-actions .btn-cancel:active { background: #dce4ec; }
+
     @media (max-width: 480px) {
       .stat-grid { grid-template-columns: 1fr 1fr 1fr; }
       .corner-btn { width: 52px; height: 52px; font-size: 1.2rem; }
@@ -305,58 +437,120 @@
 <body>
 <div class="app-container" id="app">
   <h1>
-    🚬 أقلع الآن
-    <small>v2.0</small>
+    🚭 أقلع الآن
+    <small>v3.0</small>
   </h1>
 
-  <!-- إحصائيات سريعة -->
-  <div class="stats-card">
-    <div class="stat-grid">
-      <div class="stat-item"><span class="stat-label">🚬 اليوم</span><div class="stat-value" id="todayCount">0</div></div>
-      <div class="stat-item"><span class="stat-label">📦 في العلبة</span><div class="stat-value" id="packCount">0/20</div></div>
-      <div class="stat-item"><span class="stat-label">⏱️ متوسط الفاصل</span><div class="stat-value small" id="avgInterval">--</div></div>
-    </div>
+  <!-- التبويبات -->
+  <div class="tabs-container">
+    <button class="tab-btn active" data-tab="tab-monitor">📊 مراقبة التدخين</button>
+    <button class="tab-btn" data-tab="tab-quit">🚀 بدء الإقلاع</button>
   </div>
 
-  <!-- التصميم الدائري مع الأزرار في الزوايا -->
-  <div class="circle-layout">
-    <!-- زر الإضافة الرئيسي (وسط) -->
-    <button class="btn-circle-main" id="logCigBtn">
-      <span>🚬</span>
-      <small>أضف سجارة</small>
-    </button>
-
-    <!-- أزرار الزوايا الأربعة -->
-    <button class="corner-btn undo corner-top-left" id="undoBtn" title="الغاء آخر إضافة">↩️</button>
-    <button class="corner-btn reset corner-top-right" id="resetPackBtn" title="فتح علبة جديدة (تصفير)">📦</button>
-    <button class="corner-btn export-btn corner-bottom-left" id="exportDataBtn" title="تصدير البيانات">📤</button>
-    <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtn" title="مسح كل البيانات">🗑️</button>
-  </div>
-
-  <!-- شريط تقدم العلبة -->
-  <div class="progress-wrapper">
-    <div class="progress-label">
-      <span>السجائر المستهلكة</span>
-      <span id="progressText">0 / 20</span>
-    </div>
-    <div class="progress-bar-bg">
-      <div class="progress-fill" id="progressFill" style="width:0%;"></div>
-    </div>
-  </div>
-
-  <!-- التقارير -->
-  <div class="report-card">
-    <div class="report-header">
-      <span class="title">📊 التقرير</span>
-      <div class="report-tabs">
-        <button id="reportDaily" class="active">يومي</button>
-        <button id="reportWeekly">أسبوعي</button>
-        <button id="reportMonthly">شهري</button>
+  <!-- ====== تبويب المراقبة ====== -->
+  <div id="tab-monitor" class="tab-content active">
+    <div class="stats-card">
+      <div class="stat-grid">
+        <div class="stat-item"><span class="stat-label">🚬 اليوم</span><div class="stat-value" id="todayCountM">0</div></div>
+        <div class="stat-item"><span class="stat-label">📦 العلب المفتوحة</span><div class="stat-value" id="packCountM">1</div></div>
+        <div class="stat-item"><span class="stat-label">⏱️ الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastM">--</div></div>
       </div>
     </div>
-    <div class="report-box" id="reportContent">اختر تقريراً لعرض الإحصائيات</div>
+
+    <div class="circle-layout">
+      <button class="btn-circle-main" id="logCigBtnM">
+        <span>🚬</span>
+        <small>أضف سجارة</small>
+      </button>
+      <button class="corner-btn undo corner-top-left" id="undoBtnM" title="الغاء آخر إضافة">↩️</button>
+      <button class="corner-btn reset corner-top-right" id="resetPackBtnM" title="فتح علبة جديدة">📦</button>
+      <button class="corner-btn export-btn corner-bottom-left" id="exportDataBtnM" title="تصدير البيانات">📤</button>
+      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnM" title="مسح كل البيانات">🗑️</button>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="progress-label">
+        <span>السجائر المستهلكة</span>
+        <span id="progressTextM">0 / 20</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-fill" id="progressFillM" style="width:0%;"></div>
+      </div>
+    </div>
+
+    <div class="report-card">
+      <div class="report-header">
+        <span class="title">📊 التقرير</span>
+        <div class="report-tabs">
+          <button class="report-daily active">يومي</button>
+          <button class="report-weekly">أسبوعي</button>
+          <button class="report-monthly">شهري</button>
+        </div>
+      </div>
+      <div class="report-box" id="reportContentM">اختر تقريراً لعرض الإحصائيات</div>
+    </div>
   </div>
-  <div class="footer-note">جميع البيانات محفوظة محلياً · حد 20 سجارة لكل علبة</div>
+
+  <!-- ====== تبويب الإقلاع ====== -->
+  <div id="tab-quit" class="tab-content">
+    <div class="stats-card">
+      <div class="stat-grid">
+        <div class="stat-item"><span class="stat-label">🚬 اليوم</span><div class="stat-value" id="todayCountQ">0</div></div>
+        <div class="stat-item"><span class="stat-label">📦 العلب المفتوحة</span><div class="stat-value" id="packCountQ">1</div></div>
+        <div class="stat-item"><span class="stat-label">⏱️ الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastQ">--</div></div>
+      </div>
+    </div>
+
+    <div class="circle-layout">
+      <button class="btn-circle-main ready" id="logCigBtnQ">
+        <span>🚬</span>
+        <small>أضف سجارة</small>
+      </button>
+      <button class="corner-btn undo corner-top-left" id="undoBtnQ" title="الغاء آخر إضافة">↩️</button>
+      <button class="corner-btn reset corner-top-right" id="resetPackBtnQ" title="فتح علبة جديدة">📦</button>
+      <button class="corner-btn settings-btn corner-bottom-left" id="settingsBtnQ" title="الإعدادات">⚙️</button>
+      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnQ" title="مسح كل البيانات">🗑️</button>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="progress-label">
+        <span>السجائر المستهلكة</span>
+        <span id="progressTextQ">0 / 20</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-fill" id="progressFillQ" style="width:0%;"></div>
+      </div>
+    </div>
+
+    <div class="report-card">
+      <div class="report-header">
+        <span class="title">📊 التقرير</span>
+        <div class="report-tabs">
+          <button class="report-daily active">يومي</button>
+          <button class="report-weekly">أسبوعي</button>
+          <button class="report-monthly">شهري</button>
+        </div>
+      </div>
+      <div class="report-box" id="reportContentQ">اختر تقريراً لعرض الإحصائيات</div>
+    </div>
+  </div>
+
+  <div class="footer-note">جميع البيانات محفوظة محلياً</div>
+</div>
+
+<!-- مودال الإعدادات -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-box">
+    <h2>⚙️ إعدادات الإقلاع</h2>
+    <label for="dailyTarget">كمية السجائر اليومية</label>
+    <input type="number" id="dailyTarget" min="1" max="50" value="10">
+    <label for="waitTime">مدة انتظار السيجارة التالية (بالدقائق)</label>
+    <input type="number" id="waitTime" min="1" max="120" value="30">
+    <div class="modal-actions">
+      <button class="btn-cancel" id="settingsCancel">إلغاء</button>
+      <button class="btn-save" id="settingsSave">حفظ</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -364,13 +558,16 @@
     "use strict";
     const STORAGE_KEY = 'quitSmokeData';
     const MAX_PER_PACK = 20;
+    const SETTINGS_KEY = 'quitSettings';
 
-    // البيانات الافتراضية
+    // -------- البيانات المشتركة --------
     function getDefaultData() {
       return {
-        cigarettes: [],         // array of timestamps (ms)
-        packOpenTime: null,     // timestamp (ms)
-        packCount: 0            // عدد السجائر المستهلكة في العلبة الحالية (0-20)
+        cigarettes: [],
+        packOpenTime: null,
+        packCount: 0,
+        packHistory: [],
+        totalPacks: 1
       };
     }
 
@@ -381,7 +578,8 @@
         const parsed = JSON.parse(raw);
         if (!Array.isArray(parsed.cigarettes)) parsed.cigarettes = [];
         if (typeof parsed.packCount !== 'number') parsed.packCount = 0;
-        // ضمان أن packCount بين 0 و 20
+        if (!Array.isArray(parsed.packHistory)) parsed.packHistory = [];
+        if (typeof parsed.totalPacks !== 'number' || parsed.totalPacks < 1) parsed.totalPacks = 1;
         if (parsed.packCount > MAX_PER_PACK) parsed.packCount = MAX_PER_PACK;
         if (parsed.packCount < 0) parsed.packCount = 0;
         return parsed;
@@ -394,7 +592,29 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
-    // helpers
+    // -------- الإعدادات --------
+    function getDefaultSettings() {
+      return { dailyTarget: 10, waitTime: 30 };
+    }
+
+    function loadSettings() {
+      try {
+        const raw = localStorage.getItem(SETTINGS_KEY);
+        if (!raw) return getDefaultSettings();
+        const parsed = JSON.parse(raw);
+        if (typeof parsed.dailyTarget !== 'number') parsed.dailyTarget = 10;
+        if (typeof parsed.waitTime !== 'number') parsed.waitTime = 30;
+        return parsed;
+      } catch (e) {
+        return getDefaultSettings();
+      }
+    }
+
+    function saveSettings(settings) {
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }
+
+    // -------- المساعدات --------
     function formatTime(ts) {
       if (!ts) return '--';
       return new Date(ts).toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' });
@@ -413,58 +633,83 @@
       const d = new Date(ts); d.setHours(0,0,0,0); d.setDate(1); return d.getTime();
     }
 
-    function calcAvgInterval(timestamps) {
-      if (!timestamps || timestamps.length < 2) return null;
-      const sorted = [...timestamps].sort((a,b) => a-b);
-      let total = 0, count = 0;
-      for (let i = 1; i < sorted.length; i++) {
-        const diff = (sorted[i] - sorted[i-1]) / (1000 * 60);
-        if (diff > 0 && diff < 600) { total += diff; count++; }
-      }
-      return count === 0 ? null : total / count;
+    function getTimeSinceLast(cigarettes) {
+      if (!cigarettes || cigarettes.length === 0) return null;
+      const last = cigarettes[cigarettes.length - 1];
+      const now = Date.now();
+      const diffMs = now - last;
+      if (diffMs < 0) return null;
+      const diffSec = Math.floor(diffMs / 1000);
+      const minutes = Math.floor(diffSec / 60);
+      const seconds = diffSec % 60;
+      return { minutes, seconds };
     }
 
     function getCigsInRange(data, startTs, endTs = Date.now()) {
       return data.cigarettes.filter(ts => ts >= startTs && ts <= endTs);
     }
 
-    // تحديث الواجهة
-    function updateUI() {
-      const data = loadData();
+    // -------- تحديث واجهة التبويب --------
+    function updateTab(tabId, data, settings) {
       const now = Date.now();
       const todayStart = startOfDay(now);
       const todayCigs = getCigsInRange(data, todayStart, now);
       const todayCount = todayCigs.length;
-      document.getElementById('todayCount').innerText = todayCount;
+      document.getElementById(`todayCount${tabId}`).innerText = todayCount;
 
-      // pack count
+      const totalPacks = data.totalPacks || 1;
+      document.getElementById(`packCount${tabId}`).innerText = totalPacks;
+
       const packCount = data.packCount || 0;
-      document.getElementById('packCount').innerText = `${packCount}/${MAX_PER_PACK}`;
-      // progress
       const pct = Math.min(100, (packCount / MAX_PER_PACK) * 100);
-      const fill = document.getElementById('progressFill');
+      const fill = document.getElementById(`progressFill${tabId}`);
       fill.style.width = pct + '%';
       if (pct >= 85) fill.classList.add('warning'); else fill.classList.remove('warning');
-      document.getElementById('progressText').innerText = `${packCount} / ${MAX_PER_PACK}`;
+      document.getElementById(`progressText${tabId}`).innerText = `${packCount} / ${MAX_PER_PACK}`;
 
-      // avg
-      const avg = calcAvgInterval(todayCigs);
-      document.getElementById('avgInterval').innerText = avg !== null ? avg.toFixed(0) + ' د' : '--';
+      const timeSince = getTimeSinceLast(data.cigarettes);
+      const timeEl = document.getElementById(`timeSinceLast${tabId}`);
+      if (timeSince) {
+        const { minutes, seconds } = timeSince;
+        if (minutes === 0) {
+          timeEl.innerText = `${seconds} ث`;
+        } else {
+          timeEl.innerText = `${minutes} د ${seconds} ث`;
+        }
+      } else {
+        timeEl.innerText = '--';
+      }
+
+      // تحديث حالة زر الإقلاع
+      if (tabId === 'Q') {
+        const btn = document.getElementById('logCigBtnQ');
+        const cigs = data.cigarettes;
+        const lastCig = cigs.length > 0 ? cigs[cigs.length - 1] : null;
+        const waitMinutes = settings.waitTime || 30;
+        let isReady = true;
+        if (lastCig) {
+          const elapsed = (now - lastCig) / (1000 * 60);
+          if (elapsed < waitMinutes) {
+            isReady = false;
+          }
+        }
+        if (isReady) {
+          btn.className = 'btn-circle-main ready';
+          btn.querySelector('span').innerText = '🚬';
+          btn.querySelector('small').innerText = 'جاهز للتدخين';
+        } else {
+          btn.className = 'btn-circle-main waiting';
+          btn.querySelector('span').innerText = '⏳';
+          btn.querySelector('small').innerText = 'في انتظار الوقت';
+        }
+      }
     }
 
-    // التقارير
-    function generateReport(period) {
-      const data = loadData();
+    // -------- التقارير --------
+    function generateReport(data, period, startTs, periodName) {
       const now = Date.now();
-      let startTs, periodName;
-      if (period === 'daily') { startTs = startOfDay(now); periodName = 'اليوم'; }
-      else if (period === 'weekly') { startTs = startOfWeek(now); periodName = 'هذا الأسبوع'; }
-      else if (period === 'monthly') { startTs = startOfMonth(now); periodName = 'هذا الشهر'; }
-      else return 'فترة غير معروفة';
-
       const cigs = getCigsInRange(data, startTs, now);
       const count = cigs.length;
-      const avg = calcAvgInterval(cigs);
       const first = count > 0 ? cigs[0] : null;
       const last = count > 0 ? cigs[cigs.length-1] : null;
 
@@ -472,117 +717,176 @@
       lines.push(`📋 تقرير ${periodName}`);
       lines.push(`📅 من ${formatFullDate(startTs)} إلى الآن`);
       lines.push(`🚬 عدد السجائر: ${count}`);
-      lines.push(`⏱️ متوسط الفاصل: ${avg !== null ? avg.toFixed(1)+' دقيقة' : '-- (سجيرة واحدة أو أقل)'}`);
+      
+      if (last) {
+        const diffMs = now - last;
+        const diffSec = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(diffSec / 60);
+        const seconds = diffSec % 60;
+        if (minutes === 0) {
+          lines.push(`⏱️ الوقت الفاصل: ${seconds} ثانية`);
+        } else {
+          lines.push(`⏱️ الوقت الفاصل: ${minutes} دقيقة ${seconds} ثانية`);
+        }
+      } else {
+        lines.push(`⏱️ الوقت الفاصل: -- (لا توجد سجائر)`);
+      }
+      
       if (first) lines.push(`🕒 أول سجارة: ${formatTime(first)}`);
       if (last) lines.push(`🕒 آخر سجارة: ${formatTime(last)}`);
       if (count > 0) lines.push(`📌 الأوقات: ${cigs.map(t=>formatTime(t)).join('  ')}`);
       else lines.push(`📌 لا توجد سجائر في هذه الفترة`);
-      if (data.packOpenTime) lines.push(`📦 علبة مفتوحة: ${formatFullDate(data.packOpenTime)}`);
-      else lines.push(`📦 لم يتم تسجيل فتح علبة`);
+
+      lines.push(`📦 عدد العلب المفتوحة: ${data.totalPacks || 1}`);
+      if (data.packHistory && data.packHistory.length > 0) {
+        lines.push(`📋 تاريخ العلب:`);
+        data.packHistory.forEach((p, idx) => {
+          lines.push(`   علبة ${idx+1}: ${formatFullDate(p.openedAt)}`);
+        });
+      } else {
+        lines.push(`📋 لا يوجد تاريخ للعلب (العلبة الحالية هي الأولى)`);
+      }
+      if (data.packOpenTime) {
+        lines.push(`📦 العلبة الحالية مفتوحة منذ: ${formatFullDate(data.packOpenTime)}`);
+      }
       return lines.join('\n');
     }
 
-    function showReport(period) {
-      const content = generateReport(period);
-      document.getElementById('reportContent').innerText = content;
+    function showReport(tabId, period) {
+      const data = loadData();
+      const now = Date.now();
+      let startTs, periodName;
+      if (period === 'daily') { startTs = startOfDay(now); periodName = 'اليوم'; }
+      else if (period === 'weekly') { startTs = startOfWeek(now); periodName = 'هذا الأسبوع'; }
+      else if (period === 'monthly') { startTs = startOfMonth(now); periodName = 'هذا الشهر'; }
+      else return;
+      const content = generateReport(data, period, startTs, periodName);
+      document.getElementById(`reportContent${tabId}`).innerText = content;
+      
       // تحديث active tab
-      document.querySelectorAll('.report-tabs button').forEach(b => b.classList.remove('active'));
-      const map = { daily:'reportDaily', weekly:'reportWeekly', monthly:'reportMonthly' };
-      const activeBtn = document.getElementById(map[period]);
+      const container = document.getElementById(`tab-${tabId === 'M' ? 'monitor' : 'quit'}`);
+      container.querySelectorAll('.report-tabs button').forEach(b => b.classList.remove('active'));
+      const map = { daily:'report-daily', weekly:'report-weekly', monthly:'report-monthly' };
+      const activeBtn = container.querySelector(`.${map[period]}`);
       if (activeBtn) activeBtn.classList.add('active');
     }
 
-    // ----------  الإجراءات  ----------
-    function addCigarette() {
+    // -------- الإجراءات --------
+    function addCigarette(tabId) {
       const data = loadData();
-      // التحقق من الحد الأقصى للعلبة
+      const settings = loadSettings();
+      
+      // في تبويب الإقلاع، نتحقق من مدة الانتظار
+      if (tabId === 'Q') {
+        const lastCig = data.cigarettes.length > 0 ? data.cigarettes[data.cigarettes.length - 1] : null;
+        if (lastCig) {
+          const elapsed = (Date.now() - lastCig) / (1000 * 60);
+          if (elapsed < settings.waitTime) {
+            alert(`⚠️ يجب الانتظار ${settings.waitTime} دقيقة بين كل سيجارة وأخرى.`);
+            return;
+          }
+        }
+      }
+      
       if (data.packCount >= MAX_PER_PACK) {
         alert('⚠️ لقد استهلكت 20 سجارة في هذه العلبة. يرجى فتح علبة جديدة.');
         return;
       }
+      
       const now = Date.now();
       data.cigarettes.push(now);
       data.packCount = (data.packCount || 0) + 1;
-      if (!data.packOpenTime) data.packOpenTime = now;
+      if (!data.packOpenTime) {
+        data.packOpenTime = now;
+        data.totalPacks = 1;
+        data.packHistory = [{ openedAt: now }];
+      }
       saveData(data);
       updateUI();
-      showReport('daily');
+      showReport(tabId, 'daily');
     }
 
-    // التراجع عن آخر إضافة (سجارة أو فتح علبة)
-    function undoLastAction() {
+    function undoLastAction(tabId) {
       const data = loadData();
       if (data.cigarettes.length === 0 && data.packCount === 0) {
         alert('لا توجد إجراءات للتراجع عنها.');
         return;
       }
-      // إذا كان هناك سجائر، نتراجع عن آخر سجارة
       if (data.cigarettes.length > 0) {
-        const lastCig = data.cigarettes[data.cigarettes.length - 1];
         data.cigarettes.pop();
-        // نخفض عدد العلبة بشرط ألا يقل عن 0
         if (data.packCount > 0) data.packCount -= 1;
-        // إذا أصبحت العلبة فارغة (packCount=0) ولا توجد سجائر، يمكن ترك packOpenTime لكن لا بأس
         saveData(data);
         updateUI();
-        showReport('daily');
+        showReport(tabId, 'daily');
         return;
       }
-      // إذا لم توجد سجائر لكن packCount > 0 (حالة نادرة) نقوم بتصحيح
       if (data.packCount > 0) {
         data.packCount = 0;
         saveData(data);
         updateUI();
-        showReport('daily');
+        showReport(tabId, 'daily');
       }
     }
 
-    // فتح علبة جديدة (تصفير العداد)
-    function resetPack() {
+    function resetPack(tabId) {
       const data = loadData();
-      // إذا كان العدد 0 والعلبة فارغة، نؤكد الفتح
+      const now = Date.now();
       if (data.packCount === 0) {
-        // مجرد تحديث وقت الفتح
-        data.packOpenTime = Date.now();
+        data.packOpenTime = now;
+        if (!data.packHistory || data.packHistory.length === 0) {
+          data.packHistory = [{ openedAt: now }];
+          data.totalPacks = 1;
+        } else {
+          data.packOpenTime = now;
+        }
         saveData(data);
         updateUI();
-        document.getElementById('reportContent').innerText = '📦 تم فتح علبة جديدة (العداد صفر)';
+        document.getElementById(`reportContent${tabId}`).innerText = '📦 تم تحديث وقت فتح العلبة (العداد صفر)';
         return;
       }
-      // تأكيد
-      if (confirm('فتح علبة جديدة سيؤدي إلى تصفير عداد السجائر في العلبة الحالية. هل أنت متأكد؟')) {
+      if (confirm('فتح علبة جديدة سيؤدي إلى تصفير عداد السجائر الحالي وزيادة عدد العلب. هل أنت متأكد؟')) {
         data.packCount = 0;
-        data.packOpenTime = Date.now();
-        // لا نقوم بمسح السجائر التاريخية
+        data.packOpenTime = now;
+        if (!data.packHistory) data.packHistory = [];
+        data.packHistory.push({ openedAt: now });
+        data.totalPacks = (data.totalPacks || 0) + 1;
         saveData(data);
         updateUI();
-        document.getElementById('reportContent').innerText = '📦 تم فتح علبة جديدة وتصفير العداد';
-        showReport('daily');
+        document.getElementById(`reportContent${tabId}`).innerText = `📦 تم فتح علبة جديدة (العلبة رقم ${data.totalPacks})`;
+        showReport(tabId, 'daily');
       }
     }
 
-    function clearAllData() {
+    function clearAllData(tabId) {
       if (confirm('⚠️ سيتم حذف جميع السجائر والتوقيتات. هل أنت متأكد؟')) {
         localStorage.removeItem(STORAGE_KEY);
         updateUI();
-        document.getElementById('reportContent').innerText = '🗑️ تم مسح جميع البيانات';
-        showReport('daily');
+        document.getElementById(`reportContent${tabId}`).innerText = '🗑️ تم مسح جميع البيانات';
+        showReport(tabId, 'daily');
       }
     }
 
-    function exportData() {
+    function exportData(tabId) {
       const data = loadData();
       let text = '--- تقرير التصدير ---\n';
       text += `إجمالي السجائر: ${data.cigarettes.length}\n`;
       text += `العلبة الحالية: ${data.packCount}/${MAX_PER_PACK}\n`;
-      if (data.packOpenTime) text += `فتح العلبة: ${formatFullDate(data.packOpenTime)}\n`;
+      text += `عدد العلب المفتوحة: ${data.totalPacks || 1}\n`;
+      if (data.packHistory && data.packHistory.length > 0) {
+        text += '--- تاريخ العلب ---\n';
+        data.packHistory.forEach((p, idx) => {
+          text += `علبة ${idx+1}: ${formatFullDate(p.openedAt)}\n`;
+        });
+      }
+      if (data.packOpenTime) text += `فتح العلبة الحالية: ${formatFullDate(data.packOpenTime)}\n`;
       text += '--- السجائر (توقيت) ---\n';
       if (data.cigarettes.length === 0) text += '(لا توجد سجائر)\n';
       else {
         const sorted = [...data.cigarettes].sort((a,b)=>a-b);
         sorted.forEach((ts, i) => { text += `${i+1}. ${formatFullDate(ts)}\n`; });
       }
-      const daily = generateReport('daily');
+      const now = Date.now();
+      const daily = generateReport(data, 'daily', startOfDay(now), 'اليوم');
       text += '\n--- تقرير اليوم ---\n' + daily;
 
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -596,21 +900,103 @@
       URL.revokeObjectURL(url);
     }
 
-    // ربط الأحداث
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('logCigBtn').addEventListener('click', addCigarette);
-      document.getElementById('undoBtn').addEventListener('click', undoLastAction);
-      document.getElementById('resetPackBtn').addEventListener('click', resetPack);
-      document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
-      document.getElementById('exportDataBtn').addEventListener('click', exportData);
+    // -------- تحديث شامل --------
+    function updateUI() {
+      const data = loadData();
+      const settings = loadSettings();
+      updateTab('M', data, settings);
+      updateTab('Q', data, settings);
+    }
 
-      document.getElementById('reportDaily').addEventListener('click', function() { showReport('daily'); });
-      document.getElementById('reportWeekly').addEventListener('click', function() { showReport('weekly'); });
-      document.getElementById('reportMonthly').addEventListener('click', function() { showReport('monthly'); });
+    // -------- ربط الأحداث --------
+    document.addEventListener('DOMContentLoaded', function() {
+      // التبويبات
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          document.getElementById(this.dataset.tab).classList.add('active');
+        });
+      });
+
+      // ربط أزرار تبويب المراقبة (M)
+      document.getElementById('logCigBtnM').addEventListener('click', function() { addCigarette('M'); });
+      document.getElementById('undoBtnM').addEventListener('click', function() { undoLastAction('M'); });
+      document.getElementById('resetPackBtnM').addEventListener('click', function() { resetPack('M'); });
+      document.getElementById('clearAllBtnM').addEventListener('click', function() { clearAllData('M'); });
+      document.getElementById('exportDataBtnM').addEventListener('click', function() { exportData('M'); });
+
+      // ربط أزرار تبويب الإقلاع (Q)
+      document.getElementById('logCigBtnQ').addEventListener('click', function() { addCigarette('Q'); });
+      document.getElementById('undoBtnQ').addEventListener('click', function() { undoLastAction('Q'); });
+      document.getElementById('resetPackBtnQ').addEventListener('click', function() { resetPack('Q'); });
+      document.getElementById('clearAllBtnQ').addEventListener('click', function() { clearAllData('Q'); });
+
+      // تقارير المراقبة
+      document.querySelectorAll('#tab-monitor .report-tabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const period = this.classList.contains('report-daily') ? 'daily' :
+                        this.classList.contains('report-weekly') ? 'weekly' : 'monthly';
+          showReport('M', period);
+        });
+      });
+
+      // تقارير الإقلاع
+      document.querySelectorAll('#tab-quit .report-tabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const period = this.classList.contains('report-daily') ? 'daily' :
+                        this.classList.contains('report-weekly') ? 'weekly' : 'monthly';
+          showReport('Q', period);
+        });
+      });
+
+      // زر الإعدادات
+      document.getElementById('settingsBtnQ').addEventListener('click', function() {
+        const settings = loadSettings();
+        document.getElementById('dailyTarget').value = settings.dailyTarget;
+        document.getElementById('waitTime').value = settings.waitTime;
+        document.getElementById('settingsModal').classList.add('open');
+      });
+
+      // مودال الإعدادات
+      document.getElementById('settingsCancel').addEventListener('click', function() {
+        document.getElementById('settingsModal').classList.remove('open');
+      });
+
+      document.getElementById('settingsSave').addEventListener('click', function() {
+        const dailyTarget = parseInt(document.getElementById('dailyTarget').value) || 10;
+        const waitTime = parseInt(document.getElementById('waitTime').value) || 30;
+        if (dailyTarget < 1) { alert('يجب أن تكون كمية السجائر اليومية على الأقل 1'); return; }
+        if (waitTime < 1) { alert('يجب أن تكون مدة الانتظار على الأقل 1 دقيقة'); return; }
+        saveSettings({ dailyTarget, waitTime });
+        document.getElementById('settingsModal').classList.remove('open');
+        updateUI();
+      });
+
+      // إغلاق المودال عند الضغط خارجها
+      document.getElementById('settingsModal').addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+      });
+
+      // تهيئة البيانات
+      const data = loadData();
+      if (data.cigarettes.length === 0 && !data.packOpenTime) {
+        const now = Date.now();
+        data.packOpenTime = now;
+        data.totalPacks = 1;
+        data.packHistory = [{ openedAt: now }];
+        data.packCount = 0;
+        saveData(data);
+      }
 
       updateUI();
-      showReport('daily');
-      window.addEventListener('focus', function() { updateUI(); });
+      showReport('M', 'daily');
+      showReport('Q', 'daily');
+
+      // تحديث الوقت الفاصل كل ثانية
+      setInterval(updateUI, 1000);
+      window.addEventListener('focus', updateUI);
     });
 
   })();
