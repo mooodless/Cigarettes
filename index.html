@@ -6,6 +6,8 @@
    <title>🚭 مساعد الإقلاع - النسخة المتقدمة</title>
    <link rel="icon" type="image/png" href="/cigarette-box.png">
    <link rel="manifest" href="/manifest.json">
+   <!-- Font Awesome 6 (مجاني) -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
    <style>
     * {
       box-sizing: border-box;
@@ -161,10 +163,10 @@
       background: #123845;
       box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
-    .btn-circle-main span {
+    .btn-circle-main .main-icon {
       font-size: 2.2rem;
       display: block;
-      margin-bottom: -6px;
+      margin-bottom: -4px;
     }
     .btn-circle-main small {
       font-size: 0.8rem;
@@ -205,6 +207,9 @@
     .corner-btn:active {
       transform: scale(0.88);
       background: #eaf1f9;
+    }
+    .corner-btn .fa-icon {
+      font-size: 1.3rem;
     }
     .corner-btn.undo {
       background: #fef2f0;
@@ -428,8 +433,9 @@
     @media (max-width: 480px) {
       .stat-grid { grid-template-columns: 1fr 1fr 1fr; }
       .corner-btn { width: 52px; height: 52px; font-size: 1.2rem; }
+      .corner-btn .fa-icon { font-size: 1.1rem; }
       .btn-circle-main { width: 120px; height: 120px; font-size: 1.3rem; }
-      .btn-circle-main span { font-size: 1.8rem; }
+      .btn-circle-main .main-icon { font-size: 1.8rem; }
       .app-container { padding: 20px 14px 28px; }
     }
   </style>
@@ -438,34 +444,34 @@
 <div class="app-container" id="app">
   <h1>
     🚭 أقلع الآن
-    <small>v3.0</small>
+    <small>v3.1</small>
   </h1>
 
   <!-- التبويبات -->
   <div class="tabs-container">
-    <button class="tab-btn active" data-tab="tab-monitor">📊 مراقبة التدخين</button>
-    <button class="tab-btn" data-tab="tab-quit">🚀 بدء الإقلاع</button>
+    <button class="tab-btn active" data-tab="tab-monitor"><i class="fas fa-chart-line" style="margin-left:6px;"></i> مراقبة التدخين</button>
+    <button class="tab-btn" data-tab="tab-quit"><i class="fas fa-rocket" style="margin-left:6px;"></i> بدء الإقلاع</button>
   </div>
 
   <!-- ====== تبويب المراقبة ====== -->
   <div id="tab-monitor" class="tab-content active">
     <div class="stats-card">
       <div class="stat-grid">
-        <div class="stat-item"><span class="stat-label">🚬 اليوم</span><div class="stat-value" id="todayCountM">0</div></div>
-        <div class="stat-item"><span class="stat-label">📦 العلب المفتوحة</span><div class="stat-value" id="packCountM">1</div></div>
-        <div class="stat-item"><span class="stat-label">⏱️ الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastM">--</div></div>
+        <div class="stat-item"><span class="stat-label"><i class="fas fa-smoking" style="margin-left:4px;"></i> اليوم</span><div class="stat-value" id="todayCountM">0</div></div>
+        <div class="stat-item"><span class="stat-label"><i class="fas fa-box" style="margin-left:4px;"></i> العلب المفتوحة</span><div class="stat-value" id="packCountM">1</div></div>
+        <div class="stat-item"><span class="stat-label"><i class="fas fa-clock" style="margin-left:4px;"></i> الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastM">--</div></div>
       </div>
     </div>
 
     <div class="circle-layout">
       <button class="btn-circle-main" id="logCigBtnM">
-        <span>🚬</span>
+        <span class="main-icon">🚬</span>
         <small>أضف سجارة</small>
       </button>
-      <button class="corner-btn undo corner-top-left" id="undoBtnM" title="الغاء آخر إضافة">↩️</button>
-      <button class="corner-btn reset corner-top-right" id="resetPackBtnM" title="فتح علبة جديدة">📦</button>
-      <button class="corner-btn export-btn corner-bottom-left" id="exportDataBtnM" title="تصدير البيانات">📤</button>
-      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnM" title="مسح كل البيانات">🗑️</button>
+      <button class="corner-btn undo corner-top-left" id="undoBtnM" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
+      <button class="corner-btn reset corner-top-right" id="resetPackBtnM" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
+      <button class="corner-btn export-btn corner-bottom-left" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
+      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnM" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
     </div>
 
     <div class="progress-wrapper">
@@ -480,7 +486,7 @@
 
     <div class="report-card">
       <div class="report-header">
-        <span class="title">📊 التقرير</span>
+        <span class="title"><i class="fas fa-file-alt" style="margin-left:8px;"></i>التقرير</span>
         <div class="report-tabs">
           <button class="report-daily active">يومي</button>
           <button class="report-weekly">أسبوعي</button>
@@ -495,21 +501,21 @@
   <div id="tab-quit" class="tab-content">
     <div class="stats-card">
       <div class="stat-grid">
-        <div class="stat-item"><span class="stat-label">🚬 اليوم</span><div class="stat-value" id="todayCountQ">0</div></div>
-        <div class="stat-item"><span class="stat-label">📦 العلب المفتوحة</span><div class="stat-value" id="packCountQ">1</div></div>
-        <div class="stat-item"><span class="stat-label">⏱️ الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastQ">--</div></div>
+        <div class="stat-item"><span class="stat-label"><i class="fas fa-smoking" style="margin-left:4px;"></i> اليوم</span><div class="stat-value" id="todayCountQ">0</div></div>
+        <div class="stat-item"><span class="stat-label"><i class="fas fa-box" style="margin-left:4px;"></i> العلب المفتوحة</span><div class="stat-value" id="packCountQ">1</div></div>
+        <div class="stat-item"><span class="stat-label"><i class="fas fa-clock" style="margin-left:4px;"></i> الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastQ">--</div></div>
       </div>
     </div>
 
     <div class="circle-layout">
       <button class="btn-circle-main ready" id="logCigBtnQ">
-        <span>🚬</span>
-        <small>أضف سجارة</small>
+        <span class="main-icon">🚬</span>
+        <small>جاهز للتدخين</small>
       </button>
-      <button class="corner-btn undo corner-top-left" id="undoBtnQ" title="الغاء آخر إضافة">↩️</button>
-      <button class="corner-btn reset corner-top-right" id="resetPackBtnQ" title="فتح علبة جديدة">📦</button>
-      <button class="corner-btn settings-btn corner-bottom-left" id="settingsBtnQ" title="الإعدادات">⚙️</button>
-      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnQ" title="مسح كل البيانات">🗑️</button>
+      <button class="corner-btn undo corner-top-left" id="undoBtnQ" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
+      <button class="corner-btn reset corner-top-right" id="resetPackBtnQ" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
+      <button class="corner-btn settings-btn corner-bottom-left" id="settingsBtnQ" title="الإعدادات"><i class="fas fa-cog fa-icon"></i></button>
+      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnQ" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
     </div>
 
     <div class="progress-wrapper">
@@ -524,7 +530,7 @@
 
     <div class="report-card">
       <div class="report-header">
-        <span class="title">📊 التقرير</span>
+        <span class="title"><i class="fas fa-file-alt" style="margin-left:8px;"></i>التقرير</span>
         <div class="report-tabs">
           <button class="report-daily active">يومي</button>
           <button class="report-weekly">أسبوعي</button>
@@ -541,14 +547,14 @@
 <!-- مودال الإعدادات -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal-box">
-    <h2>⚙️ إعدادات الإقلاع</h2>
-    <label for="dailyTarget">كمية السجائر اليومية</label>
+    <h2><i class="fas fa-cog" style="margin-left:10px;"></i> إعدادات الإقلاع</h2>
+    <label for="dailyTarget"><i class="fas fa-smoking" style="margin-left:6px;"></i> كمية السجائر اليومية</label>
     <input type="number" id="dailyTarget" min="1" max="50" value="10">
-    <label for="waitTime">مدة انتظار السيجارة التالية (بالدقائق)</label>
+    <label for="waitTime"><i class="fas fa-hourglass-half" style="margin-left:6px;"></i> مدة انتظار السيجارة التالية (بالدقائق)</label>
     <input type="number" id="waitTime" min="1" max="120" value="30">
     <div class="modal-actions">
-      <button class="btn-cancel" id="settingsCancel">إلغاء</button>
-      <button class="btn-save" id="settingsSave">حفظ</button>
+      <button class="btn-cancel" id="settingsCancel"><i class="fas fa-times" style="margin-left:6px;"></i> إلغاء</button>
+      <button class="btn-save" id="settingsSave"><i class="fas fa-check" style="margin-left:6px;"></i> حفظ</button>
     </div>
   </div>
 </div>
@@ -695,11 +701,11 @@
         }
         if (isReady) {
           btn.className = 'btn-circle-main ready';
-          btn.querySelector('span').innerText = '🚬';
+          btn.querySelector('.main-icon').innerText = '🚬';
           btn.querySelector('small').innerText = 'جاهز للتدخين';
         } else {
           btn.className = 'btn-circle-main waiting';
-          btn.querySelector('span').innerText = '⏳';
+          btn.querySelector('.main-icon').innerText = '⏳';
           btn.querySelector('small').innerText = 'في انتظار الوقت';
         }
       }
