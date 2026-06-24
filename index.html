@@ -134,7 +134,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 220px;
+      min-height: 250px;
       margin: 8px 0 12px;
     }
 
@@ -187,21 +187,41 @@
     }
     .btn-circle-main.waiting:active { background: #a13232; }
 
-    /* الأزرار الدائرية الصغيرة (الزوايا) */
+    /* الأزرار الدائرية الصغيرة (الزوايا) مع التسميات */
+    .corner-btn-wrapper {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .corner-btn-wrapper .corner-btn-label {
+      font-size: 0.55rem;
+      color: #5f7b8f;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.2;
+      max-width: 70px;
+      background: rgba(255,255,255,0.9);
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid #e8edf3;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      white-space: nowrap;
+    }
     .corner-btn {
-      width: 60px;
-      height: 60px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       border: none;
       background: white;
       box-shadow: 0 6px 14px rgba(0, 20, 30, 0.08), 0 0 0 1px #dae3ec;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       cursor: pointer;
       transition: all 0.1s;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: absolute;
       color: #1e3e50;
       font-weight: 500;
       border: 2px solid white;
@@ -211,7 +231,7 @@
       background: #eaf1f9;
     }
     .corner-btn .fa-icon {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
     .corner-btn.undo {
       background: #fef2f0;
@@ -260,6 +280,32 @@
     .corner-bottom-right {
       bottom: 5px;
       right: 5px;
+    }
+
+    /* تعديل موضع التسميات حسب الزاوية */
+    .corner-top-left .corner-btn-label {
+      order: 1;
+    }
+    .corner-top-left .corner-btn {
+      order: 0;
+    }
+    .corner-top-right .corner-btn-label {
+      order: 1;
+    }
+    .corner-top-right .corner-btn {
+      order: 0;
+    }
+    .corner-bottom-left .corner-btn-label {
+      order: 0;
+    }
+    .corner-bottom-left .corner-btn {
+      order: 1;
+    }
+    .corner-bottom-right .corner-btn-label {
+      order: 0;
+    }
+    .corner-bottom-right .corner-btn {
+      order: 1;
     }
 
     /* شريط التقدم للسجائر */
@@ -432,217 +478,92 @@
     }
     .modal-actions .btn-cancel:active { background: #dce4ec; }
 
-    /* تبويب تصحيح البيانات - تصميم جديد سهل الاستخدام */
+    /* تبويب تصحيح البيانات - تحسين التنسيق */
     #tab-edit .stats-card {
       text-align: right;
       width: 100%;
     }
-    #tab-edit .edit-section {
-      background: #f8fbfe;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 16px;
-      border: 1px solid #e8edf3;
+    #tab-edit .stats-card > div {
+      width: 100%;
     }
-    #tab-edit .edit-section h4 {
-      color: #1d4a5e;
-      margin-bottom: 10px;
-      font-size: 0.95rem;
+    #tab-edit textarea,
+    #tab-edit input[type="text"],
+    #tab-edit input[type="number"],
+    #tab-edit input[type="datetime-local"] {
+      width: 100% !important;
+      box-sizing: border-box;
+    }
+    #tab-edit .edit-row {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      flex-direction: column;
+      gap: 12px;
     }
-    #tab-edit .edit-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 0;
-      border-bottom: 1px solid #eef3f8;
-      flex-wrap: wrap;
+    #tab-edit .edit-field {
+      width: 100%;
     }
-    #tab-edit .edit-item:last-child {
-      border-bottom: none;
-    }
-    #tab-edit .edit-item .item-label {
-      font-size: 0.8rem;
-      color: #5f7b8f;
-      min-width: 70px;
-    }
-    #tab-edit .edit-item input[type="datetime-local"] {
-      flex: 1;
-      min-width: 150px;
-      padding: 6px 10px;
-      border: 2px solid #dce6ef;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      background: white;
-    }
-    #tab-edit .edit-item .delete-btn {
-      background: #fef2f0;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      color: #a13d3d;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #tab-edit .edit-item .delete-btn:hover {
-      background: #fce4e0;
-    }
-    #tab-edit .edit-item .delete-btn:active {
-      transform: scale(0.9);
-    }
-    #tab-edit .add-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-    #tab-edit .add-row input[type="datetime-local"] {
-      flex: 2;
-      min-width: 150px;
-      padding: 8px 12px;
-      border: 2px solid #dce6ef;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      background: white;
-    }
-    #tab-edit .add-row .add-btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 12px;
-      background: #1f4b61;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.85rem;
-      white-space: nowrap;
-    }
-    #tab-edit .add-row .add-btn:active {
-      transform: scale(0.95);
-    }
-    #tab-edit .simple-field {
-      margin-bottom: 12px;
-    }
-    #tab-edit .simple-field label {
+    #tab-edit .edit-field label {
       display: block;
       font-weight: 600;
       font-size: 0.85rem;
       color: #1d4a5e;
       margin-bottom: 4px;
     }
-    #tab-edit .simple-field input {
+    #tab-edit .edit-field input,
+    #tab-edit .edit-field textarea {
       width: 100%;
       padding: 10px 14px;
       border: 2px solid #dce6ef;
       border-radius: 16px;
       font-size: 1rem;
       background: #f8fbfe;
+      font-family: inherit;
+      box-sizing: border-box;
     }
-    #tab-edit .simple-field input:focus {
-      border-color: #1f4b61;
-      outline: none;
-      background: white;
-    }
-    #tab-edit .btn-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-    #tab-edit .btn-row button {
-      flex: 1;
-      min-width: 100px;
-      padding: 12px;
-      border: none;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.1s;
-    }
-    #tab-edit .btn-row button:active {
-      transform: scale(0.96);
-    }
-    #tab-edit .btn-load {
-      background: #e7f3f0;
-      color: #1f6b5a;
-    }
-    #tab-edit .btn-save-edits {
-      background: #1f4b61;
-      color: white;
-    }
-    #tab-edit .edit-status {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 12px;
+    #tab-edit .edit-field textarea {
+      font-family: monospace;
+      resize: vertical;
       font-size: 0.9rem;
-      display: none;
     }
-    #tab-edit .edit-status.success {
-      display: block;
-      background: #e8f5e9;
-      border: 1px solid #a5d6a7;
-      color: #1b5e20;
-    }
-    #tab-edit .edit-status.error {
-      display: block;
-      background: #fce4ec;
-      border: 1px solid #ef9a9a;
-      color: #b71c1c;
-    }
-    #tab-edit .edit-status.warning {
-      display: block;
-      background: #fff3e0;
-      border: 1px solid #ffcc80;
-      color: #e65100;
-    }
-    #tab-edit .empty-msg {
-      color: #6b8a9e;
-      font-size: 0.85rem;
-      padding: 8px 0;
-    }
-    #tab-edit .pack-count-badge {
-      display: inline-block;
-      background: #1f4b61;
-      color: white;
-      border-radius: 30px;
-      padding: 2px 12px;
+    #tab-edit .helper-text {
       font-size: 0.7rem;
-      margin-right: 6px;
+      color: #6b8a9e;
+      margin-top: 4px;
+    }
+    #tab-edit .cig-list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px;
+      background: #f8fbfe;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      border: 1px solid #e8edf3;
+      font-size: 0.85rem;
+    }
+    #tab-edit .cig-list-item .timestamp {
+      color: #6b8a9e;
+      font-size: 0.75rem;
     }
 
     @media (max-width: 480px) {
       .stat-grid { grid-template-columns: 1fr 1fr 1fr; }
-      .corner-btn { width: 52px; height: 52px; font-size: 1.2rem; }
-      .corner-btn .fa-icon { font-size: 1.1rem; }
+      .corner-btn { width: 48px; height: 48px; font-size: 1.1rem; }
+      .corner-btn .fa-icon { font-size: 1rem; }
+      .corner-btn-wrapper .corner-btn-label {
+        font-size: 0.5rem;
+        max-width: 55px;
+        white-space: normal;
+      }
       .btn-circle-main { width: 120px; height: 120px; font-size: 1.3rem; }
       .btn-circle-main .main-icon { font-size: 1.8rem; }
       .app-container { padding: 20px 14px 28px; }
-      #tab-edit .edit-item {
-        flex-direction: column;
-        align-items: stretch;
+      .circle-layout {
+        min-height: 220px;
       }
-      #tab-edit .edit-item .item-label {
-        min-width: auto;
-        font-size: 0.75rem;
-      }
-      #tab-edit .edit-item input[type="datetime-local"] {
-        min-width: auto;
-        width: 100%;
-      }
-      #tab-edit .add-row {
-        flex-direction: column;
-      }
-      #tab-edit .add-row input[type="datetime-local"] {
-        width: 100%;
-        min-width: auto;
-      }
+      .corner-top-left { top: 0; left: 0; }
+      .corner-top-right { top: 0; right: 0; }
+      .corner-bottom-left { bottom: 0; left: 0; }
+      .corner-bottom-right { bottom: 0; right: 0; }
     }
   </style>
 </head>
@@ -671,14 +592,35 @@
     </div>
 
     <div class="circle-layout">
+      <!-- زر الإضافة الرئيسي -->
       <button class="btn-circle-main" id="logCigBtnM">
         <span class="main-icon">🚬</span>
         <small>أضف سجارة</small>
       </button>
-      <button class="corner-btn undo corner-top-left" id="undoBtnM" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
-      <button class="corner-btn reset corner-top-right" id="resetPackBtnM" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
-      
-      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnM" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
+
+      <!-- الزاوية العلوية اليسرى - تراجع -->
+      <div class="corner-btn-wrapper corner-top-left">
+        <button class="corner-btn undo" id="undoBtnM" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
+        <span class="corner-btn-label">تراجع</span>
+      </div>
+
+      <!-- الزاوية العلوية اليمنى - فتح علبة جديدة -->
+      <div class="corner-btn-wrapper corner-top-right">
+        <button class="corner-btn reset" id="resetPackBtnM" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
+        <span class="corner-btn-label">فتح علبة جديدة</span>
+      </div>
+
+      <!-- الزاوية السفلية اليسرى - تصدير -->
+      <div class="corner-btn-wrapper corner-bottom-left">
+        <button class="corner-btn export-btn" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
+        <span class="corner-btn-label">تصدير</span>
+      </div>
+
+      <!-- الزاوية السفلية اليمنى - مسح -->
+      <div class="corner-btn-wrapper corner-bottom-right">
+        <button class="corner-btn clear-btn" id="clearAllBtnM" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
+        <span class="corner-btn-label">مسح الكل</span>
+      </div>
     </div>
 
     <div class="progress-wrapper">
@@ -698,7 +640,6 @@
           <button class="report-daily active">يومي</button>
           <button class="report-weekly">أسبوعي</button>
           <button class="report-monthly">شهري</button>
-          <button class="corner-btn export-btn corner-bottom-left" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
         </div>
       </div>
       <div class="report-box" id="reportContentM">اختر تقريراً لعرض الإحصائيات</div>
@@ -716,14 +657,35 @@
     </div>
 
     <div class="circle-layout">
+      <!-- زر الإضافة الرئيسي -->
       <button class="btn-circle-main ready" id="logCigBtnQ">
         <span class="main-icon">🚬</span>
         <small>جاهز للتدخين</small>
       </button>
-      <button class="corner-btn undo corner-top-left" id="undoBtnQ" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
-      <button class="corner-btn reset corner-top-right" id="resetPackBtnQ" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
-      <button class="corner-btn settings-btn corner-bottom-left" id="settingsBtnQ" title="الإعدادات"><i class="fas fa-cog fa-icon"></i></button>
-      <button class="corner-btn clear-btn corner-bottom-right" id="clearAllBtnQ" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
+
+      <!-- الزاوية العلوية اليسرى - تراجع -->
+      <div class="corner-btn-wrapper corner-top-left">
+        <button class="corner-btn undo" id="undoBtnQ" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
+        <span class="corner-btn-label">تراجع</span>
+      </div>
+
+      <!-- الزاوية العلوية اليمنى - فتح علبة جديدة -->
+      <div class="corner-btn-wrapper corner-top-right">
+        <button class="corner-btn reset" id="resetPackBtnQ" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
+        <span class="corner-btn-label">فتح علبة جديدة</span>
+      </div>
+
+      <!-- الزاوية السفلية اليسرى - إعدادات -->
+      <div class="corner-btn-wrapper corner-bottom-left">
+        <button class="corner-btn settings-btn" id="settingsBtnQ" title="الإعدادات"><i class="fas fa-cog fa-icon"></i></button>
+        <span class="corner-btn-label">إعدادات</span>
+      </div>
+
+      <!-- الزاوية السفلية اليمنى - مسح -->
+      <div class="corner-btn-wrapper corner-bottom-right">
+        <button class="corner-btn clear-btn" id="clearAllBtnQ" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
+        <span class="corner-btn-label">مسح الكل</span>
+      </div>
     </div>
 
     <div class="progress-wrapper">
@@ -749,64 +711,96 @@
     </div>
   </div>
 
-  <!-- ====== تبويب تصحيح البيانات - واجهة سهلة الاستخدام ====== -->
+  <!-- ====== تبويب تصحيح البيانات ====== -->
   <div id="tab-edit" class="tab-content">
     <div class="stats-card">
       <h3 style="margin-bottom: 12px; color: #0b2a3b; font-size: 1.1rem;">
-        <i class="fas fa-pen" style="margin-left: 8px;"></i> تصحيح البيانات
+        <i class="fas fa-pen" style="margin-left: 8px;"></i> تعديل البيانات المخزنة
       </h3>
       <p style="font-size: 0.85rem; color: #5f7b8f; margin-bottom: 16px;">
-        <i class="fas fa-info-circle" style="margin-left: 6px;"></i> يمكنك تعديل تواريخ وأوقات السجائر والعلب بسهولة
+        ⚠️ تحذير: تعديل هذه البيانات سيؤثر مباشرة على الإحصائيات والتقارير
       </p>
-
-      <!-- قسم المعلومات الأساسية -->
-      <div class="edit-section">
-        <h4><i class="fas fa-info-circle"></i> المعلومات الأساسية</h4>
-        <div class="simple-field">
-          <label>عدد السجائر في العلبة الحالية</label>
+      
+      <div class="edit-row">
+        <!-- عدد السجائر الكلي -->
+        <div class="edit-field">
+          <label><i class="fas fa-smoking" style="margin-left: 6px;"></i> عدد السجائر الكلي</label>
+          <input type="number" id="editTotalCigarettes" min="0">
+        </div>
+        
+        <!-- عدد السجائر في العلبة الحالية -->
+        <div class="edit-field">
+          <label><i class="fas fa-box" style="margin-left: 6px;"></i> عدد السجائر في العلبة الحالية</label>
           <input type="number" id="editPackCount" min="0" max="20">
         </div>
-        <div class="simple-field">
-          <label>عدد العلب المفتوحة (الإجمالي)</label>
+        
+        <!-- عدد العلب المفتوحة -->
+        <div class="edit-field">
+          <label><i class="fas fa-box-open" style="margin-left: 6px;"></i> عدد العلب المفتوحة (الإجمالي)</label>
           <input type="number" id="editTotalPacks" min="1">
         </div>
-        <div class="simple-field">
-          <label>وقت فتح العلبة الحالية</label>
+        
+        <!-- وقت فتح العلبة الحالية -->
+        <div class="edit-field">
+          <label><i class="fas fa-clock" style="margin-left: 6px;"></i> وقت فتح العلبة الحالية</label>
           <input type="datetime-local" id="editPackOpenTime">
         </div>
-      </div>
-
-      <!-- قسم السجائر -->
-      <div class="edit-section">
-        <h4><i class="fas fa-smoking"></i> السجائر المسجلة <span class="pack-count-badge" id="cigCountBadge">0</span></h4>
-        <div id="cigarettesListContainer">
-          <div class="empty-msg">📌 لا توجد سجائر مسجلة</div>
+        
+        <!-- قائمة السجائر (توقيتات) مع عرض التاريخ والوقت -->
+        <div class="edit-field">
+          <label><i class="fas fa-list" style="margin-left: 6px;"></i> قائمة السجائر (توقيتات - JSON)</label>
+          <textarea id="editCigarettesList" rows="5" style="font-family: monospace; font-size: 0.85rem;"></textarea>
+          <div class="helper-text">📌 أدخل المصفوفة بصيغة JSON مع إمكانية عرض التاريخ والوقت</div>
+          <div id="cigListPreview" style="margin-top: 6px; max-height: 120px; overflow-y: auto; background: #f8fbfe; border-radius: 8px; padding: 6px 10px; border: 1px solid #e8edf3; font-size: 0.8rem; display: none;"></div>
         </div>
-        <div class="add-row">
-          <input type="datetime-local" id="editAddCigTime">
-          <button class="add-btn" id="editAddCigBtn"><i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة سجارة</button>
-        </div>
-      </div>
-
-      <!-- قسم العلب -->
-      <div class="edit-section">
-        <h4><i class="fas fa-box"></i> العلب المفتوحة <span class="pack-count-badge" id="packHistoryBadge">0</span></h4>
-        <div id="packsListContainer">
-          <div class="empty-msg">📌 لا توجد علب مسجلة</div>
-        </div>
-        <div class="add-row">
-          <input type="datetime-local" id="editAddPackTime">
-          <button class="add-btn" id="editAddPackBtn"><i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة علبة</button>
+        
+        <!-- تاريخ العلب (نص JSON) -->
+        <div class="edit-field">
+          <label><i class="fas fa-history" style="margin-left: 6px;"></i> تاريخ العلب (JSON)</label>
+          <textarea id="editPackHistory" rows="3" style="font-family: monospace; font-size: 0.85rem;"></textarea>
+          <div class="helper-text">📌 أدخل المصفوفة بصيغة JSON: [{"openedAt": 1612345678901}, ...]</div>
         </div>
       </div>
 
-      <!-- أزرار التحكم -->
-      <div class="btn-row">
-        <button class="btn-load" id="loadDataBtn"><i class="fas fa-download" style="margin-left: 6px;"></i> تحميل البيانات</button>
-        <button class="btn-save-edits" id="saveDataBtn"><i class="fas fa-save" style="margin-left: 6px;"></i> حفظ التعديلات</button>
+      <!-- حقل مساعد لإضافة توقيت جديد -->
+      <div style="margin-top: 16px; padding: 14px; background: #f0f7fa; border-radius: 16px; border: 1px dashed #b0c8d8;">
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 6px;">
+          <i class="fas fa-plus-circle" style="margin-left: 6px;"></i> إضافة سيجارة بتوقيت محدد
+        </label>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <input type="datetime-local" id="editAddCigTime" style="flex: 2; min-width: 150px; padding: 8px 12px; border: 2px solid #dce6ef; border-radius: 12px; font-size: 0.9rem; background: white;">
+          <button id="editAddCigBtn" style="flex: 1; min-width: 80px; padding: 8px 12px; border: none; border-radius: 12px; background: #1f4b61; color: white; font-weight: 600; cursor: pointer;">
+            <i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة
+          </button>
+        </div>
+        <div class="helper-text">📌 اختر التاريخ والوقت ثم اضغط إضافة لإدراج توقيت جديد في القائمة</div>
+      </div>
+
+      <!-- حقل مساعد لتحويل التوقيت ↔ تاريخ -->
+      <div style="margin-top: 10px; padding: 14px; background: #f4faff; border-radius: 16px; border: 1px solid #dfe9f2;">
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 6px;">
+          <i class="fas fa-exchange-alt" style="margin-left: 6px;"></i> تحويل التوقيت ↔ تاريخ
+        </label>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <input type="text" id="editTimestampInput" placeholder="أدخل التوقيت أو التاريخ" style="flex: 2; min-width: 150px; padding: 8px 12px; border: 2px solid #dce6ef; border-radius: 12px; font-size: 0.9rem; background: white;">
+          <button id="editTimestampToDate" style="flex: 1; min-width: 80px; padding: 8px 12px; border: none; border-radius: 12px; background: #e7f3f0; color: #1f6b5a; font-weight: 600; cursor: pointer;">
+            <i class="fas fa-arrow-left" style="margin-left: 4px;"></i> تحويل
+          </button>
+        </div>
+        <div id="editTimestampResult" style="margin-top: 6px; font-size: 0.85rem; color: #1d4a5e; background: white; padding: 6px 12px; border-radius: 8px; border: 1px solid #dce6ef; min-height: 24px;"></div>
+        <div class="helper-text">📌 أدخل التوقيت (رقم) وسيظهر التاريخ المقابل، أو أدخل التاريخ وسيظهر التوقيت</div>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
+        <button id="loadDataBtn" style="flex: 1; min-width: 120px; padding: 12px; border: none; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; background: #e7f3f0; color: #1f6b5a;">
+          <i class="fas fa-download" style="margin-left: 6px;"></i> تحميل البيانات
+        </button>
+        <button id="saveDataBtn" style="flex: 1; min-width: 120px; padding: 12px; border: none; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; background: #1f4b61; color: white;">
+          <i class="fas fa-save" style="margin-left: 6px;"></i> حفظ التعديلات
+        </button>
       </div>
       
-      <div id="editStatus" class="edit-status"></div>
+      <div id="editStatus" style="margin-top: 12px; padding: 10px; border-radius: 12px; background: #f4faff; border: 1px solid #dfe9f2; font-size: 0.9rem; display: none;"></div>
     </div>
   </div>
 
@@ -897,11 +891,6 @@
     function formatFullDate(ts) {
       if (!ts) return '--';
       return new Date(ts).toLocaleString('ar-EG', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-    }
-    function formatDateTimeLocal(ts) {
-      if (!ts) return '';
-      const date = new Date(ts);
-      return date.toISOString().slice(0, 16);
     }
     function startOfDay(ts) {
       const d = new Date(ts); d.setHours(0,0,0,0); return d.getTime();
@@ -1280,166 +1269,91 @@
       updateTab('Q', data, settings);
     }
 
-    // -------- تبويب تصحيح البيانات - واجهة سهلة --------
+    // -------- تبويب تصحيح البيانات --------
+    function formatTimestampWithDate(ts) {
+      if (!ts) return '---';
+      const date = new Date(ts);
+      if (isNaN(date.getTime())) return '---';
+      const dateStr = date.toLocaleString('ar-EG', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      return `${ts} (${dateStr})`;
+    }
+
     function loadDataToEdit() {
       const data = loadData();
       
-      // المعلومات الأساسية
+      document.getElementById('editTotalCigarettes').value = data.cigarettes.length;
       document.getElementById('editPackCount').value = data.packCount || 0;
       document.getElementById('editTotalPacks').value = data.totalPacks || 1;
+      
       if (data.packOpenTime) {
-        document.getElementById('editPackOpenTime').value = formatDateTimeLocal(data.packOpenTime);
+        const date = new Date(data.packOpenTime);
+        const formatted = date.toISOString().slice(0, 16);
+        document.getElementById('editPackOpenTime').value = formatted;
       } else {
         document.getElementById('editPackOpenTime').value = '';
       }
-
-      // عرض السجائر
-      const cigContainer = document.getElementById('cigarettesListContainer');
-      document.getElementById('cigCountBadge').textContent = data.cigarettes.length;
       
+      // عرض قائمة السجائر مع التاريخ والوقت
+      const cigsText = JSON.stringify(data.cigarettes, null, 2);
+      document.getElementById('editCigarettesList').value = cigsText;
+      
+      // عرض معاينة مع التواريخ
+      const previewEl = document.getElementById('cigListPreview');
       if (data.cigarettes && data.cigarettes.length > 0) {
-        const sorted = [...data.cigarettes].sort((a, b) => a - b);
-        let html = '';
+        let previewHtml = '<div style="font-weight:600;margin-bottom:4px;font-size:0.8rem;">📋 معاينة السجائر (مع التواريخ):</div>';
+        const sorted = [...data.cigarettes].sort((a,b) => a-b);
         sorted.forEach((ts, idx) => {
-          const dateStr = formatDateTimeLocal(ts);
-          const displayDate = new Date(ts).toLocaleString('ar-EG', {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit'
+          const dateStr = new Date(ts).toLocaleString('ar-EG', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
           });
-          html += `
-            <div class="edit-item" data-index="${idx}">
-              <span class="item-label">سجارة ${idx+1}:</span>
-              <input type="datetime-local" value="${dateStr}" class="cig-time-input" data-original="${ts}">
-              <button class="delete-btn" onclick="window.deleteCigarette(${idx})" title="حذف"><i class="fas fa-times"></i></button>
-            </div>
-          `;
+          previewHtml += `<div class="cig-list-item">سجارة ${idx+1}: <span>${dateStr}</span> <span class="timestamp">(${ts})</span></div>`;
         });
-        cigContainer.innerHTML = html;
-        
-        // ربط أحداث التغيير في حقول الوقت
-        document.querySelectorAll('.cig-time-input').forEach((input, idx) => {
-          input.addEventListener('change', function() {
-            const newDate = new Date(this.value);
-            if (!isNaN(newDate.getTime())) {
-              const data = loadData();
-              const sorted = [...data.cigarettes].sort((a, b) => a - b);
-              if (idx < sorted.length) {
-                // تحديث التوقيت في المصفوفة
-                const oldValue = sorted[idx];
-                const indexInData = data.cigarettes.indexOf(oldValue);
-                if (indexInData !== -1) {
-                  data.cigarettes[indexInData] = newDate.getTime();
-                  saveData(data);
-                  showEditStatus(`✅ تم تحديث وقت سجارة ${idx+1}`, 'success');
-                  updateUI();
-                }
-              }
-            }
-          });
-        });
+        previewEl.innerHTML = previewHtml;
+        previewEl.style.display = 'block';
       } else {
-        cigContainer.innerHTML = '<div class="empty-msg">📌 لا توجد سجائر مسجلة</div>';
-      }
-
-      // عرض العلب
-      const packContainer = document.getElementById('packsListContainer');
-      document.getElementById('packHistoryBadge').textContent = data.packHistory ? data.packHistory.length : 0;
-      
-      if (data.packHistory && data.packHistory.length > 0) {
-        let html = '';
-        data.packHistory.forEach((p, idx) => {
-          const ts = p.openedAt;
-          const dateStr = formatDateTimeLocal(ts);
-          const displayDate = new Date(ts).toLocaleString('ar-EG', {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit'
-          });
-          html += `
-            <div class="edit-item" data-pack-index="${idx}">
-              <span class="item-label">علبة ${idx+1}:</span>
-              <input type="datetime-local" value="${dateStr}" class="pack-time-input" data-original="${ts}">
-              <button class="delete-btn" onclick="window.deletePack(${idx})" title="حذف"><i class="fas fa-times"></i></button>
-            </div>
-          `;
-        });
-        packContainer.innerHTML = html;
-        
-        document.querySelectorAll('.pack-time-input').forEach((input, idx) => {
-          input.addEventListener('change', function() {
-            const newDate = new Date(this.value);
-            if (!isNaN(newDate.getTime())) {
-              const data = loadData();
-              if (idx < data.packHistory.length) {
-                data.packHistory[idx].openedAt = newDate.getTime();
-                saveData(data);
-                showEditStatus(`✅ تم تحديث وقت علبة ${idx+1}`, 'success');
-                updateUI();
-              }
-            }
-          });
-        });
-      } else {
-        packContainer.innerHTML = '<div class="empty-msg">📌 لا توجد علب مسجلة</div>';
+        previewEl.innerHTML = '📌 لا توجد سجائر مسجلة';
+        previewEl.style.display = 'block';
       }
       
-      showEditStatus('✅ تم تحميل البيانات الحالية', 'success');
+      // تاريخ العلب
+      document.getElementById('editPackHistory').value = JSON.stringify(data.packHistory || [], null, 2);
+      
+      showEditStatus('✅ تم تحميل البيانات الحالية بنجاح', 'success');
     }
-
-    // دوال الحذف - يتم ربطها بالنافذة
-    window.deleteCigarette = function(index) {
-      if (confirm(`هل أنت متأكد من حذف سجارة ${index+1}؟`)) {
-        const data = loadData();
-        const sorted = [...data.cigarettes].sort((a, b) => a - b);
-        if (index < sorted.length) {
-          const valueToRemove = sorted[index];
-          const idxInData = data.cigarettes.indexOf(valueToRemove);
-          if (idxInData !== -1) {
-            data.cigarettes.splice(idxInData, 1);
-            // تحديث packCount إذا لزم الأمر
-            if (data.packCount > 0) data.packCount -= 1;
-            saveData(data);
-            updateUI();
-            loadDataToEdit();
-            showEditStatus(`✅ تم حذف سجارة ${index+1}`, 'success');
-          }
-        }
-      }
-    };
-
-    window.deletePack = function(index) {
-      if (confirm(`هل أنت متأكد من حذف علبة ${index+1}؟`)) {
-        const data = loadData();
-        if (index < data.packHistory.length) {
-          data.packHistory.splice(index, 1);
-          data.totalPacks = Math.max(1, data.totalPacks - 1);
-          if (data.totalPacks === 0) data.totalPacks = 1;
-          saveData(data);
-          updateUI();
-          loadDataToEdit();
-          showEditStatus(`✅ تم حذف علبة ${index+1}`, 'success');
-        }
-      }
-    };
-
+    
     function saveEditedData() {
       try {
         const data = loadData();
         
-        // حفظ عدد السجائر في العلبة
+        const totalCigarettes = parseInt(document.getElementById('editTotalCigarettes').value);
+        if (isNaN(totalCigarettes) || totalCigarettes < 0) {
+          throw new Error('عدد السجائر الكلي يجب أن يكون رقماً موجباً');
+        }
+        
         const packCount = parseInt(document.getElementById('editPackCount').value);
         if (isNaN(packCount) || packCount < 0 || packCount > 20) {
           throw new Error('عدد السجائر في العلبة يجب أن يكون بين 0 و 20');
         }
         data.packCount = packCount;
         
-        // حفظ عدد العلب
         const totalPacks = parseInt(document.getElementById('editTotalPacks').value);
         if (isNaN(totalPacks) || totalPacks < 1) {
           throw new Error('عدد العلب المفتوحة يجب أن يكون على الأقل 1');
         }
         data.totalPacks = totalPacks;
         
-        // حفظ وقت فتح العلبة
         const packOpenTimeStr = document.getElementById('editPackOpenTime').value;
         if (packOpenTimeStr) {
           const packOpenTime = new Date(packOpenTimeStr).getTime();
@@ -1447,12 +1361,48 @@
             throw new Error('تنسيق الوقت غير صحيح');
           }
           data.packOpenTime = packOpenTime;
+        } else {
+          data.packOpenTime = Date.now();
+        }
+        
+        const cigsText = document.getElementById('editCigarettesList').value.trim();
+        if (cigsText) {
+          let cigarettes = JSON.parse(cigsText);
+          if (!Array.isArray(cigarettes)) {
+            throw new Error('قائمة السجائر يجب أن تكون مصفوفة');
+          }
+          cigarettes = cigarettes.map(ts => {
+            const num = Number(ts);
+            if (isNaN(num)) throw new Error('القيمة غير صالحة: ' + ts);
+            return num;
+          });
+          data.cigarettes = cigarettes;
+        } else {
+          data.cigarettes = [];
+        }
+        
+        const historyText = document.getElementById('editPackHistory').value.trim();
+        if (historyText) {
+          let packHistory = JSON.parse(historyText);
+          if (!Array.isArray(packHistory)) {
+            throw new Error('تاريخ العلب يجب أن يكون مصفوفة');
+          }
+          data.packHistory = packHistory;
+        } else {
+          data.packHistory = [];
+        }
+        
+        if (data.cigarettes.length !== totalCigarettes) {
+          showEditStatus(`⚠️ تحذير: عدد السجائر الكلي (${totalCigarettes}) لا يتطابق مع طول المصفوفة (${data.cigarettes.length}). تم استخدام المصفوفة.`, 'warning');
         }
         
         saveData(data);
         updateUI();
-        loadDataToEdit();
-        showEditStatus('✅ تم حفظ التعديلات بنجاح', 'success');
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+        
+        showEditStatus('✅ تم حفظ التعديلات بنجاح وتحديث جميع الإحصائيات', 'success');
+        loadDataToEdit(); // إعادة تحميل البيانات لعرض المعاينة المحدثة
         
       } catch (error) {
         showEditStatus('❌ خطأ: ' + error.message, 'error');
@@ -1461,8 +1411,11 @@
     
     function showEditStatus(message, type) {
       const statusEl = document.getElementById('editStatus');
-      statusEl.textContent = message;
-      statusEl.className = 'edit-status ' + type;
+      statusEl.style.display = 'block';
+      statusEl.innerHTML = message;
+      statusEl.style.background = type === 'success' ? '#e8f5e9' : type === 'warning' ? '#fff3e0' : '#fce4ec';
+      statusEl.style.borderColor = type === 'success' ? '#a5d6a7' : type === 'warning' ? '#ffcc80' : '#ef9a9a';
+      statusEl.style.color = type === 'success' ? '#1b5e20' : type === 'warning' ? '#e65100' : '#b71c1c';
     }
 
     // -------- ربط الأحداث --------
@@ -1475,6 +1428,7 @@
           document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
           document.getElementById(this.dataset.tab).classList.add('active');
           
+          // إذا تم فتح تبويب التحرير، نقوم بتحميل البيانات
           if (this.dataset.tab === 'tab-edit') {
             setTimeout(loadDataToEdit, 150);
           }
@@ -1543,61 +1497,116 @@
       document.getElementById('loadDataBtn').addEventListener('click', loadDataToEdit);
       document.getElementById('saveDataBtn').addEventListener('click', saveEditedData);
 
-      // إضافة سجارة
+      // إضافة سيجارة بتوقيت محدد
       document.getElementById('editAddCigBtn').addEventListener('click', function() {
-        const dateTimeStr = document.getElementById('editAddCigTime').value;
-        if (!dateTimeStr) {
-          alert('⚠️ الرجاء اختيار التاريخ والوقت');
-          return;
+        try {
+          const dateTimeStr = document.getElementById('editAddCigTime').value;
+          if (!dateTimeStr) {
+            alert('⚠️ الرجاء اختيار التاريخ والوقت');
+            return;
+          }
+          
+          const date = new Date(dateTimeStr);
+          if (isNaN(date.getTime())) {
+            alert('⚠️ تنسيق التاريخ غير صحيح');
+            return;
+          }
+          
+          const timestamp = date.getTime();
+          
+          const cigsText = document.getElementById('editCigarettesList').value.trim();
+          let cigarettes = cigsText ? JSON.parse(cigsText) : [];
+          if (!Array.isArray(cigarettes)) {
+            cigarettes = [];
+          }
+          
+          cigarettes.push(timestamp);
+          cigarettes.sort((a, b) => a - b);
+          
+          document.getElementById('editCigarettesList').value = JSON.stringify(cigarettes, null, 2);
+          document.getElementById('editTotalCigarettes').value = cigarettes.length;
+          
+          const dateStr = new Date(timestamp).toLocaleString('ar-EG', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+          showEditStatus(`✅ تم إضافة سجارة في ${dateStr} (التوقيت: ${timestamp})`, 'success');
+          loadDataToEdit(); // تحديث المعاينة
+          
+        } catch (error) {
+          showEditStatus('❌ خطأ: ' + error.message, 'error');
         }
-        const date = new Date(dateTimeStr);
-        if (isNaN(date.getTime())) {
-          alert('⚠️ تنسيق التاريخ غير صحيح');
-          return;
-        }
-        const timestamp = date.getTime();
-        
-        const data = loadData();
-        data.cigarettes.push(timestamp);
-        data.cigarettes.sort((a, b) => a - b);
-        data.packCount = Math.min(MAX_PER_PACK, data.packCount + 1);
-        saveData(data);
-        updateUI();
-        loadDataToEdit();
-        const dateStr = date.toLocaleString('ar-EG', {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit'
-        });
-        showEditStatus(`✅ تم إضافة سجارة في ${dateStr}`, 'success');
       });
 
-      // إضافة علبة
-      document.getElementById('editAddPackBtn').addEventListener('click', function() {
-        const dateTimeStr = document.getElementById('editAddPackTime').value;
-        if (!dateTimeStr) {
-          alert('⚠️ الرجاء اختيار التاريخ والوقت');
-          return;
-        }
-        const date = new Date(dateTimeStr);
-        if (isNaN(date.getTime())) {
-          alert('⚠️ تنسيق التاريخ غير صحيح');
-          return;
-        }
-        const timestamp = date.getTime();
+      // تحويل التوقيت إلى تاريخ والعكس
+      document.getElementById('editTimestampToDate').addEventListener('click', function() {
+        const input = document.getElementById('editTimestampInput').value.trim();
+        const resultEl = document.getElementById('editTimestampResult');
         
-        const data = loadData();
-        if (!data.packHistory) data.packHistory = [];
-        data.packHistory.push({ openedAt: timestamp });
-        data.packHistory.sort((a, b) => a.openedAt - b.openedAt);
-        data.totalPacks = data.packHistory.length;
-        saveData(data);
-        updateUI();
-        loadDataToEdit();
-        const dateStr = date.toLocaleString('ar-EG', {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit'
-        });
-        showEditStatus(`✅ تم إضافة علبة في ${dateStr}`, 'success');
+        if (!input) {
+          resultEl.textContent = '⚠️ الرجاء إدخال قيمة';
+          resultEl.style.color = '#e65100';
+          return;
+        }
+        
+        const num = Number(input);
+        if (!isNaN(num) && num > 0 && Number.isInteger(num)) {
+          const date = new Date(num);
+          if (!isNaN(date.getTime())) {
+            const dateStr = date.toLocaleString('ar-EG', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit'
+            });
+            resultEl.textContent = `📅 ${dateStr} (التوقيت: ${num})`;
+            resultEl.style.color = '#1b5e20';
+            return;
+          }
+        }
+        
+        try {
+          let date = new Date(input);
+          if (isNaN(date.getTime())) {
+            date = new Date(input.replace(' ', 'T'));
+          }
+          
+          if (!isNaN(date.getTime())) {
+            const timestamp = date.getTime();
+            const dateStr = date.toLocaleString('ar-EG', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit'
+            });
+            resultEl.textContent = `⏱️ ${timestamp} (التاريخ: ${dateStr})`;
+            resultEl.style.color = '#1b5e20';
+            return;
+          }
+        } catch (e) {}
+        
+        resultEl.textContent = '❌ لا يمكن تحويل القيمة المدخلة. تأكد من التنسيق.';
+        resultEl.style.color = '#b71c1c';
+      });
+
+      document.getElementById('editTimestampInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          document.getElementById('editTimestampToDate').click();
+        }
+      });
+      
+      document.getElementById('editAddCigTime').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          document.getElementById('editAddCigBtn').click();
+        }
       });
 
       // تهيئة البيانات
