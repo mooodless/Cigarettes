@@ -125,6 +125,8 @@
     }
     .stat-value.small { font-size: 0.95rem; }
     .stat-value.warning { color: #b13a3a; }
+    .stat-value.countdown { color: #c44545; }
+    .stat-value.countdown.ready { color: #2b7a62; }
 
     /* الحاوية الرئيسية للزر الدائري والأزرار الجانبية */
     .circle-layout {
@@ -141,7 +143,7 @@
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      background: #1f4b61;
+      background: #964f9c;
       border: none;
       color: white;
       font-size: 1.6rem;
@@ -174,7 +176,7 @@
       opacity: 0.85;
     }
     .btn-circle-main.ready {
-      background: #ffffff;
+      background: #b0ebc5;
       color: #1f4b61;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 0 0 4px rgba(31,75,97,0.15);
     }
@@ -444,13 +446,14 @@
 <div class="app-container" id="app">
   <h1>
     🚭 أقلع الآن
-    <small>v3.1</small>
+    <small>v3.2</small>
   </h1>
 
   <!-- التبويبات -->
   <div class="tabs-container">
     <button class="tab-btn active" data-tab="tab-monitor"><i class="fas fa-chart-line" style="margin-left:6px;"></i> مراقبة التدخين</button>
-    <button class="tab-btn" data-tab="tab-quit"><i class="fas fa-rocket" style="margin-left:6px;"></i> بدء الإقلاع</button>
+    <button class="tab-btn" data-tab="tab-quit"><i style="margin-left:6px;"></i>🚭 بدء الإقلاع عن التدخين</button>
+    <button class="tab-btn" data-tab="tab-edit"><i class="fas fa-edit" style="margin-left:6px;"></i> تصحيح البيانات</button>
   </div>
 
   <!-- ====== تبويب المراقبة ====== -->
@@ -503,7 +506,7 @@
       <div class="stat-grid">
         <div class="stat-item"><span class="stat-label"><i class="fas fa-smoking" style="margin-left:4px;"></i> اليوم</span><div class="stat-value" id="todayCountQ">0</div></div>
         <div class="stat-item"><span class="stat-label"><i class="fas fa-box" style="margin-left:4px;"></i> العلب المفتوحة</span><div class="stat-value" id="packCountQ">1</div></div>
-        <div class="stat-item"><span class="stat-label"><i class="fas fa-clock" style="margin-left:4px;"></i> الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastQ">--</div></div>
+        <div class="stat-item"><span class="stat-label"><i class="fas fa-clock" style="margin-left:4px;"></i> الوقت الفاصل</span><div class="stat-value small countdown" id="timeSinceLastQ">--</div></div>
       </div>
     </div>
 
@@ -543,7 +546,107 @@
 
   <div class="footer-note">جميع البيانات محفوظة محلياً</div>
 </div>
-
+<!-- ====== تبويب تصحيح البيانات ====== -->
+<div id="tab-edit" class="tab-content">
+  <div class="stats-card">
+    <h3 style="margin-bottom: 12px; color: #0b2a3b; font-size: 1.1rem;">
+      <i class="fas fa-pen" style="margin-left: 8px;"></i> تعديل البيانات المخزنة
+    </h3>
+    <p style="font-size: 0.85rem; color: #5f7b8f; margin-bottom: 16px;">
+      ⚠️ تحذير: تعديل هذه البيانات سيؤثر مباشرة على الإحصائيات والتقارير
+    </p>
+    
+    <div style="display: grid; gap: 12px;">
+      <!-- عدد السجائر الكلي -->
+      <div>
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+          <i class="fas fa-smoking" style="margin-left: 6px;"></i> عدد السجائر الكلي
+        </label>
+        <input type="number" id="editTotalCigarettes" min="0" style="width: 100%; padding: 10px 14px; border: 2px solid #dce6ef; border-radius: 16px; font-size: 1rem; background: #f8fbfe;">
+      </div>
+      
+      <!-- عدد السجائر في العلبة الحالية -->
+      <div>
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+          <i class="fas fa-box" style="margin-left: 6px;"></i> عدد السجائر في العلبة الحالية
+        </label>
+        <input type="number" id="editPackCount" min="0" max="20" style="width: 100%; padding: 10px 14px; border: 2px solid #dce6ef; border-radius: 16px; font-size: 1rem; background: #f8fbfe;">
+      </div>
+      
+      <!-- عدد العلب المفتوحة -->
+      <div>
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+          <i class="fas fa-box-open" style="margin-left: 6px;"></i> عدد العلب المفتوحة (الإجمالي)
+        </label>
+        <input type="number" id="editTotalPacks" min="1" style="width: 100%; padding: 10px 14px; border: 2px solid #dce6ef; border-radius: 16px; font-size: 1rem; background: #f8fbfe;">
+      </div>
+      
+      <!-- وقت فتح العلبة الحالية -->
+      <div>
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+          <i class="fas fa-clock" style="margin-left: 6px;"></i> وقت فتح العلبة الحالية
+        </label>
+        <input type="datetime-local" id="editPackOpenTime" style="width: 100%; padding: 10px 14px; border: 2px solid #dce6ef; border-radius: 16px; font-size: 1rem; background: #f8fbfe;">
+      </div>
+      
+      <!-- قائمة السجائر (نص JSON) -->
+      <div>
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+          <i class="fas fa-list" style="margin-left: 6px;"></i> قائمة السجائر (توقيتات - JSON)
+        </label>
+        <textarea id="editCigarettesList" rows="4" style="width: 100%; padding: 10px 14px; border: 2px solid #dce6ef; border-radius: 16px; font-size: 0.9rem; background: #f8fbfe; font-family: monospace; resize: vertical;"></textarea>
+        <small style="color: #6b8a9e; font-size: 0.7rem;">📌 أدخل المصفوفة بصيغة JSON: [1612345678901, 1612345678902, ...]</small>
+      </div>
+      
+      <!-- تاريخ العلب (نص JSON) -->
+      <div>
+        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+          <i class="fas fa-history" style="margin-left: 6px;"></i> تاريخ العلب (JSON)
+        </label>
+        <textarea id="editPackHistory" rows="3" style="width: 100%; padding: 10px 14px; border: 2px solid #dce6ef; border-radius: 16px; font-size: 0.9rem; background: #f8fbfe; font-family: monospace; resize: vertical;"></textarea>
+        <small style="color: #6b8a9e; font-size: 0.7rem;">📌 أدخل المصفوفة بصيغة JSON: [{"openedAt": 1612345678901}, ...]</small>
+      </div>
+    </div>
+    <!-- حقل مساعد لإضافة توقيت جديد -->
+    <div style="margin-top: 12px; padding: 12px; background: #f0f7fa; border-radius: 16px; border: 1px dashed #b0c8d8;">
+      <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+        <i class="fas fa-plus-circle" style="margin-left: 6px;"></i> إضافة سيجارة بتوقيت محدد
+      </label>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <input type="datetime-local" id="editAddCigTime" style="flex: 2; min-width: 150px; padding: 8px 12px; border: 2px solid #dce6ef; border-radius: 12px; font-size: 0.9rem; background: white;">
+        <button id="editAddCigBtn" style="flex: 1; min-width: 80px; padding: 8px 12px; border: none; border-radius: 12px; background: #1f4b61; color: white; font-weight: 600; cursor: pointer;">
+          <i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة
+        </button>
+      </div>
+      <small style="color: #6b8a9e; font-size: 0.7rem;">📌 اختر التاريخ والوقت ثم اضغط إضافة لإدراج توقيت جديد في القائمة</small>
+    </div>
+    
+    <!-- حقل مساعد لتحويل التوقيت إلى تاريخ -->
+    <div style="margin-top: 8px; padding: 12px; background: #f4faff; border-radius: 16px; border: 1px solid #dfe9f2;">
+      <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 4px;">
+        <i class="fas fa-exchange-alt" style="margin-left: 6px;"></i> تحويل التوقيت ↔ تاريخ
+      </label>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <input type="text" id="editTimestampInput" placeholder="أدخل التوقيت (مثال: 1782186978024)" style="flex: 2; min-width: 150px; padding: 8px 12px; border: 2px solid #dce6ef; border-radius: 12px; font-size: 0.9rem; background: white;">
+        <button id="editTimestampToDate" style="flex: 1; min-width: 80px; padding: 8px 12px; border: none; border-radius: 12px; background: #e7f3f0; color: #1f6b5a; font-weight: 600; cursor: pointer;">
+          <i class="fas fa-arrow-left" style="margin-left: 4px;"></i> تحويل
+        </button>
+      </div>
+      <div id="editTimestampResult" style="margin-top: 6px; font-size: 0.85rem; color: #1d4a5e; background: white; padding: 6px 12px; border-radius: 8px; border: 1px solid #dce6ef; min-height: 24px;"></div>
+      <small style="color: #6b8a9e; font-size: 0.7rem;">📌 أدخل التوقيت (رقم) وسيظهر التاريخ المقابل، أو أدخل التاريخ وسيظهر التوقيت</small>
+    </div>
+    <div style="display: flex; gap: 12px; margin-top: 20px;">
+      <button id="loadDataBtn" style="flex: 1; padding: 12px; border: none; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; background: #e7f3f0; color: #1f6b5a;">
+        <i class="fas fa-download" style="margin-left: 6px;"></i> تحميل البيانات الحالية
+      </button>
+      <button id="saveDataBtn" style="flex: 1; padding: 12px; border: none; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; background: #1f4b61; color: white;">
+        <i class="fas fa-save" style="margin-left: 6px;"></i> حفظ التعديلات
+      </button>
+    </div>
+    
+    <div id="editStatus" style="margin-top: 12px; padding: 10px; border-radius: 12px; background: #f4faff; border: 1px solid #dfe9f2; font-size: 0.9rem; display: none;"></div>
+  </div>
+</div>
 <!-- مودال الإعدادات -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal-box">
@@ -639,6 +742,7 @@
       const d = new Date(ts); d.setHours(0,0,0,0); d.setDate(1); return d.getTime();
     }
 
+    // حساب الوقت المنقضي مع إضافة الساعات
     function getTimeSinceLast(cigarettes) {
       if (!cigarettes || cigarettes.length === 0) return null;
       const last = cigarettes[cigarettes.length - 1];
@@ -646,9 +750,88 @@
       const diffMs = now - last;
       if (diffMs < 0) return null;
       const diffSec = Math.floor(diffMs / 1000);
-      const minutes = Math.floor(diffSec / 60);
+      const hours = Math.floor(diffSec / 3600);
+      const minutes = Math.floor((diffSec % 3600) / 60);
       const seconds = diffSec % 60;
-      return { minutes, seconds };
+      return { hours, minutes, seconds };
+    }
+
+    // حساب الوقت المتبقي للعد التنازلي
+    function getRemainingTime(cigarettes, waitMinutes) {
+      if (!cigarettes || cigarettes.length === 0) return null;
+      const last = cigarettes[cigarettes.length - 1];
+      const now = Date.now();
+      const elapsedMs = now - last;
+      const waitMs = waitMinutes * 60 * 1000;
+      const remainingMs = waitMs - elapsedMs;
+      if (remainingMs <= 0) return null; // الوقت انتهى
+      const diffSec = Math.floor(remainingMs / 1000);
+      const hours = Math.floor(diffSec / 3600);
+      const minutes = Math.floor((diffSec % 3600) / 60);
+      const seconds = diffSec % 60;
+      return { hours, minutes, seconds };
+    }
+
+    // تنسيق الوقت الفاصل مع الساعات والدقائق والثواني
+    function formatTimeInterval(timeObj) {
+      if (!timeObj) return '--';
+      const { hours, minutes, seconds } = timeObj;
+      if (hours === 0 && minutes === 0) {
+        return `${seconds} ث`;
+      } else if (hours === 0) {
+        return `${minutes} د ${seconds} ث`;
+      } else {
+        return `${hours} س ${minutes} د ${seconds} ث`;
+      }
+    }
+
+    // تنسيق وقت العد التنازلي (يظهر الساعات والدقائق والثواني)
+    function formatCountdown(timeObj) {
+      if (!timeObj) return 'جاهز ✓';
+      const { hours, minutes, seconds } = timeObj;
+      if (hours === 0 && minutes === 0) {
+        return `${seconds} ث`;
+      } else if (hours === 0) {
+        return `${minutes} د ${seconds} ث`;
+      } else {
+        return `${hours} س ${minutes} د ${seconds} ث`;
+      }
+    }
+
+    // دالة لحساب الفروقات الزمنية بين السجائر المتتالية
+    function getTimeDifferences(cigarettes) {
+      if (!cigarettes || cigarettes.length < 2) return [];
+      const sorted = [...cigarettes].sort((a, b) => a - b);
+      const differences = [];
+      for (let i = 1; i < sorted.length; i++) {
+        const diffMs = sorted[i] - sorted[i-1];
+        if (diffMs < 0) continue;
+        const diffSec = Math.floor(diffMs / 1000);
+        const hours = Math.floor(diffSec / 3600);
+        const minutes = Math.floor((diffSec % 3600) / 60);
+        const seconds = diffSec % 60;
+        differences.push({ hours, minutes, seconds });
+      }
+      return differences;
+    }
+
+    // تنسيق الفروقات الزمنية لعرضها في التقرير
+    function formatTimeDifferences(diffs) {
+      if (!diffs || diffs.length === 0) return 'لا توجد فروقات زمنية (أقل من سيجارتين)';
+      const lines = [];
+      diffs.forEach((diff, index) => {
+        const { hours, minutes, seconds } = diff;
+        let text = `بين السيجارة ${index+1} و ${index+2}: `;
+        if (hours === 0 && minutes === 0) {
+          text += `${seconds} ثانية`;
+        } else if (hours === 0) {
+          text += `${minutes} دقيقة ${seconds} ثانية`;
+        } else {
+          text += `${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+        }
+        lines.push(text);
+      });
+      return lines.join('\n');
     }
 
     function getCigsInRange(data, startTs, endTs = Date.now()) {
@@ -673,41 +856,38 @@
       if (pct >= 85) fill.classList.add('warning'); else fill.classList.remove('warning');
       document.getElementById(`progressText${tabId}`).innerText = `${packCount} / ${MAX_PER_PACK}`;
 
-      const timeSince = getTimeSinceLast(data.cigarettes);
       const timeEl = document.getElementById(`timeSinceLast${tabId}`);
-      if (timeSince) {
-        const { minutes, seconds } = timeSince;
-        if (minutes === 0) {
-          timeEl.innerText = `${seconds} ث`;
-        } else {
-          timeEl.innerText = `${minutes} د ${seconds} ث`;
-        }
-      } else {
-        timeEl.innerText = '--';
-      }
+      const btn = document.getElementById('logCigBtnQ');
 
-      // تحديث حالة زر الإقلاع
       if (tabId === 'Q') {
-        const btn = document.getElementById('logCigBtnQ');
-        const cigs = data.cigarettes;
-        const lastCig = cigs.length > 0 ? cigs[cigs.length - 1] : null;
+        // تبويب الإقلاع: عرض الوقت التنازلي
         const waitMinutes = settings.waitTime || 30;
-        let isReady = true;
-        if (lastCig) {
-          const elapsed = (now - lastCig) / (1000 * 60);
-          if (elapsed < waitMinutes) {
-            isReady = false;
-          }
-        }
-        if (isReady) {
-          btn.className = 'btn-circle-main ready';
-          btn.querySelector('.main-icon').innerText = '🚬';
-          btn.querySelector('small').innerText = 'جاهز للتدخين';
-        } else {
+        const remaining = getRemainingTime(data.cigarettes, waitMinutes);
+        
+        if (remaining) {
+          // يوجد وقت متبقي
+          timeEl.className = 'stat-value small countdown';
+          timeEl.innerText = formatCountdown(remaining);
+          
+          // تحديث حالة الزر إلى "في انتظار الوقت"
           btn.className = 'btn-circle-main waiting';
           btn.querySelector('.main-icon').innerText = '⏳';
           btn.querySelector('small').innerText = 'في انتظار الوقت';
+        } else {
+          // الوقت انتهى أو لا توجد سجائر
+          timeEl.className = 'stat-value small countdown ready';
+          timeEl.innerText = 'جاهز ✓';
+          
+          // تحديث حالة الزر إلى "جاهز للتدخين"
+          btn.className = 'btn-circle-main ready';
+          btn.querySelector('.main-icon').innerText = '🚬';
+          btn.querySelector('small').innerText = 'جاهز للتدخين';
         }
+      } else {
+        // تبويب المراقبة: عرض الوقت المنقضي
+        const timeSince = getTimeSinceLast(data.cigarettes);
+        timeEl.className = 'stat-value small';
+        timeEl.innerText = formatTimeInterval(timeSince);
       }
     }
 
@@ -719,20 +899,37 @@
       const first = count > 0 ? cigs[0] : null;
       const last = count > 0 ? cigs[cigs.length-1] : null;
 
+      // حساب الفروقات الزمنية بين السجائر في النطاق المحدد
+      const diffs = getTimeDifferences(cigs);
+
       let lines = [];
       lines.push(`📋 تقرير ${periodName}`);
       lines.push(`📅 من ${formatFullDate(startTs)} إلى الآن`);
       lines.push(`🚬 عدد السجائر: ${count}`);
       
+      // عرض الفروقات الزمنية بين السجائر
+      lines.push(`⏱️ الفروقات الزمنية بين السجائر:`);
+      if (diffs.length > 0) {
+        const formattedDiffs = formatTimeDifferences(diffs);
+        lines.push(formattedDiffs);
+      } else {
+        lines.push(`   (لا توجد فروقات - أقل من سيجارتين)`);
+      }
+      
+      // الوقت الفاصل مع الساعات في التقرير
       if (last) {
-        const diffMs = now - last;
-        const diffSec = Math.floor(diffMs / 1000);
-        const minutes = Math.floor(diffSec / 60);
-        const seconds = diffSec % 60;
-        if (minutes === 0) {
-          lines.push(`⏱️ الوقت الفاصل: ${seconds} ثانية`);
+        const timeSince = getTimeSinceLast([last]);
+        if (timeSince) {
+          const { hours, minutes, seconds } = timeSince;
+          if (hours === 0 && minutes === 0) {
+            lines.push(`⏱️ الوقت الفاصل: ${seconds} ثانية`);
+          } else if (hours === 0) {
+            lines.push(`⏱️ الوقت الفاصل: ${minutes} دقيقة ${seconds} ثانية`);
+          } else {
+            lines.push(`⏱️ الوقت الفاصل: ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`);
+          }
         } else {
-          lines.push(`⏱️ الوقت الفاصل: ${minutes} دقيقة ${seconds} ثانية`);
+          lines.push(`⏱️ الوقت الفاصل: --`);
         }
       } else {
         lines.push(`⏱️ الوقت الفاصل: -- (لا توجد سجائر)`);
@@ -891,6 +1088,25 @@
         const sorted = [...data.cigarettes].sort((a,b)=>a-b);
         sorted.forEach((ts, i) => { text += `${i+1}. ${formatFullDate(ts)}\n`; });
       }
+      
+      // إضافة الفروقات الزمنية في التصدير
+      const diffs = getTimeDifferences(data.cigarettes);
+      if (diffs.length > 0) {
+        text += '\n--- الفروقات الزمنية بين السجائر ---\n';
+        diffs.forEach((diff, index) => {
+          const { hours, minutes, seconds } = diff;
+          let timeText = '';
+          if (hours === 0 && minutes === 0) {
+            timeText = `${seconds} ثانية`;
+          } else if (hours === 0) {
+            timeText = `${minutes} دقيقة ${seconds} ثانية`;
+          } else {
+            timeText = `${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+          }
+          text += `بين السيجارة ${index+1} و ${index+2}: ${timeText}\n`;
+        });
+      }
+      
       const now = Date.now();
       const daily = generateReport(data, 'daily', startOfDay(now), 'اليوم');
       text += '\n--- تقرير اليوم ---\n' + daily;
@@ -1003,6 +1219,264 @@
       // تحديث الوقت الفاصل كل ثانية
       setInterval(updateUI, 1000);
       window.addEventListener('focus', updateUI);
+    });
+    // -------- تبويب تصحيح البيانات --------
+    function loadDataToEdit() {
+      const data = loadData();
+      
+      document.getElementById('editTotalCigarettes').value = data.cigarettes.length;
+      document.getElementById('editPackCount').value = data.packCount || 0;
+      document.getElementById('editTotalPacks').value = data.totalPacks || 1;
+      
+      // وقت فتح العلبة
+      if (data.packOpenTime) {
+        const date = new Date(data.packOpenTime);
+        const formatted = date.toISOString().slice(0, 16);
+        document.getElementById('editPackOpenTime').value = formatted;
+      } else {
+        document.getElementById('editPackOpenTime').value = '';
+      }
+      
+      // قائمة السجائر
+      document.getElementById('editCigarettesList').value = JSON.stringify(data.cigarettes, null, 2);
+      
+      // تاريخ العلب
+      document.getElementById('editPackHistory').value = JSON.stringify(data.packHistory || [], null, 2);
+      
+      showEditStatus('✅ تم تحميل البيانات الحالية بنجاح', 'success');
+    }
+    
+    function saveEditedData() {
+      try {
+        const data = loadData();
+        
+        // 1. عدد السجائر الكلي (نستخدمه للتحقق فقط)
+        const totalCigarettes = parseInt(document.getElementById('editTotalCigarettes').value);
+        if (isNaN(totalCigarettes) || totalCigarettes < 0) {
+          throw new Error('عدد السجائر الكلي يجب أن يكون رقماً موجباً');
+        }
+        
+        // 2. عدد السجائر في العلبة الحالية
+        const packCount = parseInt(document.getElementById('editPackCount').value);
+        if (isNaN(packCount) || packCount < 0 || packCount > 20) {
+          throw new Error('عدد السجائر في العلبة يجب أن يكون بين 0 و 20');
+        }
+        data.packCount = packCount;
+        
+        // 3. عدد العلب المفتوحة
+        const totalPacks = parseInt(document.getElementById('editTotalPacks').value);
+        if (isNaN(totalPacks) || totalPacks < 1) {
+          throw new Error('عدد العلب المفتوحة يجب أن يكون على الأقل 1');
+        }
+        data.totalPacks = totalPacks;
+        
+        // 4. وقت فتح العلبة
+        const packOpenTimeStr = document.getElementById('editPackOpenTime').value;
+        if (packOpenTimeStr) {
+          const packOpenTime = new Date(packOpenTimeStr).getTime();
+          if (isNaN(packOpenTime)) {
+            throw new Error('تنسيق الوقت غير صحيح');
+          }
+          data.packOpenTime = packOpenTime;
+        } else {
+          data.packOpenTime = Date.now();
+        }
+        
+        // 5. قائمة السجائر
+        const cigsText = document.getElementById('editCigarettesList').value.trim();
+        if (cigsText) {
+          let cigarettes = JSON.parse(cigsText);
+          if (!Array.isArray(cigarettes)) {
+            throw new Error('قائمة السجائر يجب أن تكون مصفوفة');
+          }
+          // تحويل كل عنصر إلى رقم (توقيت)
+          cigarettes = cigarettes.map(ts => {
+            const num = Number(ts);
+            if (isNaN(num)) throw new Error('القيمة غير صالحة: ' + ts);
+            return num;
+          });
+          data.cigarettes = cigarettes;
+        } else {
+          data.cigarettes = [];
+        }
+        
+        // 6. تاريخ العلب
+        const historyText = document.getElementById('editPackHistory').value.trim();
+        if (historyText) {
+          let packHistory = JSON.parse(historyText);
+          if (!Array.isArray(packHistory)) {
+            throw new Error('تاريخ العلب يجب أن يكون مصفوفة');
+          }
+          data.packHistory = packHistory;
+        } else {
+          data.packHistory = [];
+        }
+        
+        // التحقق من تطابق عدد السجائر مع طول المصفوفة
+        if (data.cigarettes.length !== totalCigarettes) {
+          // نستخدم القيمة المدخلة في حقل "عدد السجائر الكلي" كمرجع
+          // لكننا نعتمد على المصفوفة الفعلية
+          showEditStatus(`⚠️ تحذير: عدد السجائر الكلي (${totalCigarettes}) لا يتطابق مع طول المصفوفة (${data.cigarettes.length}). تم استخدام المصفوفة.`, 'warning');
+        }
+        
+        // حفظ البيانات
+        saveData(data);
+        
+        // تحديث الواجهة
+        updateUI();
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+        
+        showEditStatus('✅ تم حفظ التعديلات بنجاح وتحديث جميع الإحصائيات', 'success');
+        
+      } catch (error) {
+        showEditStatus('❌ خطأ: ' + error.message, 'error');
+      }
+    }
+    
+    function showEditStatus(message, type) {
+      const statusEl = document.getElementById('editStatus');
+      statusEl.style.display = 'block';
+      statusEl.innerHTML = message;
+      statusEl.style.background = type === 'success' ? '#e8f5e9' : type === 'warning' ? '#fff3e0' : '#fce4ec';
+      statusEl.style.borderColor = type === 'success' ? '#a5d6a7' : type === 'warning' ? '#ffcc80' : '#ef9a9a';
+      statusEl.style.color = type === 'success' ? '#1b5e20' : type === 'warning' ? '#e65100' : '#b71c1c';
+    }
+    
+    // ربط أزرار التحرير
+    document.getElementById('loadDataBtn').addEventListener('click', loadDataToEdit);
+    document.getElementById('saveDataBtn').addEventListener('click', saveEditedData);
+    
+    // عند فتح التبويب، نقوم بتحميل البيانات تلقائياً
+    document.querySelector('[data-tab="tab-edit"]').addEventListener('click', function() {
+      // ننتظر قليلاً حتى يظهر التبويب
+      setTimeout(loadDataToEdit, 100);
+    });
+    // إضافة سيجارة بتوقيت محدد
+    document.getElementById('editAddCigBtn').addEventListener('click', function() {
+      try {
+        const dateTimeStr = document.getElementById('editAddCigTime').value;
+        if (!dateTimeStr) {
+          alert('⚠️ الرجاء اختيار التاريخ والوقت');
+          return;
+        }
+        
+        // تحويل datetime-local إلى timestamp
+        const date = new Date(dateTimeStr);
+        if (isNaN(date.getTime())) {
+          alert('⚠️ تنسيق التاريخ غير صحيح');
+          return;
+        }
+        
+        const timestamp = date.getTime();
+        
+        // قراءة القائمة الحالية من حقل JSON
+        const cigsText = document.getElementById('editCigarettesList').value.trim();
+        let cigarettes = cigsText ? JSON.parse(cigsText) : [];
+        if (!Array.isArray(cigarettes)) {
+          cigarettes = [];
+        }
+        
+        // إضافة التوقيت الجديد
+        cigarettes.push(timestamp);
+        cigarettes.sort((a, b) => a - b); // ترتيب تصاعدي (من الأقدم إلى الأحدث)
+        
+        // تحديث الحقل
+        document.getElementById('editCigarettesList').value = JSON.stringify(cigarettes, null, 2);
+        document.getElementById('editTotalCigarettes').value = cigarettes.length;
+        
+        // عرض رسالة نجاح مع التاريخ المقروء
+        const dateStr = new Date(timestamp).toLocaleString('ar-EG', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        showEditStatus(`✅ تم إضافة سيجارة في ${dateStr} (التوقيت: ${timestamp})`, 'success');
+        
+      } catch (error) {
+        showEditStatus('❌ خطأ: ' + error.message, 'error');
+      }
+    });
+    
+    // تحويل التوقيت إلى تاريخ والعكس
+    document.getElementById('editTimestampToDate').addEventListener('click', function() {
+      const input = document.getElementById('editTimestampInput').value.trim();
+      const resultEl = document.getElementById('editTimestampResult');
+      
+      if (!input) {
+        resultEl.textContent = '⚠️ الرجاء إدخال قيمة';
+        resultEl.style.color = '#e65100';
+        return;
+      }
+      
+      // محاولة 1: تحويل المدخل إلى رقم (توقيت)
+      const num = Number(input);
+      if (!isNaN(num) && num > 0 && Number.isInteger(num)) {
+        // إذا كان رقم، حول إلى تاريخ
+        const date = new Date(num);
+        if (!isNaN(date.getTime())) {
+          const dateStr = date.toLocaleString('ar-EG', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+          resultEl.textContent = `📅 ${dateStr} (التوقيت: ${num})`;
+          resultEl.style.color = '#1b5e20';
+          return;
+        }
+      }
+      
+      // محاولة 2: تحويل التاريخ إلى توقيت
+      try {
+        // محاولة parse التاريخ بطرق مختلفة
+        let date = new Date(input);
+        
+        // إذا فشل، جرب إضافة تنسيق ISO
+        if (isNaN(date.getTime())) {
+          // جرب تحويل input كـ ISO string
+          date = new Date(input.replace(' ', 'T'));
+        }
+        
+        if (!isNaN(date.getTime())) {
+          const timestamp = date.getTime();
+          const dateStr = date.toLocaleString('ar-EG', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+          resultEl.textContent = `⏱️ ${timestamp} (التاريخ: ${dateStr})`;
+          resultEl.style.color = '#1b5e20';
+          return;
+        }
+      } catch (e) {
+        // تجاهل الخطأ
+      }
+      
+      resultEl.textContent = '❌ لا يمكن تحويل القيمة المدخلة. تأكد من التنسيق.';
+      resultEl.style.color = '#b71c1c';
+    });
+    
+    // إضافة مفتاح Enter لحقل تحويل التوقيت
+    document.getElementById('editTimestampInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('editTimestampToDate').click();
+      }
+    });
+    
+    // إضافة مفتاح Enter لحقل إضافة السيجارة
+    document.getElementById('editAddCigTime').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('editAddCigBtn').click();
+      }
     });
 
   })();
