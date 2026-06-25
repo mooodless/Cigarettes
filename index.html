@@ -519,7 +519,7 @@
       transition: border-color 0.2s;
     }
     .edit-field input[type="datetime-local"] {
-      width: 80%;
+      width: 100%;
       padding: 10px 14px;
       border: 2px solid #dce6ef;
       border-radius: 16px;
@@ -529,6 +529,10 @@
       box-sizing: border-box;
       transition: border-color 0.2s;
       direction: ltr;
+      /* تحسين عرض input في الوضع الأفقي على الجوال */
+      min-height: 48px;
+      appearance: auto;
+      -webkit-appearance: auto;
     }
     .edit-field input:focus,
     .edit-field textarea:focus {
@@ -650,6 +654,10 @@
       background: white;
       font-family: inherit;
       direction: ltr;
+      /* تحسين عرض input في الوضع الأفقي على الجوال */
+      min-height: 38px;
+      appearance: auto;
+      -webkit-appearance: auto;
     }
     .cig-list-item .edit-input:focus {
       outline: none;
@@ -747,6 +755,10 @@
       font-family: inherit;
       transition: border-color 0.2s;
       direction: ltr;
+      /* تحسين عرض input في الوضع الأفقي على الجوال */
+      min-height: 48px;
+      appearance: auto;
+      -webkit-appearance: auto;
     }
     .quick-add-row input[type="datetime-local"]:focus {
       border-color: #1f4b61;
@@ -795,7 +807,7 @@
       }
       .quick-add-row input[type="datetime-local"] {
         min-width: unset;
-        width: 80%;
+        width: 100%;
       }
       .quick-add-row button {
         min-width: unset;
@@ -814,6 +826,36 @@
       .cig-list-item .edit-input {
         min-width: 100px;
         font-size: 0.75rem;
+        min-height: 34px;
+      }
+      /* تحسين إضافي للوضع الأفقي */
+      .edit-field input[type="datetime-local"],
+      .quick-add-row input[type="datetime-local"] {
+        font-size: 0.9rem;
+        min-height: 44px;
+      }
+    }
+
+    /* تحسين إضافي للوضع الأفقي على الجوال */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .edit-field input[type="datetime-local"],
+      .quick-add-row input[type="datetime-local"],
+      .cig-list-item .edit-input {
+        min-height: 40px;
+        font-size: 0.85rem;
+      }
+      .quick-add-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .quick-add-row input[type="datetime-local"] {
+        width: 60%;
+        flex: none;
+      }
+      .quick-add-row button {
+        width: auto;
+        flex: 1;
+        min-width: 60px;
       }
     }
   </style>
@@ -1115,7 +1157,6 @@
     }
 
     // -------- دوال تحويل التوقيت --------
-    // تحويل قيمة datetime-local إلى توقيت محلي
     function datetimeLocalToLocalTimestamp(datetimeValue) {
       if (!datetimeValue) return null;
       const d = new Date(datetimeValue);
@@ -1123,11 +1164,9 @@
       return d.getTime();
     }
 
-    // تحويل التوقيت المحلي إلى صيغة datetime-local
     function localTimestampToDatetimeLocal(localTimestamp) {
       if (!localTimestamp) return '';
       const d = new Date(localTimestamp);
-      // إزاحة التوقيت المحلي للحصول على التوقيت المحلي الصحيح في datetime-local
       const localTime = d.getTime() - (d.getTimezoneOffset() * 60000);
       return new Date(localTime).toISOString().slice(0, 16);
     }
@@ -1518,7 +1557,7 @@
       updateTab('Q', data, settings);
     }
 
-    // -------- تبويب تصحيح البيانات (مع إمكانية التعديل باستخدام datetime-local مع تصحيح التوقيت) --------
+    // -------- تبويب تصحيح البيانات --------
     let editingCigTimestamp = null;
     let editingPackIndex = null;
 
@@ -1539,7 +1578,6 @@
       sorted.forEach((ts, idx) => {
         const dateStr = formatFullDate(ts);
         
-        // إذا كانت هذه السجارة في وضع التعديل
         if (editingCigTimestamp === ts) {
           const datetimeValue = localTimestampToDatetimeLocal(ts);
           html += `
@@ -1627,7 +1665,6 @@
       container.innerHTML = html;
     }
 
-    // دوال التعديل - ربطها بالنافذة لتكون متاحة من onclick
     window.startCigEdit = function(timestamp) {
       editingCigTimestamp = timestamp;
       editingPackIndex = null;
@@ -1638,7 +1675,6 @@
       const input = document.getElementById(`editCigInput_${timestamp}`);
       if (!input) return;
       
-      // تحويل قيمة datetime-local إلى توقيت محلي
       const localTimestamp = datetimeLocalToLocalTimestamp(input.value);
       if (localTimestamp === null || isNaN(localTimestamp)) {
         showEditStatus('❌ خطأ: الرجاء اختيار تاريخ ووقت صحيح', 'error');
@@ -1787,23 +1823,18 @@
           }
           data.packOpenTime = localTimestamp;
           
-          // التحقق من أن وقت فتح العلبة مختلف عن آخر علبة
           if (data.packHistory && data.packHistory.length > 0) {
             const lastPack = data.packHistory[data.packHistory.length - 1];
-            // فقط إذا كان الوقت مختلفاً بشكل كبير (أكثر من دقيقة) نقوم بإضافة علبة جديدة
             const timeDiff = Math.abs(lastPack.openedAt - localTimestamp);
-            if (timeDiff > 60000) { // أكثر من دقيقة
-              // نتحقق مما إذا كان هذا الوقت موجوداً بالفعل في التاريخ
+            if (timeDiff > 60000) {
               const exists = data.packHistory.some(p => Math.abs(p.openedAt - localTimestamp) < 5000);
               if (!exists) {
                 data.packHistory.push({ openedAt: localTimestamp });
                 data.totalPacks = data.packHistory.length;
               } else {
-                // إذا كان الوقت موجوداً، نقوم بتحديث آخر علبة
                 lastPack.openedAt = localTimestamp;
               }
             } else {
-              // إذا كان الوقت قريباً جداً، نقوم بتحديث آخر علبة
               lastPack.openedAt = localTimestamp;
             }
           } else {
@@ -1812,7 +1843,6 @@
           }
         }
         
-        // تحديث عدد السجائر الكلي إذا اختلف
         const totalCigs = data.cigarettes.length;
         const editTotal = parseInt(document.getElementById('editTotalCigarettes').value);
         if (totalCigs !== editTotal) {
@@ -1913,7 +1943,6 @@
 
     // -------- ربط الأحداث --------
     document.addEventListener('DOMContentLoaded', function() {
-      // ضبط الوقت الافتراضي للحقول
       const now = Date.now();
       const defaultDateTime = localTimestampToDatetimeLocal(now);
       document.getElementById('editAddCigInput').value = defaultDateTime;
@@ -1942,7 +1971,6 @@
       document.getElementById('resetPackBtnQ').addEventListener('click', function() { resetPack('Q'); });
       document.getElementById('clearAllBtnQ').addEventListener('click', function() { clearAllData('Q'); });
 
-      // ربط زر التصدير في كلا التبويبين
       document.getElementById('exportDataBtnM').addEventListener('click', function() { exportData('M'); });
       document.getElementById('exportDataBtnQ').addEventListener('click', function() { exportData('Q'); });
 
@@ -1997,7 +2025,6 @@
           return;
         }
         addCigaretteByDateTime(input);
-        // تعيين الوقت الحالي للحقل بعد الإضافة
         const now2 = Date.now();
         document.getElementById('editAddCigInput').value = localTimestampToDatetimeLocal(now2);
       });
