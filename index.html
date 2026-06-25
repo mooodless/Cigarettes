@@ -300,7 +300,9 @@
     .corner-bottom-right .corner-btn {
       order: 1;
     }
-
+    .export-btn-label {
+      margin-top: 20px;
+    }
     .progress-wrapper {
       margin: 12px 0 18px;
     }
@@ -848,11 +850,6 @@
         <span class="corner-btn-label">فتح علبة جديدة</span>
       </div>
 
-      <div class="corner-btn-wrapper corner-bottom-left">
-        <button class="corner-btn export-btn" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
-        <span class="corner-btn-label">تصدير</span>
-      </div>
-
       <div class="corner-btn-wrapper corner-bottom-right">
         <button class="corner-btn clear-btn" id="clearAllBtnM" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
         <span class="corner-btn-label">مسح الكل</span>
@@ -876,6 +873,10 @@
           <button class="report-daily active">يومي</button>
           <button class="report-weekly">أسبوعي</button>
           <button class="report-monthly">شهري</button>
+        </div>
+        <div class="corner-btn-wrapper corner-bottom-left">
+          <button class="corner-btn export-btn" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
+          <span class="export-btn-label">تصدير</span>
         </div>
       </div>
       <div class="report-box" id="reportContentM">اختر تقريراً لعرض الإحصائيات</div>
@@ -936,6 +937,10 @@
           <button class="report-daily active">يومي</button>
           <button class="report-weekly">أسبوعي</button>
           <button class="report-monthly">شهري</button>
+        </div>
+        <div class="corner-btn-wrapper corner-bottom-left">
+          <button class="corner-btn export-btn" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
+          <span class="corner-btn-label">تصدير</span>
         </div>
       </div>
       <div class="report-box" id="reportContentQ">اختر تقريراً لعرض الإحصائيات</div>
