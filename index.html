@@ -304,6 +304,12 @@
       font-size: smaller !important;
       align-content: center !important;
     }
+    .export-btn-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
     .progress-wrapper {
       margin: 12px 0 18px;
     }
@@ -940,7 +946,7 @@
           <button class="report-monthly">شهري</button>
         </div>
         <div class="export-btn-wrapper export-bottom-left">
-          <button class="corner-btn export-btn" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
+          <button class="corner-btn export-btn" id="exportDataBtnQ" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
           <span class="export-btn-label">تصدير</span>
         </div>
       </div>
@@ -1109,18 +1115,6 @@
     }
 
     // -------- دوال تحويل التوقيت --------
-    // تحويل التوقيت المحلي إلى توقيت UTC للحفظ
-    function localToUTC(localTimestamp) {
-      const d = new Date(localTimestamp);
-      return d.getTime() - (d.getTimezoneOffset() * 60000);
-    }
-
-    // تحويل التوقيت UTC إلى التوقيت المحلي للعرض
-    function UTCToLocal(utcTimestamp) {
-      const d = new Date(utcTimestamp);
-      return d.getTime() + (d.getTimezoneOffset() * 60000);
-    }
-
     // تحويل قيمة datetime-local إلى توقيت محلي
     function datetimeLocalToLocalTimestamp(datetimeValue) {
       if (!datetimeValue) return null;
@@ -1942,12 +1936,15 @@
       document.getElementById('undoBtnM').addEventListener('click', function() { undoLastAction('M'); });
       document.getElementById('resetPackBtnM').addEventListener('click', function() { resetPack('M'); });
       document.getElementById('clearAllBtnM').addEventListener('click', function() { clearAllData('M'); });
-      document.getElementById('exportDataBtnM').addEventListener('click', function() { exportData('M'); });
 
       document.getElementById('logCigBtnQ').addEventListener('click', function() { addCigarette('Q'); });
       document.getElementById('undoBtnQ').addEventListener('click', function() { undoLastAction('Q'); });
       document.getElementById('resetPackBtnQ').addEventListener('click', function() { resetPack('Q'); });
       document.getElementById('clearAllBtnQ').addEventListener('click', function() { clearAllData('Q'); });
+
+      // ربط زر التصدير في كلا التبويبين
+      document.getElementById('exportDataBtnM').addEventListener('click', function() { exportData('M'); });
+      document.getElementById('exportDataBtnQ').addEventListener('click', function() { exportData('Q'); });
 
       document.querySelectorAll('#tab-monitor .report-tabs button').forEach(btn => {
         btn.addEventListener('click', function() {
