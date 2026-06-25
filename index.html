@@ -422,7 +422,7 @@
       transition: border-color 0.2s;
     }
     
-    /* أنماط حقول التاريخ والوقت المنفصلة - الحل الرئيسي */
+    /* أنماط حقول التاريخ والوقت المنفصلة */
     .datetime-group {
       display: flex;
       gap: 8px;
@@ -431,8 +431,8 @@
       width: 100%;
     }
     .datetime-group .date-input {
-      flex: 2 1 140px;
-      min-width: 120px;
+      flex: 2 1 160px;
+      min-width: 140px;
       padding: 12px 14px;
       border: 2px solid #dce6ef;
       border-radius: 16px;
@@ -445,6 +445,8 @@
       direction: ltr;
       -webkit-appearance: none;
       appearance: none;
+      position: relative;
+      z-index: 10;
     }
     .datetime-group .time-input {
       flex: 1 1 100px;
@@ -472,6 +474,17 @@
       font-size: 0.75rem;
       color: #6b8a9e;
       white-space: nowrap;
+    }
+
+    /* تحسين لعرض التقويم */
+    .date-input::-webkit-calendar-picker-indicator {
+      padding: 6px;
+      cursor: pointer;
+      background-size: 20px;
+    }
+    .date-input::-webkit-datetime-edit {
+      padding: 6px 4px;
+      font-size: 1rem;
     }
 
     .edit-field input:focus,
@@ -727,217 +740,323 @@
       }
     }
 
-    /* تحسينات خاصة للوضع الأفقي على الجوال - مع حقول التاريخ والوقت المنفصلة */
+    /* تحسينات خاصة للوضع الأفقي على الجوال - تركيز على عرض التقويم */
     @media (orientation: landscape) and (max-height: 600px) {
       .app-container {
-        padding: 10px 8px 14px;
-        border-radius: 24px;
+        padding: 8px 6px 12px;
+        border-radius: 20px;
         max-width: 100%;
+        overflow: visible;
       }
       
       /* تحسين حقول التاريخ والوقت المنفصلة في الوضع الأفقي */
       .datetime-group {
         flex-direction: row !important;
-        flex-wrap: wrap !important;
+        flex-wrap: nowrap !important;
         gap: 4px !important;
+        width: 100% !important;
       }
       .datetime-group .date-input {
-        flex: 2 1 120px !important;
-        min-width: 100px !important;
-        min-height: 36px !important;
-        padding: 6px 10px !important;
+        flex: 3 1 180px !important;
+        min-width: 140px !important;
+        min-height: 34px !important;
+        padding: 4px 8px !important;
         font-size: 0.8rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: relative !important;
+        z-index: 20 !important;
+        background: white !important;
+        border: 2px solid #1f4b61 !important;
+        border-radius: 12px !important;
       }
       .datetime-group .time-input {
         flex: 1 1 80px !important;
-        min-width: 70px !important;
-        min-height: 36px !important;
-        padding: 6px 10px !important;
+        min-width: 60px !important;
+        min-height: 34px !important;
+        padding: 4px 8px !important;
         font-size: 0.8rem !important;
+        width: auto !important;
+        border: 2px solid #dce6ef !important;
+        border-radius: 12px !important;
       }
       .datetime-group .datetime-label {
-        font-size: 0.6rem !important;
+        font-size: 0.5rem !important;
+        white-space: nowrap !important;
+        padding: 0 4px !important;
+      }
+      
+      /* تحسين التقويم المنبثق */
+      .date-input::-webkit-calendar-picker-indicator {
+        padding: 8px !important;
+        background-size: 24px !important;
+      }
+      .date-input::-webkit-datetime-edit {
+        font-size: 0.85rem !important;
+        padding: 4px 6px !important;
       }
       
       .quick-add-row {
         flex-direction: row !important;
-        flex-wrap: wrap !important;
+        flex-wrap: nowrap !important;
         gap: 4px !important;
+        width: 100% !important;
       }
       .quick-add-row .date-input {
-        flex: 2 1 100px !important;
-        min-width: 80px !important;
-        min-height: 36px !important;
-        padding: 6px 10px !important;
+        flex: 3 1 140px !important;
+        min-width: 100px !important;
+        min-height: 34px !important;
+        padding: 4px 8px !important;
         font-size: 0.8rem !important;
-        width: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: relative !important;
+        z-index: 20 !important;
+        background: white !important;
+        border: 2px solid #1f4b61 !important;
+        border-radius: 10px !important;
       }
       .quick-add-row .time-input {
-        flex: 1 1 70px !important;
-        min-width: 60px !important;
-        min-height: 36px !important;
-        padding: 6px 10px !important;
+        flex: 1 1 60px !important;
+        min-width: 50px !important;
+        min-height: 34px !important;
+        padding: 4px 8px !important;
         font-size: 0.8rem !important;
         width: auto !important;
+        border: 2px solid #dce6ef !important;
+        border-radius: 10px !important;
       }
       .quick-add-row button {
         flex: 1 0 auto !important;
-        min-width: 50px !important;
-        min-height: 36px !important;
-        padding: 4px 10px !important;
-        font-size: 0.75rem !important;
+        min-width: 40px !important;
+        min-height: 34px !important;
+        padding: 4px 8px !important;
+        font-size: 0.7rem !important;
         width: auto !important;
+        border-radius: 10px !important;
       }
       
-      .stats-card {
-        padding: 8px 6px 10px !important;
-        margin-bottom: 8px !important;
+      /* تحسين حقول التاريخ في قائمة السجائر */
+      .cig-list-item .datetime-group {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 4px !important;
+        min-width: 120px !important;
       }
-      .stat-grid { gap: 3px !important; }
-      .stat-item { padding: 3px 2px !important; }
-      .stat-value { font-size: 0.9rem !important; }
-      .stat-value.small { font-size: 0.7rem !important; }
-      .stat-label { font-size: 0.45rem !important; }
+      .cig-list-item .date-input,
+      .cig-list-item .time-input {
+        min-height: 28px !important;
+        font-size: 0.7rem !important;
+        padding: 2px 6px !important;
+        border: 2px solid #1f4b61 !important;
+        border-radius: 8px !important;
+        background: white !important;
+        position: relative !important;
+        z-index: 20 !important;
+      }
+      .cig-list-item .date-input {
+        flex: 3 !important;
+        min-width: 80px !important;
+      }
+      .cig-list-item .time-input {
+        flex: 1 !important;
+        min-width: 50px !important;
+      }
+      
+      /* تصغير باقي العناصر */
+      .stats-card {
+        padding: 6px 4px 8px !important;
+        margin-bottom: 6px !important;
+        border-radius: 16px !important;
+      }
+      .stat-grid { gap: 2px !important; }
+      .stat-item { padding: 2px 2px !important; border-radius: 12px !important; }
+      .stat-value { font-size: 0.8rem !important; }
+      .stat-value.small { font-size: 0.65rem !important; }
+      .stat-label { font-size: 0.4rem !important; }
       
       .circle-layout {
-        min-height: 120px !important;
-        margin: 0 0 4px !important;
+        min-height: 100px !important;
+        margin: 0 0 2px !important;
       }
       .btn-circle-main {
-        width: 70px !important;
-        height: 70px !important;
-        font-size: 0.8rem !important;
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 0.7rem !important;
+        box-shadow: 0 6px 14px rgba(26,67,88,0.25) !important;
       }
-      .btn-circle-main .main-icon { font-size: 1.2rem !important; }
-      .btn-circle-main small { font-size: 0.5rem !important; }
+      .btn-circle-main .main-icon { font-size: 1rem !important; }
+      .btn-circle-main small { font-size: 0.45rem !important; }
       
       .corner-btn {
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 0.7rem !important;
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 0.6rem !important;
+        box-shadow: 0 3px 8px rgba(0,20,30,0.08) !important;
       }
-      .corner-btn .fa-icon { font-size: 0.6rem !important; }
+      .corner-btn .fa-icon { font-size: 0.5rem !important; }
       .corner-btn-wrapper .corner-btn-label {
-        font-size: 0.35rem !important;
-        max-width: 30px !important;
+        font-size: 0.3rem !important;
+        max-width: 26px !important;
         padding: 1px 2px !important;
+        white-space: normal !important;
       }
       
       .cig-list-item {
-        padding: 3px 5px !important;
-        font-size: 0.65rem !important;
+        padding: 2px 4px !important;
+        font-size: 0.6rem !important;
         gap: 2px !important;
+        border-radius: 6px !important;
       }
       .cig-list-item .cig-date {
-        min-width: 50px !important;
-        font-size: 0.6rem !important;
-      }
-      .cig-list-item .edit-input {
-        min-height: 28px !important;
-        font-size: 0.65rem !important;
-        padding: 3px 6px !important;
-        min-width: 60px !important;
-      }
-      .cig-list-item .action-btn {
-        font-size: 0.6rem !important;
-        padding: 1px 3px !important;
-      }
-      .cig-list-container { max-height: 80px !important; }
-      
-      .report-card {
-        padding: 8px 10px 10px !important;
-        margin-top: 6px !important;
-      }
-      .report-box {
-        max-height: 60px !important;
-        font-size: 0.65rem !important;
-        padding: 4px 8px !important;
-      }
-      .report-header .title { font-size: 0.75rem !important; }
-      .report-tabs button {
-        padding: 1px 6px !important;
+        min-width: 40px !important;
         font-size: 0.55rem !important;
       }
+      .cig-list-item .edit-input {
+        min-height: 24px !important;
+        font-size: 0.6rem !important;
+        padding: 2px 4px !important;
+        min-width: 50px !important;
+      }
+      .cig-list-item .action-btn {
+        font-size: 0.55rem !important;
+        padding: 1px 2px !important;
+      }
+      .cig-list-container { max-height: 60px !important; }
       
-      .progress-wrapper { margin: 2px 0 6px !important; }
-      .progress-label { font-size: 0.55rem !important; }
-      .progress-bar-bg { height: 4px !important; }
+      .report-card {
+        padding: 6px 8px 8px !important;
+        margin-top: 4px !important;
+        border-radius: 16px !important;
+      }
+      .report-box {
+        max-height: 50px !important;
+        font-size: 0.6rem !important;
+        padding: 3px 6px !important;
+        border-radius: 12px !important;
+      }
+      .report-header .title { font-size: 0.65rem !important; }
+      .report-tabs button {
+        padding: 1px 4px !important;
+        font-size: 0.5rem !important;
+        border-radius: 20px !important;
+      }
+      
+      .progress-wrapper { margin: 2px 0 4px !important; }
+      .progress-label { font-size: 0.5rem !important; }
+      .progress-bar-bg { height: 3px !important; border-radius: 20px !important; }
+      .progress-fill { border-radius: 20px !important; }
       
       .quick-add-section {
-        padding: 6px 8px !important;
-        margin-top: 6px !important;
+        padding: 4px 6px !important;
+        margin-top: 4px !important;
+        border-radius: 10px !important;
       }
       .quick-add-section label {
-        font-size: 0.65rem !important;
-        margin-bottom: 3px !important;
+        font-size: 0.6rem !important;
+        margin-bottom: 2px !important;
       }
       
       h1 {
-        font-size: 1rem !important;
-        padding-bottom: 4px !important;
-        margin-bottom: 6px !important;
+        font-size: 0.9rem !important;
+        padding-bottom: 3px !important;
+        margin-bottom: 4px !important;
       }
-      h1 small { font-size: 0.5rem !important; }
-      h3 { font-size: 0.8rem !important; margin-bottom: 4px !important; }
+      h1 small { font-size: 0.45rem !important; }
+      h3 { font-size: 0.7rem !important; margin-bottom: 3px !important; }
       
       .tabs-container {
-        margin-bottom: 6px !important;
-        gap: 3px !important;
+        margin-bottom: 4px !important;
+        gap: 2px !important;
         padding: 2px !important;
+        border-radius: 20px !important;
       }
       .tab-btn {
-        padding: 4px 5px !important;
-        font-size: 0.6rem !important;
+        padding: 3px 4px !important;
+        font-size: 0.55rem !important;
+        border-radius: 18px !important;
       }
       
-      .edit-field .helper-text { font-size: 0.55rem !important; }
-      .edit-field label { font-size: 0.65rem !important; }
+      .edit-field .helper-text { font-size: 0.5rem !important; }
+      .edit-field label { font-size: 0.6rem !important; }
       
       .edit-actions {
-        gap: 4px !important;
-        margin-top: 6px !important;
+        gap: 3px !important;
+        margin-top: 4px !important;
       }
       .edit-actions button {
-        min-width: 50px !important;
-        padding: 4px 8px !important;
-        font-size: 0.7rem !important;
-        min-height: 30px !important;
+        min-width: 40px !important;
+        padding: 3px 6px !important;
+        font-size: 0.65rem !important;
+        min-height: 26px !important;
+        border-radius: 20px !important;
       }
       
       .edit-status {
-        padding: 4px 8px !important;
-        font-size: 0.65rem !important;
-        margin-top: 4px !important;
+        padding: 3px 6px !important;
+        font-size: 0.6rem !important;
+        margin-top: 3px !important;
+        border-radius: 10px !important;
       }
       
       .modal-box {
-        padding: 12px 12px 12px !important;
-        max-width: 260px !important;
+        padding: 10px 10px 10px !important;
+        max-width: 220px !important;
+        border-radius: 20px !important;
       }
       .modal-box h2 {
-        font-size: 0.8rem !important;
-        margin-bottom: 8px !important;
+        font-size: 0.7rem !important;
+        margin-bottom: 6px !important;
       }
       .modal-box input {
-        padding: 4px 8px !important;
-        font-size: 0.75rem !important;
-        min-height: 30px !important;
+        padding: 3px 6px !important;
+        font-size: 0.7rem !important;
+        min-height: 26px !important;
+        border-radius: 10px !important;
       }
       .modal-actions button {
-        padding: 4px 8px !important;
-        font-size: 0.75rem !important;
-        min-height: 30px !important;
+        padding: 3px 6px !important;
+        font-size: 0.7rem !important;
+        min-height: 26px !important;
+        border-radius: 20px !important;
       }
       
       .footer-note {
-        font-size: 0.45rem !important;
-        margin-top: 6px !important;
+        font-size: 0.4rem !important;
+        margin-top: 4px !important;
       }
       
       .corner-top-left { top: 0 !important; left: 0 !important; }
       .corner-top-right { top: 0 !important; right: 0 !important; }
       .corner-bottom-left { bottom: 0 !important; left: 0 !important; }
       .corner-bottom-right { bottom: 0 !important; right: 0 !important; }
+    }
+
+    /* تحسينات إضافية للوضع الأفقي مع شاشات أكبر */
+    @media (orientation: landscape) and (max-height: 800px) and (min-height: 501px) {
+      .datetime-group .date-input,
+      .quick-add-row .date-input {
+        min-width: 160px !important;
+        min-height: 40px !important;
+        font-size: 0.9rem !important;
+      }
+      .datetime-group .time-input,
+      .quick-add-row .time-input {
+        min-height: 40px !important;
+        font-size: 0.9rem !important;
+      }
+      .quick-add-row button {
+        min-height: 40px !important;
+        font-size: 0.85rem !important;
+      }
+      .btn-circle-main {
+        width: 80px !important;
+        height: 80px !important;
+      }
+      .corner-btn {
+        width: 34px !important;
+        height: 34px !important;
+      }
     }
 
     @media (max-width: 380px) {
@@ -953,18 +1072,30 @@
       .corner-btn-wrapper .corner-btn-label { font-size: 0.4rem; max-width: 36px; }
     }
 
-    /* دعم إضافي لمتصفحات الجوال */
+    /* دعم إضافي لمتصفحات الجوال لتحسين عرض التقويم */
     input[type="date"]::-webkit-calendar-picker-indicator,
     input[type="time"]::-webkit-calendar-picker-indicator {
       padding: 4px;
       cursor: pointer;
+      opacity: 0.8;
     }
     input[type="date"]::-webkit-datetime-edit,
     input[type="time"]::-webkit-datetime-edit {
-      padding: 4px 0;
+      padding: 4px 2px;
     }
     input[type="date"], input[type="time"] {
       color-scheme: light;
+      background: white;
+    }
+    
+    /* تحسين عرض التقويم في Safari على iOS */
+    @supports (-webkit-touch-callout: none) {
+      .date-input {
+        font-size: 16px !important; /* منع التكبير التلقائي في iOS */
+      }
+      .time-input {
+        font-size: 16px !important;
+      }
     }
   </style>
 </head>
