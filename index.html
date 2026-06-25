@@ -52,7 +52,6 @@
       margin-right: auto;
     }
 
-    /* التبويبات */
     .tabs-container {
       display: flex;
       gap: 8px;
@@ -87,7 +86,6 @@
       display: block;
     }
 
-    /* بطاقة الإحصائيات */
     .stats-card {
       background: #f4faff;
       border-radius: 28px;
@@ -128,7 +126,6 @@
     .stat-value.countdown { color: #c44545; }
     .stat-value.countdown.ready { color: #2b7a62; }
 
-    /* الحاوية الرئيسية للزر الدائري والأزرار الجانبية */
     .circle-layout {
       position: relative;
       display: flex;
@@ -138,7 +135,6 @@
       margin: 8px 0 12px;
     }
 
-    /* زر الإضافة الدائري الكبير */
     .btn-circle-main {
       width: 140px;
       height: 140px;
@@ -187,7 +183,6 @@
     }
     .btn-circle-main.waiting:active { background: #a13232; }
 
-    /* الأزرار الدائرية الصغيرة (الزوايا) مع التسميات */
     .corner-btn-wrapper {
       position: absolute;
       display: flex;
@@ -264,7 +259,6 @@
     }
     .corner-btn.settings-btn:active { background: #e0edf5; }
 
-    /* وضع الأزرار في الزوايا */
     .corner-top-left {
       top: 5px;
       left: 5px;
@@ -282,7 +276,6 @@
       right: 5px;
     }
 
-    /* تعديل موضع التسميات حسب الزاوية */
     .corner-top-left .corner-btn-label {
       order: 1;
     }
@@ -308,7 +301,6 @@
       order: 1;
     }
 
-    /* شريط التقدم للسجائر */
     .progress-wrapper {
       margin: 12px 0 18px;
     }
@@ -336,7 +328,6 @@
     }
     .progress-fill.warning { background: linear-gradient(90deg, #b13a3a, #d95a5a); }
 
-    /* منطقة التقرير */
     .report-card {
       background: #f4faff;
       border-radius: 28px;
@@ -398,7 +389,6 @@
       margin-top: 18px;
     }
 
-    /* مودال الإعدادات */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -478,7 +468,6 @@
     }
     .modal-actions .btn-cancel:active { background: #dce4ec; }
 
-    /* تبويب تصحيح البيانات - تحسين التنسيق */
     #tab-edit .stats-card {
       text-align: right;
       width: 100%;
@@ -486,30 +475,30 @@
     #tab-edit .stats-card > div {
       width: 100%;
     }
-    #tab-edit textarea,
-    #tab-edit input[type="text"],
-    #tab-edit input[type="number"],
-    #tab-edit input[type="datetime-local"] {
-      width: 100% !important;
-      box-sizing: border-box;
-    }
-    #tab-edit .edit-row {
+    
+    .edit-row {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
     }
-    #tab-edit .edit-field {
+    .edit-field {
       width: 100%;
     }
-    #tab-edit .edit-field label {
+    .edit-field label {
       display: block;
       font-weight: 600;
       font-size: 0.85rem;
       color: #1d4a5e;
       margin-bottom: 4px;
     }
-    #tab-edit .edit-field input,
-    #tab-edit .edit-field textarea {
+    .edit-field label .label-hint {
+      font-weight: 400;
+      color: #6b8a9e;
+      font-size: 0.75rem;
+    }
+    .edit-field input[type="text"],
+    .edit-field input[type="number"],
+    .edit-field textarea {
       width: 100%;
       padding: 10px 14px;
       border: 2px solid #dce6ef;
@@ -518,32 +507,260 @@
       background: #f8fbfe;
       font-family: inherit;
       box-sizing: border-box;
+      transition: border-color 0.2s;
     }
-    #tab-edit .edit-field textarea {
+    .edit-field input[type="datetime-local"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #dce6ef;
+      border-radius: 16px;
+      font-size: 1rem;
+      background: #f8fbfe;
+      font-family: inherit;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      direction: ltr;
+    }
+    .edit-field input:focus,
+    .edit-field textarea:focus {
+      border-color: #1f4b61;
+      outline: none;
+      background: white;
+    }
+    .edit-field textarea {
       font-family: monospace;
       resize: vertical;
       font-size: 0.9rem;
     }
-    #tab-edit .helper-text {
+    .edit-field .helper-text {
       font-size: 0.7rem;
       color: #6b8a9e;
       margin-top: 4px;
     }
-    #tab-edit .cig-list-item {
+    .edit-field .example-text {
+      font-size: 0.7rem;
+      color: #4a7a8e;
+      margin-top: 2px;
+      background: #f0f7fa;
+      padding: 2px 10px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    
+    .cig-list-container {
+      max-height: 200px;
+      overflow-y: auto;
+      background: #f8fbfe;
+      border-radius: 12px;
+      border: 1px solid #e8edf3;
+      padding: 4px;
+      margin-top: 6px;
+    }
+    .cig-list-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 4px 8px;
-      background: #f8fbfe;
+      padding: 6px 10px;
+      background: white;
       border-radius: 8px;
-      margin-bottom: 4px;
-      border: 1px solid #e8edf3;
+      margin-bottom: 3px;
+      border: 1px solid #eef3f8;
+      font-size: 0.85rem;
+      transition: background 0.15s;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .cig-list-item:hover {
+      background: #f4faff;
+    }
+    .cig-list-item .cig-number {
+      font-weight: 600;
+      color: #1f4b61;
+      margin-left: 8px;
+      min-width: 30px;
+    }
+    .cig-list-item .cig-date {
+      color: #1d4a5e;
+      flex: 1;
+      text-align: right;
+      min-width: 120px;
+    }
+    .cig-list-item .cig-timestamp {
+      color: #6b8a9e;
+      font-size: 0.7rem;
+      margin-right: 8px;
+    }
+    .cig-list-item .cig-actions {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .cig-list-item .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .cig-list-item .action-btn:hover {
+      transform: scale(1.1);
+    }
+    .cig-list-item .action-btn.edit-btn {
+      color: #1f4b61;
+    }
+    .cig-list-item .action-btn.edit-btn:hover {
+      background: #e3ecf5;
+    }
+    .cig-list-item .action-btn.delete-btn {
+      color: #c44545;
+    }
+    .cig-list-item .action-btn.delete-btn:hover {
+      background: #fce4ec;
+    }
+    .cig-list-item .action-btn.save-edit-btn {
+      color: #2b7a62;
+    }
+    .cig-list-item .action-btn.save-edit-btn:hover {
+      background: #e8f5e9;
+    }
+    .cig-list-item .action-btn.cancel-edit-btn {
+      color: #c44545;
+    }
+    .cig-list-item .action-btn.cancel-edit-btn:hover {
+      background: #fce4ec;
+    }
+    .cig-list-item .edit-input {
+      flex: 1;
+      min-width: 150px;
+      padding: 4px 8px;
+      border: 2px solid #1f4b61;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      background: white;
+      font-family: inherit;
+      direction: ltr;
+    }
+    .cig-list-item .edit-input:focus {
+      outline: none;
+      border-color: #2b7a62;
+    }
+    .cig-list-empty {
+      padding: 12px;
+      text-align: center;
+      color: #6b8a9e;
       font-size: 0.85rem;
     }
-    #tab-edit .cig-list-item .timestamp {
-      color: #6b8a9e;
-      font-size: 0.75rem;
+
+    .edit-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
     }
+    .edit-actions button {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .edit-actions .btn-load {
+      background: #e7f3f0;
+      color: #1f6b5a;
+    }
+    .edit-actions .btn-load:active { background: #d4ece6; }
+    .edit-actions .btn-save-edit {
+      background: #1f4b61;
+      color: white;
+    }
+    .edit-actions .btn-save-edit:active { background: #123845; }
+
+    .edit-status {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #dfe9f2;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .edit-status.success {
+      display: block;
+      background: #e8f5e9;
+      border-color: #a5d6a7;
+      color: #1b5e20;
+    }
+    .edit-status.error {
+      display: block;
+      background: #fce4ec;
+      border-color: #ef9a9a;
+      color: #b71c1c;
+    }
+    .edit-status.warning {
+      display: block;
+      background: #fff3e0;
+      border-color: #ffcc80;
+      color: #e65100;
+    }
+
+    .quick-add-section {
+      margin-top: 16px;
+      padding: 16px;
+      background: #f0f7fa;
+      border-radius: 16px;
+      border: 1px dashed #b0c8d8;
+    }
+    .quick-add-section label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #1d4a5e;
+      margin-bottom: 6px;
+    }
+    .quick-add-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .quick-add-row input[type="datetime-local"] {
+      flex: 2;
+      min-width: 150px;
+      padding: 10px 14px;
+      border: 2px solid #dce6ef;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      background: white;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      direction: ltr;
+    }
+    .quick-add-row input[type="datetime-local"]:focus {
+      border-color: #1f4b61;
+      outline: none;
+    }
+    .quick-add-row button {
+      flex: 1;
+      min-width: 80px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 12px;
+      background: #1f4b61;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .quick-add-row button:active { background: #123845; }
+    .quick-add-row button.btn-secondary {
+      background: #e7f3f0;
+      color: #1f6b5a;
+    }
+    .quick-add-row button.btn-secondary:active { background: #d4ece6; }
 
     @media (max-width: 480px) {
       .stat-grid { grid-template-columns: 1fr 1fr 1fr; }
@@ -564,6 +781,31 @@
       .corner-top-right { top: 0; right: 0; }
       .corner-bottom-left { bottom: 0; left: 0; }
       .corner-bottom-right { bottom: 0; right: 0; }
+      .quick-add-row {
+        flex-direction: column;
+      }
+      .quick-add-row input[type="datetime-local"] {
+        min-width: unset;
+        width: 100%;
+      }
+      .quick-add-row button {
+        min-width: unset;
+        width: 100%;
+      }
+      .cig-list-item {
+        flex-wrap: wrap;
+      }
+      .cig-list-item .cig-date {
+        min-width: 80px;
+        font-size: 0.75rem;
+      }
+      .cig-list-item .cig-timestamp {
+        display: none;
+      }
+      .cig-list-item .edit-input {
+        min-width: 100px;
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
@@ -574,7 +816,6 @@
     <small>v3.5</small>
   </h1>
 
-  <!-- التبويبات -->
   <div class="tabs-container">
     <button class="tab-btn active" data-tab="tab-monitor"><i class="fas fa-chart-line" style="margin-left:6px;"></i> مراقبة التدخين</button>
     <button class="tab-btn" data-tab="tab-quit"><i style="margin-left:6px;"></i>🚭 بدء الإقلاع</button>
@@ -592,31 +833,26 @@
     </div>
 
     <div class="circle-layout">
-      <!-- زر الإضافة الرئيسي -->
       <button class="btn-circle-main" id="logCigBtnM">
         <span class="main-icon">🚬</span>
         <small>أضف سجارة</small>
       </button>
 
-      <!-- الزاوية العلوية اليسرى - تراجع -->
       <div class="corner-btn-wrapper corner-top-left">
         <button class="corner-btn undo" id="undoBtnM" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
         <span class="corner-btn-label">تراجع</span>
       </div>
 
-      <!-- الزاوية العلوية اليمنى - فتح علبة جديدة -->
       <div class="corner-btn-wrapper corner-top-right">
         <button class="corner-btn reset" id="resetPackBtnM" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
         <span class="corner-btn-label">فتح علبة جديدة</span>
       </div>
 
-      <!-- الزاوية السفلية اليسرى - تصدير -->
       <div class="corner-btn-wrapper corner-bottom-left">
         <button class="corner-btn export-btn" id="exportDataBtnM" title="تصدير البيانات"><i class="fas fa-file-export fa-icon"></i></button>
         <span class="corner-btn-label">تصدير</span>
       </div>
 
-      <!-- الزاوية السفلية اليمنى - مسح -->
       <div class="corner-btn-wrapper corner-bottom-right">
         <button class="corner-btn clear-btn" id="clearAllBtnM" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
         <span class="corner-btn-label">مسح الكل</span>
@@ -657,31 +893,26 @@
     </div>
 
     <div class="circle-layout">
-      <!-- زر الإضافة الرئيسي -->
       <button class="btn-circle-main ready" id="logCigBtnQ">
         <span class="main-icon">🚬</span>
         <small>جاهز للتدخين</small>
       </button>
 
-      <!-- الزاوية العلوية اليسرى - تراجع -->
       <div class="corner-btn-wrapper corner-top-left">
         <button class="corner-btn undo" id="undoBtnQ" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
         <span class="corner-btn-label">تراجع</span>
       </div>
 
-      <!-- الزاوية العلوية اليمنى - فتح علبة جديدة -->
       <div class="corner-btn-wrapper corner-top-right">
         <button class="corner-btn reset" id="resetPackBtnQ" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
         <span class="corner-btn-label">فتح علبة جديدة</span>
       </div>
 
-      <!-- الزاوية السفلية اليسرى - إعدادات -->
       <div class="corner-btn-wrapper corner-bottom-left">
         <button class="corner-btn settings-btn" id="settingsBtnQ" title="الإعدادات"><i class="fas fa-cog fa-icon"></i></button>
         <span class="corner-btn-label">إعدادات</span>
       </div>
 
-      <!-- الزاوية السفلية اليمنى - مسح -->
       <div class="corner-btn-wrapper corner-bottom-right">
         <button class="corner-btn clear-btn" id="clearAllBtnQ" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
         <span class="corner-btn-label">مسح الكل</span>
@@ -722,85 +953,73 @@
       </p>
       
       <div class="edit-row">
-        <!-- عدد السجائر الكلي -->
         <div class="edit-field">
-          <label><i class="fas fa-smoking" style="margin-left: 6px;"></i> عدد السجائر الكلي</label>
-          <input type="number" id="editTotalCigarettes" min="0">
+          <label><i class="fas fa-smoking" style="margin-left: 6px;"></i> عدد السجائر الكلي <span class="label-hint">(يتم تحديثه تلقائياً)</span></label>
+          <input type="number" id="editTotalCigarettes" min="0" readonly style="background:#eef3f8;cursor:default;">
         </div>
         
-        <!-- عدد السجائر في العلبة الحالية -->
         <div class="edit-field">
           <label><i class="fas fa-box" style="margin-left: 6px;"></i> عدد السجائر في العلبة الحالية</label>
           <input type="number" id="editPackCount" min="0" max="20">
+          <div class="helper-text">📌 أدخل عدد السجائر المستهلكة في العلبة الحالية (0-20)</div>
         </div>
         
-        <!-- عدد العلب المفتوحة -->
         <div class="edit-field">
           <label><i class="fas fa-box-open" style="margin-left: 6px;"></i> عدد العلب المفتوحة (الإجمالي)</label>
           <input type="number" id="editTotalPacks" min="1">
+          <div class="helper-text">📌 إجمالي عدد العلب التي تم فتحها حتى الآن (يبدأ من 1)</div>
         </div>
         
-        <!-- وقت فتح العلبة الحالية -->
         <div class="edit-field">
           <label><i class="fas fa-clock" style="margin-left: 6px;"></i> وقت فتح العلبة الحالية</label>
           <input type="datetime-local" id="editPackOpenTime">
+          <div class="helper-text">📌 اختر التاريخ والوقت من التقويم</div>
         </div>
         
-        <!-- قائمة السجائر (توقيتات) مع عرض التاريخ والوقت -->
         <div class="edit-field">
-          <label><i class="fas fa-list" style="margin-left: 6px;"></i> قائمة السجائر (توقيتات - JSON)</label>
-          <textarea id="editCigarettesList" rows="5" style="font-family: monospace; font-size: 0.85rem;"></textarea>
-          <div class="helper-text">📌 أدخل المصفوفة بصيغة JSON مع إمكانية عرض التاريخ والوقت</div>
-          <div id="cigListPreview" style="margin-top: 6px; max-height: 120px; overflow-y: auto; background: #f8fbfe; border-radius: 8px; padding: 6px 10px; border: 1px solid #e8edf3; font-size: 0.8rem; display: none;"></div>
+          <label><i class="fas fa-list" style="margin-left: 6px;"></i> قائمة السجائر</label>
+          
+          <div class="quick-add-section">
+            <label><i class="fas fa-plus-circle" style="margin-left: 6px;"></i> إضافة سجارة بتوقيت محدد</label>
+            <div class="quick-add-row">
+              <input type="datetime-local" id="editAddCigInput">
+              <button id="editAddCigBtn"><i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة</button>
+            </div>
+            <div class="helper-text">📌 اختر التاريخ والوقت من التقويم ثم اضغط إضافة</div>
+          </div>
+          
+          <div style="margin-top: 8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-size:0.8rem;color:#5f7b8f;">السجائر المسجلة:</span>
+              <span id="cigCountDisplay" style="font-size:0.8rem;font-weight:600;color:#1f4b61;">0</span>
+            </div>
+            <div class="cig-list-container" id="cigListContainer">
+              <div class="cig-list-empty">📌 لا توجد سجائر مسجلة</div>
+            </div>
+          </div>
         </div>
         
-        <!-- تاريخ العلب (نص JSON) -->
         <div class="edit-field">
-          <label><i class="fas fa-history" style="margin-left: 6px;"></i> تاريخ العلب (JSON)</label>
-          <textarea id="editPackHistory" rows="3" style="font-family: monospace; font-size: 0.85rem;"></textarea>
-          <div class="helper-text">📌 أدخل المصفوفة بصيغة JSON: [{"openedAt": 1612345678901}, ...]</div>
+          <label><i class="fas fa-history" style="margin-left: 6px;"></i> تاريخ العلب</label>
+          <div style="margin-bottom:6px;">
+            <div class="quick-add-row">
+              <input type="datetime-local" id="editAddPackInput">
+              <button id="editAddPackBtn" class="btn-secondary"><i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة علبة</button>
+            </div>
+            <div class="helper-text">📌 اختر تاريخ ووقت فتح العلبة من التقويم</div>
+          </div>
+          <div class="cig-list-container" id="packHistoryContainer" style="max-height:120px;">
+            <div class="cig-list-empty">📌 لا يوجد تاريخ للعلب</div>
+          </div>
         </div>
       </div>
 
-      <!-- حقل مساعد لإضافة توقيت جديد -->
-      <div style="margin-top: 16px; padding: 14px; background: #f0f7fa; border-radius: 16px; border: 1px dashed #b0c8d8;">
-        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 6px;">
-          <i class="fas fa-plus-circle" style="margin-left: 6px;"></i> إضافة سيجارة بتوقيت محدد
-        </label>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <input type="datetime-local" id="editAddCigTime" style="flex: 2; min-width: 150px; padding: 8px 12px; border: 2px solid #dce6ef; border-radius: 12px; font-size: 0.9rem; background: white;">
-          <button id="editAddCigBtn" style="flex: 1; min-width: 80px; padding: 8px 12px; border: none; border-radius: 12px; background: #1f4b61; color: white; font-weight: 600; cursor: pointer;">
-            <i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة
-          </button>
-        </div>
-        <div class="helper-text">📌 اختر التاريخ والوقت ثم اضغط إضافة لإدراج توقيت جديد في القائمة</div>
-      </div>
-
-      <!-- حقل مساعد لتحويل التوقيت ↔ تاريخ -->
-      <div style="margin-top: 10px; padding: 14px; background: #f4faff; border-radius: 16px; border: 1px solid #dfe9f2;">
-        <label style="display: block; font-weight: 600; font-size: 0.85rem; color: #1d4a5e; margin-bottom: 6px;">
-          <i class="fas fa-exchange-alt" style="margin-left: 6px;"></i> تحويل التوقيت ↔ تاريخ
-        </label>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <input type="text" id="editTimestampInput" placeholder="أدخل التوقيت أو التاريخ" style="flex: 2; min-width: 150px; padding: 8px 12px; border: 2px solid #dce6ef; border-radius: 12px; font-size: 0.9rem; background: white;">
-          <button id="editTimestampToDate" style="flex: 1; min-width: 80px; padding: 8px 12px; border: none; border-radius: 12px; background: #e7f3f0; color: #1f6b5a; font-weight: 600; cursor: pointer;">
-            <i class="fas fa-arrow-left" style="margin-left: 4px;"></i> تحويل
-          </button>
-        </div>
-        <div id="editTimestampResult" style="margin-top: 6px; font-size: 0.85rem; color: #1d4a5e; background: white; padding: 6px 12px; border-radius: 8px; border: 1px solid #dce6ef; min-height: 24px;"></div>
-        <div class="helper-text">📌 أدخل التوقيت (رقم) وسيظهر التاريخ المقابل، أو أدخل التاريخ وسيظهر التوقيت</div>
-      </div>
-
-      <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
-        <button id="loadDataBtn" style="flex: 1; min-width: 120px; padding: 12px; border: none; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; background: #e7f3f0; color: #1f6b5a;">
-          <i class="fas fa-download" style="margin-left: 6px;"></i> تحميل البيانات
-        </button>
-        <button id="saveDataBtn" style="flex: 1; min-width: 120px; padding: 12px; border: none; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; background: #1f4b61; color: white;">
-          <i class="fas fa-save" style="margin-left: 6px;"></i> حفظ التعديلات
-        </button>
+      <div class="edit-actions">
+        <button class="btn-load" id="loadDataBtn"><i class="fas fa-download" style="margin-left: 6px;"></i> تحميل البيانات</button>
+        <button class="btn-save-edit" id="saveDataBtn"><i class="fas fa-save" style="margin-left: 6px;"></i> حفظ التعديلات</button>
       </div>
       
-      <div id="editStatus" style="margin-top: 12px; padding: 10px; border-radius: 12px; background: #f4faff; border: 1px solid #dfe9f2; font-size: 0.9rem; display: none;"></div>
+      <div class="edit-status" id="editStatus"></div>
     </div>
   </div>
 
@@ -881,6 +1100,36 @@
 
     function saveSettings(settings) {
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }
+
+    // -------- دوال تحويل التوقيت --------
+    // تحويل التوقيت المحلي إلى توقيت UTC للحفظ
+    function localToUTC(localTimestamp) {
+      const d = new Date(localTimestamp);
+      return d.getTime() - (d.getTimezoneOffset() * 60000);
+    }
+
+    // تحويل التوقيت UTC إلى التوقيت المحلي للعرض
+    function UTCToLocal(utcTimestamp) {
+      const d = new Date(utcTimestamp);
+      return d.getTime() + (d.getTimezoneOffset() * 60000);
+    }
+
+    // تحويل قيمة datetime-local إلى توقيت محلي
+    function datetimeLocalToLocalTimestamp(datetimeValue) {
+      if (!datetimeValue) return null;
+      const d = new Date(datetimeValue);
+      if (isNaN(d.getTime())) return null;
+      return d.getTime();
+    }
+
+    // تحويل التوقيت المحلي إلى صيغة datetime-local
+    function localTimestampToDatetimeLocal(localTimestamp) {
+      if (!localTimestamp) return '';
+      const d = new Date(localTimestamp);
+      // إزاحة التوقيت المحلي للحصول على التوقيت المحلي الصحيح في datetime-local
+      const localTime = d.getTime() - (d.getTimezoneOffset() * 60000);
+      return new Date(localTime).toISOString().slice(0, 16);
     }
 
     // -------- المساعدات --------
@@ -1269,21 +1518,230 @@
       updateTab('Q', data, settings);
     }
 
-    // -------- تبويب تصحيح البيانات --------
-    function formatTimestampWithDate(ts) {
-      if (!ts) return '---';
-      const date = new Date(ts);
-      if (isNaN(date.getTime())) return '---';
-      const dateStr = date.toLocaleString('ar-EG', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
+    // -------- تبويب تصحيح البيانات (مع إمكانية التعديل باستخدام datetime-local مع تصحيح التوقيت) --------
+    let editingCigTimestamp = null;
+    let editingPackIndex = null;
+
+    function renderCigarettesList(cigarettes) {
+      const container = document.getElementById('cigListContainer');
+      const countDisplay = document.getElementById('cigCountDisplay');
+      
+      if (!cigarettes || cigarettes.length === 0) {
+        container.innerHTML = '<div class="cig-list-empty">📌 لا توجد سجائر مسجلة</div>';
+        countDisplay.textContent = '0';
+        return;
+      }
+      
+      const sorted = [...cigarettes].sort((a, b) => a - b);
+      countDisplay.textContent = sorted.length;
+      
+      let html = '';
+      sorted.forEach((ts, idx) => {
+        const dateStr = formatFullDate(ts);
+        
+        // إذا كانت هذه السجارة في وضع التعديل
+        if (editingCigTimestamp === ts) {
+          const datetimeValue = localTimestampToDatetimeLocal(ts);
+          html += `
+            <div class="cig-list-item" style="background:#f0f7fa;border-color:#1f4b61;">
+              <span class="cig-number">#${idx + 1}</span>
+              <input type="datetime-local" class="edit-input" id="editCigInput_${ts}" value="${datetimeValue}" style="direction:ltr;">
+              <div class="cig-actions">
+                <button class="action-btn save-edit-btn" onclick="window.saveCigEdit(${ts})" title="حفظ التعديل">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="action-btn cancel-edit-btn" onclick="window.cancelCigEdit()" title="إلغاء">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="cig-list-item">
+              <span class="cig-number">#${idx + 1}</span>
+              <span class="cig-date">${dateStr}</span>
+              <span class="cig-timestamp">(${ts})</span>
+              <div class="cig-actions">
+                <button class="action-btn edit-btn" onclick="window.startCigEdit(${ts})" title="تعديل">
+                  <i class="fas fa-pen"></i>
+                </button>
+                <button class="action-btn delete-btn" onclick="window.deleteCigarette(${ts})" title="حذف">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }
       });
-      return `${ts} (${dateStr})`;
+      
+      container.innerHTML = html;
     }
+
+    function renderPackHistory(packHistory) {
+      const container = document.getElementById('packHistoryContainer');
+      
+      if (!packHistory || packHistory.length === 0) {
+        container.innerHTML = '<div class="cig-list-empty">📌 لا يوجد تاريخ للعلب</div>';
+        return;
+      }
+      
+      let html = '';
+      packHistory.forEach((p, idx) => {
+        const dateStr = formatFullDate(p.openedAt);
+        
+        if (editingPackIndex === idx) {
+          const datetimeValue = localTimestampToDatetimeLocal(p.openedAt);
+          html += `
+            <div class="cig-list-item" style="background:#f0f7fa;border-color:#1f4b61;">
+              <span class="cig-number">علبة #${idx + 1}</span>
+              <input type="datetime-local" class="edit-input" id="editPackInput_${idx}" value="${datetimeValue}" style="direction:ltr;">
+              <div class="cig-actions">
+                <button class="action-btn save-edit-btn" onclick="window.savePackEdit(${idx})" title="حفظ التعديل">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="action-btn cancel-edit-btn" onclick="window.cancelPackEdit()" title="إلغاء">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="cig-list-item">
+              <span class="cig-number">علبة #${idx + 1}</span>
+              <span class="cig-date">${dateStr}</span>
+              <div class="cig-actions">
+                <button class="action-btn edit-btn" onclick="window.startPackEdit(${idx})" title="تعديل">
+                  <i class="fas fa-pen"></i>
+                </button>
+                <button class="action-btn delete-btn" onclick="window.deletePackHistory(${idx})" title="حذف">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      });
+      
+      container.innerHTML = html;
+    }
+
+    // دوال التعديل - ربطها بالنافذة لتكون متاحة من onclick
+    window.startCigEdit = function(timestamp) {
+      editingCigTimestamp = timestamp;
+      editingPackIndex = null;
+      loadDataToEdit();
+    };
+
+    window.saveCigEdit = function(timestamp) {
+      const input = document.getElementById(`editCigInput_${timestamp}`);
+      if (!input) return;
+      
+      // تحويل قيمة datetime-local إلى توقيت محلي
+      const localTimestamp = datetimeLocalToLocalTimestamp(input.value);
+      if (localTimestamp === null || isNaN(localTimestamp)) {
+        showEditStatus('❌ خطأ: الرجاء اختيار تاريخ ووقت صحيح', 'error');
+        return;
+      }
+      
+      const data = loadData();
+      const index = data.cigarettes.indexOf(timestamp);
+      if (index !== -1) {
+        data.cigarettes[index] = localTimestamp;
+        data.cigarettes.sort((a, b) => a - b);
+        data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+        saveData(data);
+        editingCigTimestamp = null;
+        loadDataToEdit();
+        showEditStatus('✅ تم تعديل وقت السجارة بنجاح', 'success');
+        updateUI();
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+      }
+    };
+
+    window.cancelCigEdit = function() {
+      editingCigTimestamp = null;
+      loadDataToEdit();
+    };
+
+    window.startPackEdit = function(index) {
+      editingPackIndex = index;
+      editingCigTimestamp = null;
+      loadDataToEdit();
+    };
+
+    window.savePackEdit = function(index) {
+      const input = document.getElementById(`editPackInput_${index}`);
+      if (!input) return;
+      
+      const localTimestamp = datetimeLocalToLocalTimestamp(input.value);
+      if (localTimestamp === null || isNaN(localTimestamp)) {
+        showEditStatus('❌ خطأ: الرجاء اختيار تاريخ ووقت صحيح', 'error');
+        return;
+      }
+      
+      const data = loadData();
+      if (data.packHistory && index >= 0 && index < data.packHistory.length) {
+        data.packHistory[index].openedAt = localTimestamp;
+        data.packHistory.sort((a, b) => a.openedAt - b.openedAt);
+        data.totalPacks = data.packHistory.length;
+        data.packOpenTime = data.packHistory[data.packHistory.length - 1].openedAt;
+        saveData(data);
+        editingPackIndex = null;
+        loadDataToEdit();
+        showEditStatus('✅ تم تعديل وقت فتح العلبة بنجاح', 'success');
+        updateUI();
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+      }
+    };
+
+    window.cancelPackEdit = function() {
+      editingPackIndex = null;
+      loadDataToEdit();
+    };
+
+    window.deleteCigarette = function(timestamp) {
+      if (!confirm('هل أنت متأكد من حذف هذه السجارة؟')) return;
+      const data = loadData();
+      const index = data.cigarettes.indexOf(timestamp);
+      if (index !== -1) {
+        data.cigarettes.splice(index, 1);
+        data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+        saveData(data);
+        loadDataToEdit();
+        showEditStatus('✅ تم حذف السجارة بنجاح', 'success');
+        updateUI();
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+      }
+    };
+
+    window.deletePackHistory = function(index) {
+      if (!confirm('هل أنت متأكد من حذف هذه العلبة؟')) return;
+      const data = loadData();
+      if (data.packHistory && index >= 0 && index < data.packHistory.length) {
+        data.packHistory.splice(index, 1);
+        if (data.packHistory.length === 0) {
+          const now = Date.now();
+          data.packHistory = [{ openedAt: now }];
+          data.packOpenTime = now;
+          data.totalPacks = 1;
+        } else {
+          data.totalPacks = data.packHistory.length;
+          const lastPack = data.packHistory[data.packHistory.length - 1];
+          data.packOpenTime = lastPack.openedAt;
+        }
+        saveData(data);
+        loadDataToEdit();
+        showEditStatus('✅ تم حذف العلبة بنجاح', 'success');
+        updateUI();
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+      }
+    };
 
     function loadDataToEdit() {
       const data = loadData();
@@ -1293,42 +1751,14 @@
       document.getElementById('editTotalPacks').value = data.totalPacks || 1;
       
       if (data.packOpenTime) {
-        const date = new Date(data.packOpenTime);
-        const formatted = date.toISOString().slice(0, 16);
-        document.getElementById('editPackOpenTime').value = formatted;
+        const datetimeValue = localTimestampToDatetimeLocal(data.packOpenTime);
+        document.getElementById('editPackOpenTime').value = datetimeValue;
       } else {
         document.getElementById('editPackOpenTime').value = '';
       }
       
-      // عرض قائمة السجائر مع التاريخ والوقت
-      const cigsText = JSON.stringify(data.cigarettes, null, 2);
-      document.getElementById('editCigarettesList').value = cigsText;
-      
-      // عرض معاينة مع التواريخ
-      const previewEl = document.getElementById('cigListPreview');
-      if (data.cigarettes && data.cigarettes.length > 0) {
-        let previewHtml = '<div style="font-weight:600;margin-bottom:4px;font-size:0.8rem;">📋 معاينة السجائر (مع التواريخ):</div>';
-        const sorted = [...data.cigarettes].sort((a,b) => a-b);
-        sorted.forEach((ts, idx) => {
-          const dateStr = new Date(ts).toLocaleString('ar-EG', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-          });
-          previewHtml += `<div class="cig-list-item">سجارة ${idx+1}: <span>${dateStr}</span> <span class="timestamp">(${ts})</span></div>`;
-        });
-        previewEl.innerHTML = previewHtml;
-        previewEl.style.display = 'block';
-      } else {
-        previewEl.innerHTML = '📌 لا توجد سجائر مسجلة';
-        previewEl.style.display = 'block';
-      }
-      
-      // تاريخ العلب
-      document.getElementById('editPackHistory').value = JSON.stringify(data.packHistory || [], null, 2);
+      renderCigarettesList(data.cigarettes);
+      renderPackHistory(data.packHistory);
       
       showEditStatus('✅ تم تحميل البيانات الحالية بنجاح', 'success');
     }
@@ -1336,11 +1766,6 @@
     function saveEditedData() {
       try {
         const data = loadData();
-        
-        const totalCigarettes = parseInt(document.getElementById('editTotalCigarettes').value);
-        if (isNaN(totalCigarettes) || totalCigarettes < 0) {
-          throw new Error('عدد السجائر الكلي يجب أن يكون رقماً موجباً');
-        }
         
         const packCount = parseInt(document.getElementById('editPackCount').value);
         if (isNaN(packCount) || packCount < 0 || packCount > 20) {
@@ -1356,44 +1781,42 @@
         
         const packOpenTimeStr = document.getElementById('editPackOpenTime').value;
         if (packOpenTimeStr) {
-          const packOpenTime = new Date(packOpenTimeStr).getTime();
-          if (isNaN(packOpenTime)) {
-            throw new Error('تنسيق الوقت غير صحيح');
+          const localTimestamp = datetimeLocalToLocalTimestamp(packOpenTimeStr);
+          if (localTimestamp === null || isNaN(localTimestamp)) {
+            throw new Error('الرجاء اختيار تاريخ ووقت صحيح');
           }
-          data.packOpenTime = packOpenTime;
-        } else {
-          data.packOpenTime = Date.now();
+          data.packOpenTime = localTimestamp;
+          
+          // التحقق من أن وقت فتح العلبة مختلف عن آخر علبة
+          if (data.packHistory && data.packHistory.length > 0) {
+            const lastPack = data.packHistory[data.packHistory.length - 1];
+            // فقط إذا كان الوقت مختلفاً بشكل كبير (أكثر من دقيقة) نقوم بإضافة علبة جديدة
+            const timeDiff = Math.abs(lastPack.openedAt - localTimestamp);
+            if (timeDiff > 60000) { // أكثر من دقيقة
+              // نتحقق مما إذا كان هذا الوقت موجوداً بالفعل في التاريخ
+              const exists = data.packHistory.some(p => Math.abs(p.openedAt - localTimestamp) < 5000);
+              if (!exists) {
+                data.packHistory.push({ openedAt: localTimestamp });
+                data.totalPacks = data.packHistory.length;
+              } else {
+                // إذا كان الوقت موجوداً، نقوم بتحديث آخر علبة
+                lastPack.openedAt = localTimestamp;
+              }
+            } else {
+              // إذا كان الوقت قريباً جداً، نقوم بتحديث آخر علبة
+              lastPack.openedAt = localTimestamp;
+            }
+          } else {
+            data.packHistory = [{ openedAt: localTimestamp }];
+            data.totalPacks = 1;
+          }
         }
         
-        const cigsText = document.getElementById('editCigarettesList').value.trim();
-        if (cigsText) {
-          let cigarettes = JSON.parse(cigsText);
-          if (!Array.isArray(cigarettes)) {
-            throw new Error('قائمة السجائر يجب أن تكون مصفوفة');
-          }
-          cigarettes = cigarettes.map(ts => {
-            const num = Number(ts);
-            if (isNaN(num)) throw new Error('القيمة غير صالحة: ' + ts);
-            return num;
-          });
-          data.cigarettes = cigarettes;
-        } else {
-          data.cigarettes = [];
-        }
-        
-        const historyText = document.getElementById('editPackHistory').value.trim();
-        if (historyText) {
-          let packHistory = JSON.parse(historyText);
-          if (!Array.isArray(packHistory)) {
-            throw new Error('تاريخ العلب يجب أن يكون مصفوفة');
-          }
-          data.packHistory = packHistory;
-        } else {
-          data.packHistory = [];
-        }
-        
-        if (data.cigarettes.length !== totalCigarettes) {
-          showEditStatus(`⚠️ تحذير: عدد السجائر الكلي (${totalCigarettes}) لا يتطابق مع طول المصفوفة (${data.cigarettes.length}). تم استخدام المصفوفة.`, 'warning');
+        // تحديث عدد السجائر الكلي إذا اختلف
+        const totalCigs = data.cigarettes.length;
+        const editTotal = parseInt(document.getElementById('editTotalCigarettes').value);
+        if (totalCigs !== editTotal) {
+          document.getElementById('editTotalCigarettes').value = totalCigs;
         }
         
         saveData(data);
@@ -1402,7 +1825,7 @@
         showReport('Q', 'daily');
         
         showEditStatus('✅ تم حفظ التعديلات بنجاح وتحديث جميع الإحصائيات', 'success');
-        loadDataToEdit(); // إعادة تحميل البيانات لعرض المعاينة المحدثة
+        loadDataToEdit();
         
       } catch (error) {
         showEditStatus('❌ خطأ: ' + error.message, 'error');
@@ -1411,16 +1834,91 @@
     
     function showEditStatus(message, type) {
       const statusEl = document.getElementById('editStatus');
-      statusEl.style.display = 'block';
+      statusEl.className = 'edit-status ' + type;
       statusEl.innerHTML = message;
-      statusEl.style.background = type === 'success' ? '#e8f5e9' : type === 'warning' ? '#fff3e0' : '#fce4ec';
-      statusEl.style.borderColor = type === 'success' ? '#a5d6a7' : type === 'warning' ? '#ffcc80' : '#ef9a9a';
-      statusEl.style.color = type === 'success' ? '#1b5e20' : type === 'warning' ? '#e65100' : '#b71c1c';
+    }
+
+    function addCigaretteByDateTime(datetimeValue) {
+      try {
+        if (!datetimeValue) {
+          showEditStatus('⚠️ الرجاء اختيار التاريخ والوقت', 'warning');
+          return false;
+        }
+        
+        const localTimestamp = datetimeLocalToLocalTimestamp(datetimeValue);
+        if (localTimestamp === null || isNaN(localTimestamp)) {
+          showEditStatus('❌ خطأ: التاريخ والوقت غير صحيح', 'error');
+          return false;
+        }
+        
+        const data = loadData();
+        data.cigarettes.push(localTimestamp);
+        data.cigarettes.sort((a, b) => a - b);
+        data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+        
+        if (!data.packOpenTime) {
+          data.packOpenTime = localTimestamp;
+          data.totalPacks = 1;
+          data.packHistory = [{ openedAt: localTimestamp }];
+        }
+        
+        saveData(data);
+        loadDataToEdit();
+        const dateStr = formatFullDate(localTimestamp);
+        showEditStatus(`✅ تم إضافة سجارة في ${dateStr}`, 'success');
+        updateUI();
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+        return true;
+      } catch (error) {
+        showEditStatus('❌ خطأ: ' + error.message, 'error');
+        return false;
+      }
+    }
+
+    function addPackByDateTime(datetimeValue) {
+      try {
+        if (!datetimeValue) {
+          showEditStatus('⚠️ الرجاء اختيار التاريخ والوقت', 'warning');
+          return false;
+        }
+        
+        const localTimestamp = datetimeLocalToLocalTimestamp(datetimeValue);
+        if (localTimestamp === null || isNaN(localTimestamp)) {
+          showEditStatus('❌ خطأ: التاريخ والوقت غير صحيح', 'error');
+          return false;
+        }
+        
+        const data = loadData();
+        if (!data.packHistory) data.packHistory = [];
+        data.packHistory.push({ openedAt: localTimestamp });
+        data.packHistory.sort((a, b) => a.openedAt - b.openedAt);
+        data.totalPacks = data.packHistory.length;
+        data.packOpenTime = data.packHistory[data.packHistory.length - 1].openedAt;
+        data.packCount = 0;
+        
+        saveData(data);
+        loadDataToEdit();
+        const dateStr = formatFullDate(localTimestamp);
+        showEditStatus(`✅ تم إضافة علبة جديدة بتاريخ ${dateStr}`, 'success');
+        updateUI();
+        showReport('M', 'daily');
+        showReport('Q', 'daily');
+        return true;
+      } catch (error) {
+        showEditStatus('❌ خطأ: ' + error.message, 'error');
+        return false;
+      }
     }
 
     // -------- ربط الأحداث --------
     document.addEventListener('DOMContentLoaded', function() {
-      // التبويبات
+      // ضبط الوقت الافتراضي للحقول
+      const now = Date.now();
+      const defaultDateTime = localTimestampToDatetimeLocal(now);
+      document.getElementById('editAddCigInput').value = defaultDateTime;
+      document.getElementById('editAddPackInput').value = defaultDateTime;
+
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', function() {
           document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1428,27 +1926,23 @@
           document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
           document.getElementById(this.dataset.tab).classList.add('active');
           
-          // إذا تم فتح تبويب التحرير، نقوم بتحميل البيانات
           if (this.dataset.tab === 'tab-edit') {
             setTimeout(loadDataToEdit, 150);
           }
         });
       });
 
-      // ربط أزرار تبويب المراقبة (M)
       document.getElementById('logCigBtnM').addEventListener('click', function() { addCigarette('M'); });
       document.getElementById('undoBtnM').addEventListener('click', function() { undoLastAction('M'); });
       document.getElementById('resetPackBtnM').addEventListener('click', function() { resetPack('M'); });
       document.getElementById('clearAllBtnM').addEventListener('click', function() { clearAllData('M'); });
       document.getElementById('exportDataBtnM').addEventListener('click', function() { exportData('M'); });
 
-      // ربط أزرار تبويب الإقلاع (Q)
       document.getElementById('logCigBtnQ').addEventListener('click', function() { addCigarette('Q'); });
       document.getElementById('undoBtnQ').addEventListener('click', function() { undoLastAction('Q'); });
       document.getElementById('resetPackBtnQ').addEventListener('click', function() { resetPack('Q'); });
       document.getElementById('clearAllBtnQ').addEventListener('click', function() { clearAllData('Q'); });
 
-      // تقارير المراقبة
       document.querySelectorAll('#tab-monitor .report-tabs button').forEach(btn => {
         btn.addEventListener('click', function() {
           const period = this.classList.contains('report-daily') ? 'daily' :
@@ -1457,7 +1951,6 @@
         });
       });
 
-      // تقارير الإقلاع
       document.querySelectorAll('#tab-quit .report-tabs button').forEach(btn => {
         btn.addEventListener('click', function() {
           const period = this.classList.contains('report-daily') ? 'daily' :
@@ -1466,7 +1959,6 @@
         });
       });
 
-      // زر الإعدادات
       document.getElementById('settingsBtnQ').addEventListener('click', function() {
         const settings = loadSettings();
         document.getElementById('dailyTarget').value = settings.dailyTarget;
@@ -1474,7 +1966,6 @@
         document.getElementById('settingsModal').classList.add('open');
       });
 
-      // مودال الإعدادات
       document.getElementById('settingsCancel').addEventListener('click', function() {
         document.getElementById('settingsModal').classList.remove('open');
       });
@@ -1493,123 +1984,32 @@
         if (e.target === this) this.classList.remove('open');
       });
 
-      // أزرار التحرير
       document.getElementById('loadDataBtn').addEventListener('click', loadDataToEdit);
       document.getElementById('saveDataBtn').addEventListener('click', saveEditedData);
 
-      // إضافة سيجارة بتوقيت محدد
       document.getElementById('editAddCigBtn').addEventListener('click', function() {
-        try {
-          const dateTimeStr = document.getElementById('editAddCigTime').value;
-          if (!dateTimeStr) {
-            alert('⚠️ الرجاء اختيار التاريخ والوقت');
-            return;
-          }
-          
-          const date = new Date(dateTimeStr);
-          if (isNaN(date.getTime())) {
-            alert('⚠️ تنسيق التاريخ غير صحيح');
-            return;
-          }
-          
-          const timestamp = date.getTime();
-          
-          const cigsText = document.getElementById('editCigarettesList').value.trim();
-          let cigarettes = cigsText ? JSON.parse(cigsText) : [];
-          if (!Array.isArray(cigarettes)) {
-            cigarettes = [];
-          }
-          
-          cigarettes.push(timestamp);
-          cigarettes.sort((a, b) => a - b);
-          
-          document.getElementById('editCigarettesList').value = JSON.stringify(cigarettes, null, 2);
-          document.getElementById('editTotalCigarettes').value = cigarettes.length;
-          
-          const dateStr = new Date(timestamp).toLocaleString('ar-EG', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-          });
-          showEditStatus(`✅ تم إضافة سجارة في ${dateStr} (التوقيت: ${timestamp})`, 'success');
-          loadDataToEdit(); // تحديث المعاينة
-          
-        } catch (error) {
-          showEditStatus('❌ خطأ: ' + error.message, 'error');
-        }
-      });
-
-      // تحويل التوقيت إلى تاريخ والعكس
-      document.getElementById('editTimestampToDate').addEventListener('click', function() {
-        const input = document.getElementById('editTimestampInput').value.trim();
-        const resultEl = document.getElementById('editTimestampResult');
-        
+        const input = document.getElementById('editAddCigInput').value;
         if (!input) {
-          resultEl.textContent = '⚠️ الرجاء إدخال قيمة';
-          resultEl.style.color = '#e65100';
+          showEditStatus('⚠️ الرجاء اختيار التاريخ والوقت', 'warning');
           return;
         }
-        
-        const num = Number(input);
-        if (!isNaN(num) && num > 0 && Number.isInteger(num)) {
-          const date = new Date(num);
-          if (!isNaN(date.getTime())) {
-            const dateStr = date.toLocaleString('ar-EG', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit'
-            });
-            resultEl.textContent = `📅 ${dateStr} (التوقيت: ${num})`;
-            resultEl.style.color = '#1b5e20';
-            return;
-          }
-        }
-        
-        try {
-          let date = new Date(input);
-          if (isNaN(date.getTime())) {
-            date = new Date(input.replace(' ', 'T'));
-          }
-          
-          if (!isNaN(date.getTime())) {
-            const timestamp = date.getTime();
-            const dateStr = date.toLocaleString('ar-EG', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit'
-            });
-            resultEl.textContent = `⏱️ ${timestamp} (التاريخ: ${dateStr})`;
-            resultEl.style.color = '#1b5e20';
-            return;
-          }
-        } catch (e) {}
-        
-        resultEl.textContent = '❌ لا يمكن تحويل القيمة المدخلة. تأكد من التنسيق.';
-        resultEl.style.color = '#b71c1c';
+        addCigaretteByDateTime(input);
+        // تعيين الوقت الحالي للحقل بعد الإضافة
+        const now2 = Date.now();
+        document.getElementById('editAddCigInput').value = localTimestampToDatetimeLocal(now2);
       });
 
-      document.getElementById('editTimestampInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          document.getElementById('editTimestampToDate').click();
+      document.getElementById('editAddPackBtn').addEventListener('click', function() {
+        const input = document.getElementById('editAddPackInput').value;
+        if (!input) {
+          showEditStatus('⚠️ الرجاء اختيار التاريخ والوقت', 'warning');
+          return;
         }
-      });
-      
-      document.getElementById('editAddCigTime').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          document.getElementById('editAddCigBtn').click();
-        }
+        addPackByDateTime(input);
+        const now2 = Date.now();
+        document.getElementById('editAddPackInput').value = localTimestampToDatetimeLocal(now2);
       });
 
-      // تهيئة البيانات
       const data = loadData();
       if (data.cigarettes.length === 0 && !data.packOpenTime) {
         const now = Date.now();
