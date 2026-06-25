@@ -520,7 +520,7 @@
     }
     .edit-field input[type="datetime-local"] {
       width: 100%;
-      padding: 10px 14px;
+      padding: 12px 16px;
       border: 2px solid #dce6ef;
       border-radius: 16px;
       font-size: 1rem;
@@ -529,10 +529,9 @@
       box-sizing: border-box;
       transition: border-color 0.2s;
       direction: ltr;
-      /* تحسين عرض input في الوضع الأفقي على الجوال */
       min-height: 48px;
-      appearance: auto;
-      -webkit-appearance: auto;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .edit-field input:focus,
     .edit-field textarea:focus {
@@ -647,17 +646,16 @@
     .cig-list-item .edit-input {
       flex: 1;
       min-width: 150px;
-      padding: 4px 8px;
+      padding: 6px 10px;
       border: 2px solid #1f4b61;
       border-radius: 8px;
       font-size: 0.85rem;
       background: white;
       font-family: inherit;
       direction: ltr;
-      /* تحسين عرض input في الوضع الأفقي على الجوال */
       min-height: 38px;
-      appearance: auto;
-      -webkit-appearance: auto;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .cig-list-item .edit-input:focus {
       outline: none;
@@ -747,7 +745,7 @@
     .quick-add-row input[type="datetime-local"] {
       flex: 2;
       min-width: 150px;
-      padding: 10px 14px;
+      padding: 12px 16px;
       border: 2px solid #dce6ef;
       border-radius: 12px;
       font-size: 0.95rem;
@@ -755,10 +753,9 @@
       font-family: inherit;
       transition: border-color 0.2s;
       direction: ltr;
-      /* تحسين عرض input في الوضع الأفقي على الجوال */
       min-height: 48px;
-      appearance: auto;
-      -webkit-appearance: auto;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .quick-add-row input[type="datetime-local"]:focus {
       border-color: #1f4b61;
@@ -767,7 +764,7 @@
     .quick-add-row button {
       flex: 1;
       min-width: 80px;
-      padding: 10px 14px;
+      padding: 12px 16px;
       border: none;
       border-radius: 12px;
       background: #1f4b61;
@@ -775,6 +772,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: 0.15s;
+      min-height: 48px;
     }
     .quick-add-row button:active { background: #123845; }
     .quick-add-row button.btn-secondary {
@@ -808,10 +806,14 @@
       .quick-add-row input[type="datetime-local"] {
         min-width: unset;
         width: 100%;
+        font-size: 0.9rem;
+        min-height: 44px;
       }
       .quick-add-row button {
         min-width: unset;
         width: 100%;
+        min-height: 44px;
+        font-size: 0.9rem;
       }
       .cig-list-item {
         flex-wrap: wrap;
@@ -828,34 +830,243 @@
         font-size: 0.75rem;
         min-height: 34px;
       }
-      /* تحسين إضافي للوضع الأفقي */
-      .edit-field input[type="datetime-local"],
-      .quick-add-row input[type="datetime-local"] {
+      .edit-field input[type="datetime-local"] {
         font-size: 0.9rem;
         min-height: 44px;
+        padding: 10px 14px;
       }
     }
 
-    /* تحسين إضافي للوضع الأفقي على الجوال */
+    /* تحسينات خاصة للوضع الأفقي على الجوال */
     @media (orientation: landscape) and (max-height: 500px) {
+      .app-container {
+        padding: 16px 12px 20px;
+        border-radius: 32px;
+      }
+      .stats-card {
+        padding: 12px 10px 14px;
+        margin-bottom: 16px;
+      }
+      .stat-grid {
+        gap: 4px;
+      }
+      .stat-item {
+        padding: 6px 2px;
+      }
+      .stat-value {
+        font-size: 1.1rem;
+      }
+      .stat-value.small {
+        font-size: 0.8rem;
+      }
+      .circle-layout {
+        min-height: 160px;
+        margin: 4px 0 8px;
+      }
+      .btn-circle-main {
+        width: 80px;
+        height: 80px;
+        font-size: 1rem;
+      }
+      .btn-circle-main .main-icon {
+        font-size: 1.4rem;
+      }
+      .btn-circle-main small {
+        font-size: 0.6rem;
+      }
+      .corner-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+      }
+      .corner-btn .fa-icon {
+        font-size: 0.8rem;
+      }
+      .corner-btn-wrapper .corner-btn-label {
+        font-size: 0.4rem;
+        max-width: 40px;
+        padding: 1px 4px;
+      }
+      .corner-top-left { top: 0; left: 0; }
+      .corner-top-right { top: 0; right: 0; }
+      .corner-bottom-left { bottom: 0; left: 0; }
+      .corner-bottom-right { bottom: 0; right: 0; }
+      
       .edit-field input[type="datetime-local"],
-      .quick-add-row input[type="datetime-local"],
-      .cig-list-item .edit-input {
-        min-height: 40px;
-        font-size: 0.85rem;
+      .quick-add-row input[type="datetime-local"] {
+        min-height: 36px;
+        font-size: 0.8rem;
+        padding: 6px 10px;
       }
       .quick-add-row {
         flex-direction: row;
         flex-wrap: wrap;
       }
       .quick-add-row input[type="datetime-local"] {
-        width: 60%;
+        width: 55%;
         flex: none;
+        min-width: 120px;
       }
       .quick-add-row button {
         width: auto;
         flex: 1;
         min-width: 60px;
+        min-height: 36px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      .cig-list-item {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+      }
+      .cig-list-item .edit-input {
+        min-height: 30px;
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        min-width: 80px;
+      }
+      .cig-list-item .cig-date {
+        min-width: 60px;
+        font-size: 0.65rem;
+      }
+      .cig-list-item .action-btn {
+        font-size: 0.7rem;
+        padding: 2px 4px;
+      }
+      .edit-actions button {
+        min-width: 80px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        min-height: 36px;
+      }
+      .report-box {
+        max-height: 100px;
+        font-size: 0.75rem;
+        padding: 6px 10px;
+      }
+      .report-header .title {
+        font-size: 0.85rem;
+      }
+      .report-tabs button {
+        padding: 2px 10px;
+        font-size: 0.65rem;
+      }
+      .progress-wrapper {
+        margin: 6px 0 10px;
+      }
+      .progress-label {
+        font-size: 0.65rem;
+      }
+      .progress-bar-bg {
+        height: 6px;
+      }
+      .quick-add-section {
+        padding: 10px 12px;
+        margin-top: 10px;
+      }
+      .quick-add-section label {
+        font-size: 0.7rem;
+      }
+      .edit-field label {
+        font-size: 0.7rem;
+      }
+      .edit-field .helper-text {
+        font-size: 0.6rem;
+      }
+      .edit-status {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        margin-top: 8px;
+      }
+      .cig-list-container {
+        max-height: 120px;
+      }
+      #tab-edit .stats-card {
+        padding: 10px 10px 14px;
+      }
+      h1 {
+        font-size: 1.2rem;
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+      }
+      h1 small {
+        font-size: 0.6rem;
+      }
+      .tabs-container {
+        margin-bottom: 12px;
+        gap: 4px;
+        padding: 3px;
+      }
+      .tab-btn {
+        padding: 6px 8px;
+        font-size: 0.7rem;
+      }
+      .modal-box {
+        padding: 20px 16px 18px;
+        max-width: 320px;
+      }
+      .modal-box h2 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+      }
+      .modal-box input {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-height: 36px;
+      }
+      .modal-actions button {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-height: 36px;
+      }
+      .corner-top-left .corner-btn-label,
+      .corner-top-right .corner-btn-label {
+        order: 1;
+      }
+      .corner-bottom-left .corner-btn-label,
+      .corner-bottom-right .corner-btn-label {
+        order: 0;
+      }
+    }
+
+    /* تحسينات للشاشات الصغيرة جداً */
+    @media (max-width: 380px) {
+      .stat-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 3px;
+      }
+      .stat-item {
+        padding: 4px 2px;
+      }
+      .stat-value {
+        font-size: 0.9rem;
+      }
+      .stat-label {
+        font-size: 0.5rem;
+      }
+      .app-container {
+        padding: 12px 8px 16px;
+        border-radius: 24px;
+      }
+      .btn-circle-main {
+        width: 90px;
+        height: 90px;
+        font-size: 0.9rem;
+      }
+      .btn-circle-main .main-icon {
+        font-size: 1.4rem;
+      }
+      .corner-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.8rem;
+      }
+      .corner-btn .fa-icon {
+        font-size: 0.7rem;
+      }
+      .corner-btn-wrapper .corner-btn-label {
+        font-size: 0.4rem;
+        max-width: 36px;
       }
     }
   </style>
