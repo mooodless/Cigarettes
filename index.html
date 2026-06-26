@@ -802,7 +802,7 @@
       }
     }
 
-    /* أيقونة السجارة الطائرة - مسار منحني (قوس) بدون دوران - تختفي عند الوصول */
+    /* أيقونة السجارة الطائرة - تبدأ من الزر وتنتهي عند السلة */
     .flying-cigarette {
       position: fixed;
       font-size: 2.5rem;
@@ -813,28 +813,28 @@
       transition: none;
     }
     .flying-cigarette.fly {
-      animation: flyToTrash 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      animation: flyToTrash 1.1s cubic-bezier(0.33, 0.0, 0.2, 1.0) forwards;
     }
     @keyframes flyToTrash {
       0% {
         opacity: 1;
         transform: scale(1) translate(0, 0);
       }
-      30% {
+      35% {
         opacity: 1;
-        transform: scale(1.05) translate(15px, -50px);
+        transform: scale(1.05) translate(12px, -45px);
       }
-      60% {
+      65% {
         opacity: 1;
-        transform: scale(0.95) translate(8px, -20px);
+        transform: scale(0.95) translate(5px, -15px);
       }
       85% {
         opacity: 1;
-        transform: scale(0.8) translate(1px, -5px);
+        transform: scale(0.85) translate(1px, -3px);
       }
       100% {
         opacity: 0;
-        transform: scale(0.0) translate(0px, 0px);
+        transform: scale(0.15) translate(0px, 0px);
       }
     }
   </style>
@@ -1356,18 +1356,18 @@
       if (activeBtn) activeBtn.classList.add('active');
     }
 
-    // دالة مساعدة لإنشاء أيقونة طائرة - حركة قوسية بدون دوران - تختفي عند الوصول
+    // دالة مساعدة لإنشاء أيقونة طائرة - تبدأ من الزر وتنتهي عند السلة
     function animateCigaretteToTrash(clickEvent) {
       const cigIcon = document.createElement('div');
       cigIcon.className = 'flying-cigarette';
       cigIcon.textContent = '🚬';
       
-      // موقع الزر (نقطة البداية)
+      // موقع الزر (نقطة البداية) - مركز السيجارة الثابتة
       const btnRect = clickEvent.currentTarget.getBoundingClientRect();
       const startX = btnRect.left + btnRect.width / 2 - 20;
       const startY = btnRect.top + btnRect.height / 2 - 20;
       
-      // موقع سلة المهملات (نقطة النهاية)
+      // موقع سلة المهملات (نقطة النهاية) - نهاية المسار
       const trashBtn = document.getElementById('clearAllBtnM');
       const trashRect = trashBtn.getBoundingClientRect();
       const endX = trashRect.left + trashRect.width / 2 - 20;
@@ -1381,12 +1381,16 @@
       cigIcon.style.left = startX + 'px';
       cigIcon.style.top = startY + 'px';
       
-      // إنشاء keyframes ديناميكية لمسار قوسي (بدون دوران) - تختفي عند الوصول
+      // إنشاء keyframes ديناميكية لمسار قوسي يبدأ من (0,0) وينتهي عند (deltaX, deltaY)
       const styleSheet = document.createElement('style');
       const keyframesName = 'flyArc_' + Date.now();
       
-      // مسار القوس البسيط (ارتفاع ثم هبوط)
-      const path = `M 0,0 Q ${deltaX * 0.5},${deltaY - 100} ${deltaX},${deltaY}`;
+      // نقطة تحكم القوس - الارتفاع لأعلى (قيمة سالبة)
+      const controlX = deltaX * 0.4;
+      const controlY = deltaY - 80;
+      
+      // مسار بيزير منحني يبدأ من (0,0) وينتهي عند (deltaX, deltaY)
+      const path = `M 0,0 Q ${controlX},${controlY} ${deltaX},${deltaY}`;
       
       styleSheet.textContent = `
         @keyframes ${keyframesName} {
@@ -1394,10 +1398,10 @@
             offset-distance: 0%;
             opacity: 1;
           }
-          40% {
+          30% {
             opacity: 1;
           }
-          70% {
+          60% {
             opacity: 1;
           }
           85% {
@@ -1410,7 +1414,7 @@
         }
         .flying-cigarette.${keyframesName} {
           offset-path: path("${path}");
-          animation: ${keyframesName} 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+          animation: ${keyframesName} 1.0s cubic-bezier(0.25, 0.1, 0.25, 1.0) forwards;
         }
       `;
       document.head.appendChild(styleSheet);
@@ -1428,7 +1432,7 @@
       setTimeout(() => {
         if (cigIcon.parentNode) cigIcon.parentNode.removeChild(cigIcon);
         if (styleSheet.parentNode) styleSheet.parentNode.removeChild(styleSheet);
-      }, 1400);
+      }, 1200);
     }
 
     function addCigarette(tabId, event) {
