@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-   <title>🚭 مساعد الإقلاع - النسخة المتقدمة</title>
-   <link rel="icon" type="image/png" href="/cigarette-box.png">
-   <link rel="manifest" href="/manifest.json">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-   <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>🚭 مساعد الإقلاع - النسخة المتقدمة</title>
+  <link rel="icon" type="image/png" href="/cigarette-box.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
@@ -29,6 +29,7 @@
       transition: all 0.2s;
       position: relative;
       margin: 0 auto;
+      overflow: visible;
     }
     
     h1 {
@@ -204,6 +205,8 @@
       color: #1e3e50;
       font-weight: 500;
       border: 2px solid white;
+      position: relative;
+      z-index: 6;
     }
     .corner-btn:active {
       transform: scale(0.88);
@@ -424,7 +427,6 @@
       transition: border-color 0.2s;
     }
     
-    /* أنماط حقول التاريخ والوقت - نسخة مبسطة مثل quick-add-row */
     .datetime-group {
       display: flex;
       gap: 4px;
@@ -799,6 +801,21 @@
         font-size: 16px !important;
       }
     }
+
+    /* أيقونة السجارة الطائرة */
+    .flying-cigarette {
+      position: fixed;
+      font-size: 2.5rem;
+      pointer-events: none;
+      z-index: 999;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+    .flying-cigarette.hidden {
+      opacity: 0;
+      transform: scale(0.3) rotate(720deg);
+    }
   </style>
 </head>
 <body>
@@ -820,7 +837,7 @@
         <div class="stat-item"><span class="stat-label"><i class="fas fa-clock" style="margin-left:4px;"></i> الوقت الفاصل</span><div class="stat-value small" id="timeSinceLastM">--</div></div>
       </div>
     </div>
-    <div class="circle-layout">
+    <div class="circle-layout" id="circleLayoutM">
       <button class="btn-circle-main" id="logCigBtnM"><span class="main-icon">🚬</span><small>تناول سيجارة</small></button>
       <div class="corner-btn-wrapper corner-top-left">
         <button class="corner-btn undo" id="undoBtnM" title="الغاء آخر إضافة"><i class="fas fa-undo fa-icon"></i></button>
@@ -830,7 +847,7 @@
         <button class="corner-btn reset" id="resetPackBtnM" title="فتح علبة جديدة"><i class="fas fa-box-open fa-icon"></i></button>
         <span class="corner-btn-label">فتح علبة جديدة</span>
       </div>
-      <div class="corner-btn-wrapper corner-bottom-right">
+      <div class="corner-btn-wrapper corner-bottom-right" id="trashBinM">
         <button class="corner-btn clear-btn" id="clearAllBtnM" title="مسح كل البيانات"><i class="fas fa-trash fa-icon"></i></button>
         <span class="corner-btn-label">مسح الكل</span>
       </div>
@@ -935,7 +952,6 @@
         
         <div class="edit-field">
           <label><i class="fas fa-clock" style="margin-left: 6px;"></i> وقت فتح العلبة الحالية</label>
-          <!-- تم التعديل هنا لاستخدام نفس تنسيق quick-add-row -->
           <div class="quick-add-row" style="background:transparent;padding:0;border:none;margin:0;">
             <div class="date-part">
               <input type="number" class="day-input" id="editPackDay" min="1" max="31" placeholder="يوم">
@@ -1091,7 +1107,6 @@
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     }
 
-    // دمج اليوم/الشهر/السنة والوقت في توقيت واحد
     function combineDateParts(day, month, year, timeStr) {
       if (!day || !month || !year || !timeStr) return null;
       try {
@@ -1320,7 +1335,47 @@
       if (activeBtn) activeBtn.classList.add('active');
     }
 
-    function addCigarette(tabId) {
+    // دالة مساعدة لإنشاء أيقونة طائرة
+    function animateCigaretteToTrash(clickEvent) {
+      const cigIcon = document.createElement('div');
+      cigIcon.className = 'flying-cigarette';
+      cigIcon.textContent = '🚬';
+      
+      // موقع الزر (نقطة البداية)
+      const btnRect = clickEvent.currentTarget.getBoundingClientRect();
+      const startX = btnRect.left + btnRect.width / 2 - 20;
+      const startY = btnRect.top + btnRect.height / 2 - 20;
+      
+      // موقع سلة المهملات (نقطة النهاية)
+      const trashBtn = document.getElementById('clearAllBtnM');
+      const trashRect = trashBtn.getBoundingClientRect();
+      const endX = trashRect.left + trashRect.width / 2 - 20;
+      const endY = trashRect.top + trashRect.height / 2 - 20;
+      
+      cigIcon.style.left = startX + 'px';
+      cigIcon.style.top = startY + 'px';
+      document.body.appendChild(cigIcon);
+      
+      // إجبار reflow
+      void cigIcon.offsetWidth;
+      
+      // الانتقال إلى السلة
+      const deltaX = endX - startX;
+      const deltaY = endY - startY;
+      cigIcon.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.7) rotate(360deg)`;
+      cigIcon.style.opacity = '0.7';
+      
+      // إخفاء وإزالة بعد الانتهاء
+      setTimeout(() => {
+        cigIcon.style.opacity = '0';
+        cigIcon.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.2) rotate(720deg)`;
+        setTimeout(() => {
+          if (cigIcon.parentNode) cigIcon.parentNode.removeChild(cigIcon);
+        }, 400);
+      }, 500);
+    }
+
+    function addCigarette(tabId, event) {
       const data = loadData();
       const settings = loadSettings();
       
@@ -1351,6 +1406,11 @@
       saveData(data);
       updateUI();
       showReport(tabId, 'daily');
+      
+      // تشغيل الأنيميشن فقط إذا كانت التبويب الأول (M) والحدث موجود
+      if (tabId === 'M' && event) {
+        animateCigaretteToTrash(event);
+      }
     }
 
     function undoLastAction(tabId) {
@@ -1911,7 +1971,6 @@
       const parts = getDatePartsFromTimestamp(now);
       const timeStr = formatTimeOnly(now);
       
-      // تعيين القيم الافتراضية
       if (parts) {
         document.getElementById('editAddCigDay').value = parts.day;
         document.getElementById('editAddCigMonth').value = parts.month;
@@ -1919,7 +1978,6 @@
         document.getElementById('editAddPackDay').value = parts.day;
         document.getElementById('editAddPackMonth').value = parts.month;
         document.getElementById('editAddPackYear').value = parts.year;
-        // تعيين القيم الافتراضية لحقل وقت فتح العلبة
         document.getElementById('editPackDay').value = parts.day;
         document.getElementById('editPackMonth').value = parts.month;
         document.getElementById('editPackYear').value = parts.year;
@@ -1941,12 +1999,15 @@
         });
       });
 
-      document.getElementById('logCigBtnM').addEventListener('click', function() { addCigarette('M'); });
+      // ربط زر تناول سيجارة مع تمرير الحدث للأنيميشن
+      document.getElementById('logCigBtnM').addEventListener('click', function(e) { 
+        addCigarette('M', e); 
+      });
       document.getElementById('undoBtnM').addEventListener('click', function() { undoLastAction('M'); });
       document.getElementById('resetPackBtnM').addEventListener('click', function() { resetPack('M'); });
       document.getElementById('clearAllBtnM').addEventListener('click', function() { clearAllData('M'); });
 
-      document.getElementById('logCigBtnQ').addEventListener('click', function() { addCigarette('Q'); });
+      document.getElementById('logCigBtnQ').addEventListener('click', function(e) { addCigarette('Q', e); });
       document.getElementById('undoBtnQ').addEventListener('click', function() { undoLastAction('Q'); });
       document.getElementById('resetPackBtnQ').addEventListener('click', function() { resetPack('Q'); });
       document.getElementById('clearAllBtnQ').addEventListener('click', function() { clearAllData('Q'); });
