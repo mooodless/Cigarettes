@@ -424,7 +424,7 @@
       transition: border-color 0.2s;
     }
     
-    /* أنماط حقول التاريخ المنفصلة (يوم، شهر، سنة) + الوقت */
+    /* أنماط حقول التاريخ والوقت - نسخة مبسطة مثل quick-add-row */
     .datetime-group {
       display: flex;
       gap: 4px;
@@ -439,45 +439,41 @@
       align-items: center;
       flex-wrap: wrap;
       justify-content: center;
-      flex: 1;
     }
     .datetime-group .date-part select,
     .datetime-group .date-part input {
-      padding: 8px 4px;
+      padding: 6px 4px;
       border: 2px solid #dce6ef;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      background: #f8fbfe;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      background: white;
       font-family: inherit;
       transition: border-color 0.2s;
-      min-height: 40px;
+      min-height: 36px;
       text-align: center;
       direction: ltr;
       -webkit-appearance: none;
       appearance: none;
-      background-color: white;
     }
     .datetime-group .date-part select:focus,
     .datetime-group .date-part input:focus {
       border-color: #1f4b61;
       outline: none;
-      background: white;
     }
-    .datetime-group .date-part .day-input { width: 50px; min-width: 42px; }
-    .datetime-group .date-part .month-select { width: 60px; min-width: 50px; }
-    .datetime-group .date-part .year-input { width: 70px; min-width: 60px; }
+    .datetime-group .date-part .day-input { width: 45px; min-width: 38px; }
+    .datetime-group .date-part .month-select { width: 55px; min-width: 45px; }
+    .datetime-group .date-part .year-input { width: 65px; min-width: 55px; }
     .datetime-group .time-input {
-      flex: 1 1 80px;
-      min-width: 70px;
-      padding: 8px 10px;
+      flex: 1 1 70px;
+      min-width: 60px;
+      padding: 6px 8px;
       border: 2px solid #dce6ef;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      background: #f8fbfe;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      background: white;
       font-family: inherit;
-      box-sizing: border-box;
       transition: border-color 0.2s;
-      min-height: 40px;
+      min-height: 36px;
       direction: ltr;
       text-align: center;
       -webkit-appearance: none;
@@ -486,7 +482,6 @@
     .datetime-group .time-input:focus {
       border-color: #1f4b61;
       outline: none;
-      background: white;
     }
     .datetime-group .datetime-label {
       font-size: 0.65rem;
@@ -935,7 +930,8 @@
         
         <div class="edit-field">
           <label><i class="fas fa-clock" style="margin-left: 6px;"></i> وقت فتح العلبة الحالية</label>
-          <div class="datetime-group">
+          <!-- تم التعديل هنا لاستخدام نفس تنسيق quick-add-row -->
+          <div class="quick-add-row" style="background:transparent;padding:0;border:none;margin:0;">
             <div class="date-part">
               <input type="number" class="day-input" id="editPackDay" min="1" max="31" placeholder="يوم">
               <span class="date-separator">/</span>
@@ -949,7 +945,7 @@
               <input type="number" class="year-input" id="editPackYear" min="2000" max="2100" placeholder="سنة">
             </div>
             <input type="time" class="time-input" id="editPackTime">
-            <span class="datetime-label">(التاريخ + الوقت)</span>
+            <span class="datetime-label" style="font-size:0.65rem;color:#6b8a9e;white-space:nowrap;">(التاريخ + الوقت)</span>
           </div>
           <div class="helper-text">📌 أدخل اليوم/الشهر/السنة والوقت</div>
         </div>
@@ -1919,9 +1915,14 @@
         document.getElementById('editAddPackDay').value = parts.day;
         document.getElementById('editAddPackMonth').value = parts.month;
         document.getElementById('editAddPackYear').value = parts.year;
+        // تعيين القيم الافتراضية لحقل وقت فتح العلبة
+        document.getElementById('editPackDay').value = parts.day;
+        document.getElementById('editPackMonth').value = parts.month;
+        document.getElementById('editPackYear').value = parts.year;
       }
       document.getElementById('editAddCigTime').value = timeStr;
       document.getElementById('editAddPackTime').value = timeStr;
+      document.getElementById('editPackTime').value = timeStr;
 
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', function() {
