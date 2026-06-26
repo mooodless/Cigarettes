@@ -802,19 +802,40 @@
       }
     }
 
-    /* أيقونة السجارة الطائرة */
+    /* أيقونة السجارة الطائرة - مسار منحني (قوس) بدون دوران - تختفي عند الوصول */
     .flying-cigarette {
       position: fixed;
       font-size: 2.5rem;
       pointer-events: none;
       z-index: 999;
-      transition: transform 2.0s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
       opacity: 1;
-      transform: scale(1) rotate(0deg);
+      will-change: transform, opacity;
+      transition: none;
     }
-    .flying-cigarette.hidden {
-      opacity: 0;
-      transform: scale(0.3) rotate(720deg);
+    .flying-cigarette.fly {
+      animation: flyToTrash 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes flyToTrash {
+      0% {
+        opacity: 1;
+        transform: scale(1) translate(0, 0);
+      }
+      30% {
+        opacity: 1;
+        transform: scale(1.05) translate(15px, -50px);
+      }
+      60% {
+        opacity: 1;
+        transform: scale(0.95) translate(8px, -20px);
+      }
+      85% {
+        opacity: 1;
+        transform: scale(0.8) translate(1px, -5px);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.0) translate(0px, 0px);
+      }
     }
   </style>
 </head>
@@ -1335,7 +1356,7 @@
       if (activeBtn) activeBtn.classList.add('active');
     }
 
-    // دالة مساعدة لإنشاء أيقونة طائرة
+    // دالة مساعدة لإنشاء أيقونة طائرة - حركة قوسية بدون دوران - تختفي عند الوصول
     function animateCigaretteToTrash(clickEvent) {
       const cigIcon = document.createElement('div');
       cigIcon.className = 'flying-cigarette';
@@ -1352,27 +1373,62 @@
       const endX = trashRect.left + trashRect.width / 2 - 20;
       const endY = trashRect.top + trashRect.height / 2 - 20;
       
+      // حساب المسافة والاتجاه
+      const deltaX = endX - startX;
+      const deltaY = endY - startY;
+      
+      // تعيين موضع البداية
       cigIcon.style.left = startX + 'px';
       cigIcon.style.top = startY + 'px';
+      
+      // إنشاء keyframes ديناميكية لمسار قوسي (بدون دوران) - تختفي عند الوصول
+      const styleSheet = document.createElement('style');
+      const keyframesName = 'flyArc_' + Date.now();
+      
+      // مسار القوس البسيط (ارتفاع ثم هبوط)
+      const path = `M 0,0 Q ${deltaX * 0.5},${deltaY - 100} ${deltaX},${deltaY}`;
+      
+      styleSheet.textContent = `
+        @keyframes ${keyframesName} {
+          0% {
+            offset-distance: 0%;
+            opacity: 1;
+          }
+          40% {
+            opacity: 1;
+          }
+          70% {
+            opacity: 1;
+          }
+          85% {
+            opacity: 1;
+          }
+          100% {
+            offset-distance: 100%;
+            opacity: 0;
+          }
+        }
+        .flying-cigarette.${keyframesName} {
+          offset-path: path("${path}");
+          animation: ${keyframesName} 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+      `;
+      document.head.appendChild(styleSheet);
+      
+      // إضافة العنصر للصفحة
       document.body.appendChild(cigIcon);
       
       // إجبار reflow
       void cigIcon.offsetWidth;
       
-      // الانتقال إلى السلة
-      const deltaX = endX - startX;
-      const deltaY = endY - startY;
-      cigIcon.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.7) rotate(360deg)`;
-      cigIcon.style.opacity = '0.7';
+      // تطبيق الكلاس مع الـ keyframes الديناميكية
+      cigIcon.classList.add(keyframesName);
       
-      // إخفاء وإزالة بعد الانتهاء
+      // إزالة العنصر بعد الانتهاء من الأنيميشن
       setTimeout(() => {
-        cigIcon.style.opacity = '0';
-        cigIcon.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.2) rotate(720deg)`;
-        setTimeout(() => {
-          if (cigIcon.parentNode) cigIcon.parentNode.removeChild(cigIcon);
-        }, 400);
-      }, 500);
+        if (cigIcon.parentNode) cigIcon.parentNode.removeChild(cigIcon);
+        if (styleSheet.parentNode) styleSheet.parentNode.removeChild(styleSheet);
+      }, 1400);
     }
 
     function addCigarette(tabId, event) {
