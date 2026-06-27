@@ -467,11 +467,11 @@
     .datetime-group .date-part .year-input { width: 65px; min-width: 55px; }
     .datetime-group .time-input {
       flex: 1 1 70px;
-      min-width: 60px;
+      min-width: 50px;
       padding: 6px 8px;
       border: 2px solid #dce6ef;
       border-radius: 8px;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       background: white;
       font-family: inherit;
       transition: border-color 0.2s;
@@ -606,7 +606,7 @@
       appearance: none;
     }
     .cig-list-item .edit-group .day-input { width: 45px; min-width: 35px; }
-    .cig-list-item .edit-group .month-select { width: 40px; min-width: 30px; }
+    .cig-list-item .edit-group .month-select { width: 30px; min-width: 20px; }
     .cig-list-item .edit-group .year-input { width: 55px; min-width: 45px; }
     .cig-list-item .edit-group .time-input { width: 65px; min-width: 55px; }
     .cig-list-item .edit-group .edit-separator {
@@ -725,6 +725,12 @@
     .quick-add-row .time-input:focus {
       border-color: #1f4b61;
       outline: none;
+    }
+    .time-add-btn {
+      width: 30px;
+    }
+    .time-add-plus-btn {
+      width: 40px;
     }
     .quick-add-row button {
       flex: 1 0 auto;
@@ -1011,7 +1017,7 @@
                 <input type="number" class="year-input" id="editAddCigYear" min="2000" max="2100" placeholder="سنة">
               </div>
               <input type="time" class="time-input" id="editAddCigTime">
-              <button id="editAddCigBtn"><i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة</button>
+              <button class="time-add-btn" id="editAddCigBtn"><i class="fas fa-plus" ></i> إضافة</button>
             </div>
             <div class="helper-text">📌 أدخل اليوم/الشهر/السنة والوقت ثم اضغط إضافة</div>
           </div>
@@ -1044,7 +1050,7 @@
                 <input type="number" class="year-input" id="editAddPackYear" min="2000" max="2100" placeholder="سنة">
               </div>
               <input type="time" class="time-input" id="editAddPackTime">
-              <button id="editAddPackBtn" class="btn-secondary"><i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة علبة</button>
+              <button class="time-add-plus-btn" id="editAddPackBtn" class="btn-secondary"><i class="fas fa-plus" style="margin-left: 4px;"></i> إضافة علبة</button>
             </div>
             <div class="helper-text">📌 أدخل اليوم/الشهر/السنة والوقت لفتح العلبة</div>
           </div>
@@ -1157,11 +1163,18 @@
     // دوال التنسيق للغة العربية (للتبويبات 1 و 2)
     function formatTime(ts) {
       if (!ts) return '--';
-      return new Date(ts).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+      return new Date(ts).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', hour12: false });
     }
     function formatFullDate(ts) {
       if (!ts) return '--';
-      return new Date(ts).toLocaleString('en-US', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      return new Date(ts).toLocaleString('en-US', { 
+        day:'2-digit', 
+        month:'short', 
+        year:'numeric', 
+        hour:'2-digit', 
+        minute:'2-digit',
+        hour12: false 
+      });
     }
     function formatTimeOnly(ts) {
       if (!ts) return '';
@@ -1171,7 +1184,7 @@
       return hours + ':' + minutes;
     }
 
-    // دوال التنسيق للغة الإنجليزية فقط (لتبويب التعديل)
+    // دوال التنسيق للغة الإنجليزية فقط (لتبويب التعديل) - مع صيغة 24 ساعة
     function formatFullDateEnglish(ts) {
       if (!ts) return '--';
       return formatDateEnglish(new Date(ts), { 
@@ -1642,7 +1655,7 @@
                 </select>
                 <span class="edit-separator">/</span>
                 <input type="number" class="year-input" id="editCigYear_${ts}" value="${parts ? parts.year : ''}" min="2000" max="2100" placeholder="سنة">
-                <input type="time" class="time-input" id="editCigTime_${ts}" value="${timeVal}">
+                <input type="time" class="time-input"  style="width: 90px;" id="editCigTime_${ts}" value="${timeVal}">
               </div>
               <div class="cig-actions">
                 <button class="action-btn save-edit-btn" onclick="window.saveCigEdit(${ts})" title="حفظ التعديل"><i class="fas fa-check"></i></button>
@@ -1705,7 +1718,7 @@
                 </select>
                 <span class="edit-separator">/</span>
                 <input type="number" class="year-input" id="editPackYear_${idx}" value="${parts ? parts.year : ''}" min="2000" max="2100" placeholder="سنة">
-                <input type="time" class="time-input" id="editPackTime_${idx}" value="${timeVal}">
+                <input type="time" class="time-input" style="width: 90px;" id="editPackTime_${idx}" value="${timeVal}">
               </div>
               <div class="cig-actions">
                 <button class="action-btn save-edit-btn" onclick="window.savePackEdit(${idx})" title="حفظ التعديل"><i class="fas fa-check"></i></button>
