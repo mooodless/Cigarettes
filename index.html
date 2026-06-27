@@ -610,7 +610,7 @@
     .cig-list-item .edit-group .year-input { width: 55px; min-width: 45px; }
     .cig-list-item .edit-group .time-input { width: 65px; min-width: 55px; }
     .cig-list-item .edit-group .edit-separator {
-      color: #6b8a9e;
+      color: #6a0554;
       font-size: 0.6rem;
     }
     
@@ -1699,7 +1699,7 @@
           html += `
             <div class="cig-list-item" style="background:#f0f7fa;border-color:#1f4b61;">
               <span class="cig-number">علبة #${idx + 1}</span>
-              <div class="edit-group">
+              <div class="edit-group" >
                 <input type="number" class="day-input" id="editPackDay_${idx}" value="${parts ? parts.day : ''}" min="1" max="31" placeholder="يوم">
                 <span class="edit-separator">/</span>
                 <select class="month-select" id="editPackMonth_${idx}">
