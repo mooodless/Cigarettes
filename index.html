@@ -810,7 +810,7 @@
       opacity: 1;
       will-change: transform, opacity;
       transition: none;
-      transform: rotate(-60deg) scale(1);
+      transform: rotate(1deg) scale(1);
     }
     .flying-cigarette.fly {
       animation: flyToTrash 1.1s cubic-bezier(0.33, 0.0, 0.2, 1.0) forwards;
@@ -818,23 +818,23 @@
     @keyframes flyToTrash {
       0% {
         opacity: 1;
-        transform: rotate(0deg) scale(1) translate(0, 0);
+        transform: rotate(-60deg) scale(1) translate(0, 0);
       }
       35% {
         opacity: 1;
-        transform: rotate(15deg) scale(1.05) translate(12px, -45px);
+        transform: rotate(-40deg) scale(1.05) translate(12px, -45px);
       }
       65% {
         opacity: 1;
-        transform: rotate(30deg) scale(0.95) translate(5px, -15px);
+        transform: rotate(-20deg) scale(0.95) translate(5px, -15px);
       }
       85% {
         opacity: 1;
-        transform: rotate(45deg) scale(0.85) translate(1px, -3px);
+        transform: rotate(0deg) scale(0.85) translate(1px, -3px);
       }
       100% {
         opacity: 0;
-        transform: rotate(60deg) scale(0.15) translate(0px, 0px);
+        transform: rotate(20deg) scale(0.15) translate(0px, 0px);
       }
     }
   </style>
@@ -1088,6 +1088,11 @@
     const MAX_PER_PACK = 20;
     const SETTINGS_KEY = 'quitSettings';
 
+    // دالة لتنسيق التاريخ باللغة الإنجليزية فقط - تستخدم في تبويب التعديل
+    function formatDateEnglish(date, options) {
+      return date.toLocaleString('en-US', options);
+    }
+
     function getDefaultData() {
       return { cigarettes: [], packOpenTime: null, packCount: 0, packHistory: [], totalPacks: 1 };
     }
@@ -1149,6 +1154,7 @@
       };
     }
 
+    // دوال التنسيق للغة العربية (للتبويبات 1 و 2)
     function formatTime(ts) {
       if (!ts) return '--';
       return new Date(ts).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
@@ -1163,6 +1169,19 @@
       const hours = String(d.getHours()).padStart(2, '0');
       const minutes = String(d.getMinutes()).padStart(2, '0');
       return hours + ':' + minutes;
+    }
+
+    // دوال التنسيق للغة الإنجليزية فقط (لتبويب التعديل)
+    function formatFullDateEnglish(ts) {
+      if (!ts) return '--';
+      return formatDateEnglish(new Date(ts), { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false 
+      });
     }
 
     function startOfDay(ts) {
@@ -1362,35 +1381,27 @@
       cigIcon.className = 'flying-cigarette';
       cigIcon.textContent = '🚬';
       
-      // موقع الزر (نقطة البداية) - مركز السيجارة الثابتة
       const btnRect = clickEvent.currentTarget.getBoundingClientRect();
       const startX = btnRect.left + btnRect.width / 2 - 20;
       const startY = btnRect.top + btnRect.height / 2 - 20;
       
-      // موقع سلة المهملات (نقطة النهاية)
       const trashBtn = document.getElementById('clearAllBtnM');
       const trashRect = trashBtn.getBoundingClientRect();
       const endX = trashRect.left + trashRect.width / 2 - 20 + 35;
       const endY = trashRect.top + trashRect.height / 2 - 20 + 10;
       
-      // حساب المسافة والاتجاه
       const deltaX = endX - startX;
       const deltaY = endY - startY;
       
-      // تعيين موضع البداية - السيجارة أفقية
       cigIcon.style.left = startX + 'px';
       cigIcon.style.top = startY + 'px';
-      cigIcon.style.transform = 'rotate(-60deg) scale(1)';
       
-      // إنشاء keyframes ديناميكية لمسار قوسي مع ميلان
       const styleSheet = document.createElement('style');
       const keyframesName = 'flyArc_' + Date.now();
       
-      // نقطة تحكم القوس
       const controlX = deltaX * 0.5;
       const controlY = deltaY - 140;
       
-      // مسار بيزير منحني
       const path = `M 0,0 Q ${controlX},${controlY} ${deltaX},${deltaY}`;
       
       styleSheet.textContent = `
@@ -1398,29 +1409,25 @@
           0% {
             offset-distance: 0%;
             opacity: 1;
-            transform: rotate(0deg) scale(1);
           }
           30% {
             opacity: 1;
-            transform: rotate(35deg) scale(1.05);
           }
           60% {
             opacity: 1;
-            transform: rotate(-10deg) scale(0.95);
           }
           85% {
             opacity: 1;
-            transform: rotate(-10deg) scale(0.85);
           }
           100% {
             offset-distance: 100%;
             opacity: 0;
-            transform: rotate(0deg) scale(0.15);
           }
         }
         .flying-cigarette.${keyframesName} {
           offset-path: path("${path}");
           animation: ${keyframesName} 1.0s cubic-bezier(0.42, 0.0, 0.58, 1.0) forwards;
+          transform: rotate(1deg);
         }
       `;
 
@@ -1468,7 +1475,6 @@
       updateUI();
       showReport(tabId, 'daily');
       
-      // تشغيل الأنيميشن فقط إذا كانت التبويب الأول (M) والحدث موجود
       if (tabId === 'M' && event) {
         animateCigaretteToTrash(event);
       }
@@ -1608,7 +1614,8 @@
       
       let html = '';
       sorted.forEach((ts, idx) => {
-        const dateStr = formatFullDate(ts);
+        // استخدام التنسيق الإنجليزي في تبويب التعديل
+        const dateStr = formatFullDateEnglish(ts);
         const parts = getDatePartsFromTimestamp(ts);
         
         if (editingCigTimestamp === ts) {
@@ -1670,7 +1677,8 @@
       
       let html = '';
       packHistory.forEach((p, idx) => {
-        const dateStr = formatFullDate(p.openedAt);
+        // استخدام التنسيق الإنجليزي في تبويب التعديل
+        const dateStr = formatFullDateEnglish(p.openedAt);
         const parts = getDatePartsFromTimestamp(p.openedAt);
         
         if (editingPackIndex === idx) {
@@ -1979,7 +1987,7 @@
         
         saveData(data);
         loadDataToEdit();
-        const dateStr = formatFullDate(localTimestamp);
+        const dateStr = formatFullDateEnglish(localTimestamp);
         showEditStatus(`✅ تم إضافة سجارة في ${dateStr}`, 'success');
         updateUI();
         showReport('M', 'daily');
@@ -2014,7 +2022,7 @@
         
         saveData(data);
         loadDataToEdit();
-        const dateStr = formatFullDate(localTimestamp);
+        const dateStr = formatFullDateEnglish(localTimestamp);
         showEditStatus(`✅ تم إضافة علبة جديدة بتاريخ ${dateStr}`, 'success');
         updateUI();
         showReport('M', 'daily');
@@ -2060,7 +2068,6 @@
         });
       });
 
-      // ربط زر تناول سيجارة مع تمرير الحدث للأنيميشن
       document.getElementById('logCigBtnM').addEventListener('click', function(e) { 
         addCigarette('M', e); 
       });
