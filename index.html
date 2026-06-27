@@ -810,6 +810,7 @@
       opacity: 1;
       will-change: transform, opacity;
       transition: none;
+      transform: rotate(-60deg) scale(1);
     }
     .flying-cigarette.fly {
       animation: flyToTrash 1.1s cubic-bezier(0.33, 0.0, 0.2, 1.0) forwards;
@@ -817,23 +818,23 @@
     @keyframes flyToTrash {
       0% {
         opacity: 1;
-        transform: scale(1) translate(0, 0);
+        transform: rotate(0deg) scale(1) translate(0, 0);
       }
       35% {
         opacity: 1;
-        transform: scale(1.05) translate(12px, -45px);
+        transform: rotate(15deg) scale(1.05) translate(12px, -45px);
       }
       65% {
         opacity: 1;
-        transform: scale(0.95) translate(5px, -15px);
+        transform: rotate(30deg) scale(0.95) translate(5px, -15px);
       }
       85% {
         opacity: 1;
-        transform: scale(0.85) translate(1px, -3px);
+        transform: rotate(45deg) scale(0.85) translate(1px, -3px);
       }
       100% {
         opacity: 0;
-        transform: scale(0.15) translate(0px, 0px);
+        transform: rotate(60deg) scale(0.15) translate(0px, 0px);
       }
     }
   </style>
@@ -1366,7 +1367,7 @@
       const startX = btnRect.left + btnRect.width / 2 - 20;
       const startY = btnRect.top + btnRect.height / 2 - 20;
       
-      // موقع سلة المهملات (نقطة النهاية) - نهاية المسار
+      // موقع سلة المهملات (نقطة النهاية)
       const trashBtn = document.getElementById('clearAllBtnM');
       const trashRect = trashBtn.getBoundingClientRect();
       const endX = trashRect.left + trashRect.width / 2 - 20 + 35;
@@ -1376,19 +1377,20 @@
       const deltaX = endX - startX;
       const deltaY = endY - startY;
       
-      // تعيين موضع البداية
+      // تعيين موضع البداية - السيجارة أفقية
       cigIcon.style.left = startX + 'px';
       cigIcon.style.top = startY + 'px';
+      cigIcon.style.transform = 'rotate(-60deg) scale(1)';
       
-      // إنشاء keyframes ديناميكية لمسار قوسي يبدأ من (0,0) وينتهي عند (deltaX, deltaY)
+      // إنشاء keyframes ديناميكية لمسار قوسي مع ميلان
       const styleSheet = document.createElement('style');
       const keyframesName = 'flyArc_' + Date.now();
       
-      // نقطة تحكم القوس - الارتفاع لأعلى (قيمة سالبة)
+      // نقطة تحكم القوس
       const controlX = deltaX * 0.5;
       const controlY = deltaY - 140;
       
-      // مسار بيزير منحني يبدأ من (0,0) وينتهي عند (deltaX, deltaY)
+      // مسار بيزير منحني
       const path = `M 0,0 Q ${controlX},${controlY} ${deltaX},${deltaY}`;
       
       styleSheet.textContent = `
@@ -1396,19 +1398,24 @@
           0% {
             offset-distance: 0%;
             opacity: 1;
+            transform: rotate(0deg) scale(1);
           }
           30% {
             opacity: 1;
+            transform: rotate(35deg) scale(1.05);
           }
           60% {
             opacity: 1;
+            transform: rotate(-10deg) scale(0.95);
           }
           85% {
             opacity: 1;
+            transform: rotate(-10deg) scale(0.85);
           }
           100% {
             offset-distance: 100%;
             opacity: 0;
+            transform: rotate(0deg) scale(0.15);
           }
         }
         .flying-cigarette.${keyframesName} {
@@ -1416,18 +1423,13 @@
           animation: ${keyframesName} 1.0s cubic-bezier(0.42, 0.0, 0.58, 1.0) forwards;
         }
       `;
+
       document.head.appendChild(styleSheet);
       
-      // إضافة العنصر للصفحة
       document.body.appendChild(cigIcon);
-      
-      // إجبار reflow
       void cigIcon.offsetWidth;
-      
-      // تطبيق الكلاس مع الـ keyframes الديناميكية
       cigIcon.classList.add(keyframesName);
       
-      // إزالة العنصر بعد الانتهاء من الأنيميشن
       setTimeout(() => {
         if (cigIcon.parentNode) cigIcon.parentNode.removeChild(cigIcon);
         if (styleSheet.parentNode) styleSheet.parentNode.removeChild(styleSheet);
