@@ -1369,8 +1369,8 @@
       // موقع سلة المهملات (نقطة النهاية) - نهاية المسار
       const trashBtn = document.getElementById('clearAllBtnM');
       const trashRect = trashBtn.getBoundingClientRect();
-      const endX = trashRect.left + trashRect.width / 2 - 20;
-      const endY = trashRect.top + trashRect.height / 2 - 20;
+      const endX = trashRect.left + trashRect.width / 2 - 20 + 35;
+      const endY = trashRect.top + trashRect.height / 2 - 20 + 10;
       
       // حساب المسافة والاتجاه
       const deltaX = endX - startX;
@@ -1385,8 +1385,8 @@
       const keyframesName = 'flyArc_' + Date.now();
       
       // نقطة تحكم القوس - الارتفاع لأعلى (قيمة سالبة)
-      const controlX = deltaX * 0.4;
-      const controlY = deltaY - 80;
+      const controlX = deltaX * 0.5;
+      const controlY = deltaY - 140;
       
       // مسار بيزير منحني يبدأ من (0,0) وينتهي عند (deltaX, deltaY)
       const path = `M 0,0 Q ${controlX},${controlY} ${deltaX},${deltaY}`;
