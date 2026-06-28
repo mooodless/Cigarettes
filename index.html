@@ -1609,9 +1609,9 @@
     }
 
     // -------- تبويب تصحيح البيانات --------
-    let editingCigTimestamp = null;
+    let editingCigIndex = null; // نستخدم index بدلاً من timestamp
     let editingPackIndex = null;
-    let isLoading = false; // إضافة متغير لمنع التحميل المتكرر
+    let isLoading = false;
     
     function renderCigarettesList(cigarettes) {
       const container = document.getElementById('cigListContainer');
@@ -1637,18 +1637,20 @@
         const dateStr = `${hours12}:${minutes} ${ampm} ${d.getFullYear()}/${d.getMonth() + 1}/${String(d.getDate()).padStart(2, '0')}`;
         const parts = getDatePartsFromTimestamp(ts);
         
-        // التحقق من حالة التعديل - استخدام ts كمعرف فريد
-        const isEditing = (editingCigTimestamp !== null && editingCigTimestamp === ts);
+        // التحقق من حالة التعديل - استخدام index
+        const isEditing = (editingCigIndex !== null && editingCigIndex === idx);
         
         if (isEditing) {
           const timeVal = formatTimeOnly(ts);
+          // استخدام معرف فريد مع index لتجنب تكرار المعرفات
+          const uniqueId = 'cig_' + idx + '_' + Date.now();
           html += `
             <div class="cig-list-item" style="background:#f0f7fa;border-color:#1f4b61;">
               <span class="cig-number">#${idx + 1}</span>
               <div class="edit-group">
-                <input type="number" class="day-input" id="editCigDay_${ts}" value="${parts ? parts.day : ''}" min="1" max="31" placeholder="يوم">
+                <input type="number" class="day-input" id="editCigDay_${idx}" value="${parts ? parts.day : ''}" min="1" max="31" placeholder="يوم">
                 <span class="edit-separator">/</span>
-                <select class="month-select" id="editCigMonth_${ts}">
+                <select class="month-select" id="editCigMonth_${idx}">
                   <option value="1" ${parts && parts.month === 1 ? 'selected' : ''}>1</option>
                   <option value="2" ${parts && parts.month === 2 ? 'selected' : ''}>2</option>
                   <option value="3" ${parts && parts.month === 3 ? 'selected' : ''}>3</option>
@@ -1663,11 +1665,11 @@
                   <option value="12" ${parts && parts.month === 12 ? 'selected' : ''}>12</option>
                 </select>
                 <span class="edit-separator">/</span>
-                <input type="number" class="year-input" id="editCigYear_${ts}" value="${parts ? parts.year : ''}" min="2000" max="2100" placeholder="سنة">
-                <input type="time" class="time-input" style="width: 90px;" id="editCigTime_${ts}" value="${timeVal}">
+                <input type="number" class="year-input" id="editCigYear_${idx}" value="${parts ? parts.year : ''}" min="2000" max="2100" placeholder="سنة">
+                <input type="time" class="time-input" style="width: 90px;" id="editCigTime_${idx}" value="${timeVal}">
               </div>
               <div class="cig-actions">
-                <button class="action-btn save-edit-btn" onclick="window.saveCigEdit(${ts})" title="حفظ التعديل"><i class="fas fa-check"></i></button>
+                <button class="action-btn save-edit-btn" onclick="window.saveCigEdit(${idx})" title="حفظ التعديل"><i class="fas fa-check"></i></button>
                 <button class="action-btn cancel-edit-btn" onclick="window.cancelCigEdit()" title="إلغاء"><i class="fas fa-times"></i></button>
               </div>
             </div>
@@ -1678,8 +1680,8 @@
               <span class="cig-number">#${idx + 1}</span>
               <span class="cig-date">${dateStr}</span>
               <div class="cig-actions">
-                <button class="action-btn edit-btn" onclick="window.startCigEdit(${ts})" title="تعديل"><i class="fas fa-pen"></i></button>
-                <button class="action-btn delete-btn" onclick="window.deleteCigarette(${ts})" title="حذف"><i class="fas fa-trash"></i></button>
+                <button class="action-btn edit-btn" onclick="window.startCigEdit(${idx})" title="تعديل"><i class="fas fa-pen"></i></button>
+                <button class="action-btn delete-btn" onclick="window.deleteCigarette(${idx})" title="حذف"><i class="fas fa-trash"></i></button>
               </div>
             </div>
           `;
@@ -1699,7 +1701,6 @@
       
       let html = '';
       packHistory.forEach((p, idx) => {
-        // تنسيق التاريخ بنفس الصيغة
         const d = new Date(p.openedAt);
         const hours24 = d.getHours();
         const hours12 = hours24 % 12 || 12;
@@ -1759,26 +1760,36 @@
       container.innerHTML = html;
     }
 
-    window.startCigEdit = function(timestamp) {
+    window.startCigEdit = function(index) {
       // إلغاء أي تعديل قيد التنفيذ أولاً
-      editingCigTimestamp = null;
+      editingCigIndex = null;
       editingPackIndex = null;
       // ثم تعيين التعديل الجديد
-      editingCigTimestamp = timestamp;
+      editingCigIndex = index;
       loadDataToEdit();
     };
-
-    window.saveCigEdit = function(timestamp) {
-      const dayInput = document.getElementById(`editCigDay_${timestamp}`);
-      const monthSelect = document.getElementById(`editCigMonth_${timestamp}`);
-      const yearInput = document.getElementById(`editCigYear_${timestamp}`);
-      const timeInput = document.getElementById(`editCigTime_${timestamp}`);
-      if (!dayInput || !monthSelect || !yearInput || !timeInput) return;
+    
+    // حفظ تعديل السجارة
+    window.saveCigEdit = function(index) {
+      const dayInput = document.getElementById(`editCigDay_${index}`);
+      const monthSelect = document.getElementById(`editCigMonth_${index}`);
+      const yearInput = document.getElementById(`editCigYear_${index}`);
+      const timeInput = document.getElementById(`editCigTime_${index}`);
+      
+      if (!dayInput || !monthSelect || !yearInput || !timeInput) {
+        showEditStatus('❌ خطأ: لم يتم العثور على حقول التعديل', 'error');
+        return;
+      }
       
       const day = parseInt(dayInput.value);
       const month = parseInt(monthSelect.value);
       const year = parseInt(yearInput.value);
       const time = timeInput.value;
+      
+      if (!day || !month || !year || !time) {
+        showEditStatus('⚠️ الرجاء إدخال التاريخ والوقت كاملاً (يوم/شهر/سنة)', 'warning');
+        return;
+      }
       
       const localTimestamp = combineDateParts(day, month, year, time);
       if (localTimestamp === null || isNaN(localTimestamp)) {
@@ -1787,46 +1798,68 @@
       }
       
       const data = loadData();
-      const index = data.cigarettes.indexOf(timestamp);
-      if (index !== -1) {
-        data.cigarettes[index] = localTimestamp;
-        data.cigarettes.sort((a, b) => a - b);
-        data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
-        saveData(data);
-        editingCigTimestamp = null;
-        loadDataToEdit();
-        showEditStatus('✅ تم تعديل وقت السجارة بنجاح', 'success');
-        updateUI();
-        showReport('M', 'daily');
-        showReport('Q', 'daily');
+      const sorted = [...data.cigarettes].sort((a, b) => a - b);
+      
+      // التحقق من أن index موجود في المصفوفة
+      if (index >= 0 && index < sorted.length) {
+        // تحديث القيمة في المصفوفة الأصلية
+        const oldTimestamp = sorted[index];
+        const originalIndex = data.cigarettes.indexOf(oldTimestamp);
+        if (originalIndex !== -1) {
+          data.cigarettes[originalIndex] = localTimestamp;
+          data.cigarettes.sort((a, b) => a - b);
+          data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+          saveData(data);
+          editingCigIndex = null;
+          loadDataToEdit();
+          showEditStatus('✅ تم تعديل وقت السجارة بنجاح', 'success');
+          updateUI();
+          showReport('M', 'daily');
+          showReport('Q', 'daily');
+        } else {
+          showEditStatus('❌ خطأ: لم يتم العثور على السجارة', 'error');
+        }
+      } else {
+        showEditStatus('❌ خطأ: رقم السجارة غير صحيح', 'error');
       }
     };
-
+    
     window.cancelCigEdit = function() {
-      editingCigTimestamp = null;
+      editingCigIndex = null;
       loadDataToEdit();
     };
-
+    
+    // بدء تعديل علبة باستخدام index
     window.startPackEdit = function(index) {
       // إلغاء أي تعديل قيد التنفيذ أولاً
       editingPackIndex = null;
-      editingCigTimestamp = null;
+      editingCigIndex = null;
       // ثم تعيين التعديل الجديد
       editingPackIndex = index;
       loadDataToEdit();
     };
-
+    
+    // حفظ تعديل العلبة
     window.savePackEdit = function(index) {
       const dayInput = document.getElementById(`editPackDay_${index}`);
       const monthSelect = document.getElementById(`editPackMonth_${index}`);
       const yearInput = document.getElementById(`editPackYear_${index}`);
       const timeInput = document.getElementById(`editPackTime_${index}`);
-      if (!dayInput || !monthSelect || !yearInput || !timeInput) return;
+      
+      if (!dayInput || !monthSelect || !yearInput || !timeInput) {
+        showEditStatus('❌ خطأ: لم يتم العثور على حقول التعديل', 'error');
+        return;
+      }
       
       const day = parseInt(dayInput.value);
       const month = parseInt(monthSelect.value);
       const year = parseInt(yearInput.value);
       const time = timeInput.value;
+      
+      if (!day || !month || !year || !time) {
+        showEditStatus('⚠️ الرجاء إدخال التاريخ والوقت كاملاً (يوم/شهر/سنة)', 'warning');
+        return;
+      }
       
       const localTimestamp = combineDateParts(day, month, year, time);
       if (localTimestamp === null || isNaN(localTimestamp)) {
@@ -1847,30 +1880,38 @@
         updateUI();
         showReport('M', 'daily');
         showReport('Q', 'daily');
+      } else {
+        showEditStatus('❌ خطأ: لم يتم العثور على العلبة', 'error');
       }
     };
-
+    
     window.cancelPackEdit = function() {
       editingPackIndex = null;
       loadDataToEdit();
     };
-
-    window.deleteCigarette = function(timestamp) {
+    
+    // حذف سجارة باستخدام index
+    window.deleteCigarette = function(index) {
       if (!confirm('هل أنت متأكد من حذف هذه السجارة؟')) return;
       const data = loadData();
-      const index = data.cigarettes.indexOf(timestamp);
-      if (index !== -1) {
-        data.cigarettes.splice(index, 1);
-        data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
-        saveData(data);
-        loadDataToEdit();
-        showEditStatus('✅ تم حذف السجارة بنجاح', 'success');
-        updateUI();
-        showReport('M', 'daily');
-        showReport('Q', 'daily');
+      const sorted = [...data.cigarettes].sort((a, b) => a - b);
+      if (index >= 0 && index < sorted.length) {
+        const timestamp = sorted[index];
+        const originalIndex = data.cigarettes.indexOf(timestamp);
+        if (originalIndex !== -1) {
+          data.cigarettes.splice(originalIndex, 1);
+          data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+          saveData(data);
+          loadDataToEdit();
+          showEditStatus('✅ تم حذف السجارة بنجاح', 'success');
+          updateUI();
+          showReport('M', 'daily');
+          showReport('Q', 'daily');
+        }
       }
     };
-
+    
+    // حذف علبة باستخدام index
     window.deletePackHistory = function(index) {
       if (!confirm('هل أنت متأكد من حذف هذه العلبة؟')) return;
       const data = loadData();
@@ -1894,7 +1935,7 @@
         showReport('Q', 'daily');
       }
     };
-
+    
     function loadDataToEdit() {
       // منع التحميل المتكرر
       if (isLoading) return;
@@ -1922,18 +1963,33 @@
           document.getElementById('editPackTime').value = '';
         }
         
+        // التأكد من أن index لا يتجاوز المصفوفة
+        const sorted = [...data.cigarettes].sort((a, b) => a - b);
+        if (editingCigIndex !== null && editingCigIndex >= sorted.length) {
+          editingCigIndex = null;
+        }
+        if (editingPackIndex !== null && editingPackIndex >= (data.packHistory || []).length) {
+          editingPackIndex = null;
+        }
+        
         renderCigarettesList(data.cigarettes);
         renderPackHistory(data.packHistory);
         
         // إظهار رسالة نجاح فقط إذا لم تكن هناك رسالة خطأ
         const statusEl = document.getElementById('editStatus');
-        if (!statusEl.className.includes('error')) {
+        if (!statusEl.className.includes('error') && !statusEl.className.includes('warning')) {
           showEditStatus('✅ تم تحميل البيانات الحالية بنجاح', 'success');
         }
+      } catch (error) {
+        showEditStatus('❌ خطأ في تحميل البيانات: ' + error.message, 'error');
       } finally {
-        isLoading = false;
+        // تأخير إعادة تعيين isLoading لتجنب التحميل المتكرر
+        setTimeout(() => {
+          isLoading = false;
+        }, 300);
       }
     }
+
     
     function saveEditedData() {
       try {
