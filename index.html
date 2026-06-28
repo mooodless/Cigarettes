@@ -806,14 +806,13 @@
       }
       .cig-list-item .edit-group .year-input { 
         width: 48px; 
-        min-width: 40px; 
         font-size: 11px !important;
         padding: 2px 2px;
       }
       .cig-list-item .edit-group .time-input { 
         width: 35px; 
-        font-size: 11px !important;
-        padding: 2px 4px;
+        font-size: 10px !important;
+        padding: 2px 2px;
       }
       .cig-list-item .edit-group .edit-separator { 
         font-size: 12px;
@@ -1722,7 +1721,7 @@
                 </select>
                 <span class="edit-separator">/</span>
                 <input type="number" class="year-input" id="editCigYear_${idx}" value="${parts ? parts.year : ''}" min="2000" max="2100" placeholder="سنة">
-                <input type="time" class="time-input" style="width: 90px;" id="editCigTime_${idx}" value="${timeVal}">
+                <input type="time" class="time-input"  id="editCigTime_${idx}" value="${timeVal}">
               </div>
               <div class="cig-actions">
                 <button class="action-btn save-edit-btn" onclick="window.saveCigEdit(${idx})" title="حفظ التعديل"><i class="fas fa-check"></i></button>
