@@ -1151,12 +1151,28 @@
   </div>
 </div>
 
+<!-- مودال لاختيار عدد السجائر عند فتح علبة جديدة -->
+<div class="modal-overlay" id="newPackModal">
+  <div class="modal-box">
+    <h2><i class="fas fa-box-open" style="margin-left:10px;"></i> فتح علبة جديدة</h2>
+    <p style="font-size: 0.8rem; color: #5f7b8f; margin-bottom: 12px;">قم بتحديد عدد السجائر في العلبة الجديدة:</p>
+    <label for="newPackSize"><i class="fas fa-smoking" style="margin-left:6px;"></i> عدد السجائر في العلبة</label>
+    <input type="number" id="newPackSize" min="1" max="50" value="20">
+    <div class="modal-actions">
+      <button class="btn-cancel" id="newPackCancel"><i class="fas fa-times" style="margin-left:6px;"></i> إلغاء</button>
+      <button class="btn-save" id="newPackConfirm"><i class="fas fa-check" style="margin-left:6px;"></i> فتح العلبة</button>
+    </div>
+  </div>
+</div>
+
 <script>
   (function(){
     "use strict";
     const STORAGE_KEY = 'quitSmokeData';
-    const MAX_PER_PACK = 20;
     const SETTINGS_KEY = 'quitSettings';
+    
+    // متغير لتخزين حجم العلبة الحالي (افتراضي 20)
+    let currentPackSize = 20;
 
     // دالة لتنسيق التاريخ باللغة الإنجليزية فقط - تستخدم في تبويب التعديل
     function formatDateEnglish(date, options) {
@@ -1164,7 +1180,7 @@
     }
 
     function getDefaultData() {
-      return { cigarettes: [], packOpenTime: null, packCount: 0, packHistory: [], totalPacks: 1 };
+      return { cigarettes: [], packOpenTime: null, packCount: 0, packHistory: [], totalPacks: 1, packSize: 20 };
     }
 
     function loadData() {
@@ -1176,7 +1192,10 @@
         if (typeof parsed.packCount !== 'number') parsed.packCount = 0;
         if (!Array.isArray(parsed.packHistory)) parsed.packHistory = [];
         if (typeof parsed.totalPacks !== 'number' || parsed.totalPacks < 1) parsed.totalPacks = 1;
-        if (parsed.packCount > MAX_PER_PACK) parsed.packCount = MAX_PER_PACK;
+        if (typeof parsed.packSize !== 'number' || parsed.packSize < 1) parsed.packSize = 20;
+        // تحديث currentPackSize من البيانات المحفوظة
+        currentPackSize = parsed.packSize || 20;
+        if (parsed.packCount > currentPackSize) parsed.packCount = currentPackSize;
         if (parsed.packCount < 0) parsed.packCount = 0;
         return parsed;
       } catch (e) { return getDefaultData(); }
@@ -1359,12 +1378,14 @@
       const totalPacks = data.totalPacks || 1;
       document.getElementById(`packCount${tabId}`).innerText = totalPacks;
 
+      // استخدام currentPackSize بدلاً من الثابت MAX_PER_PACK
+      const packSize = data.packSize || currentPackSize || 20;
       const packCount = data.packCount || 0;
-      const pct = Math.min(100, (packCount / MAX_PER_PACK) * 100);
+      const pct = Math.min(100, (packCount / packSize) * 100);
       const fill = document.getElementById(`progressFill${tabId}`);
       fill.style.width = pct + '%';
       if (pct >= 85) fill.classList.add('warning'); else fill.classList.remove('warning');
-      document.getElementById(`progressText${tabId}`).innerText = `${packCount} / ${MAX_PER_PACK}`;
+      document.getElementById(`progressText${tabId}`).innerText = `${packCount} / ${packSize}`;
 
       const timeEl = document.getElementById(`timeSinceLast${tabId}`);
       const btn = document.getElementById('logCigBtnQ');
@@ -1424,6 +1445,8 @@
       else lines.push(`📌 لا توجد سجائر في هذه الفترة`);
 
       lines.push(`📦 عدد العلب المفتوحة: ${data.totalPacks || 1}`);
+      const packSize = data.packSize || currentPackSize || 20;
+      lines.push(`📦 حجم العلبة: ${packSize} سيجارة`);
       if (data.packHistory && data.packHistory.length > 0) {
         lines.push(`📋 تاريخ العلب:`);
         data.packHistory.forEach((p, idx) => {
@@ -1523,6 +1546,7 @@
     function addCigarette(tabId, event) {
       const data = loadData();
       const settings = loadSettings();
+      const packSize = data.packSize || currentPackSize || 20;
       
       if (tabId === 'Q') {
         const lastCig = data.cigarettes.length > 0 ? data.cigarettes[data.cigarettes.length - 1] : null;
@@ -1535,8 +1559,8 @@
         }
       }
       
-      if (data.packCount >= MAX_PER_PACK) {
-        alert('⚠️ لقد استهلكت 20 سجارة في هذه العلبة. يرجى فتح علبة جديدة.');
+      if (data.packCount >= packSize) {
+        alert(`⚠️ لقد استهلكت ${packSize} سجارة في هذه العلبة. يرجى فتح علبة جديدة.`);
         return;
       }
       
@@ -1547,6 +1571,7 @@
         data.packOpenTime = now;
         data.totalPacks = 1;
         data.packHistory = [{ openedAt: now }];
+        data.packSize = packSize;
       }
       saveData(data);
       updateUI();
@@ -1579,9 +1604,15 @@
       }
     }
 
-    function resetPack(tabId) {
+    // دالة فتح علبة جديدة مع إمكانية تحديد عدد السجائر
+    function resetPackWithSize(tabId, packSize) {
       const data = loadData();
       const now = Date.now();
+      
+      // تحديث حجم العلبة
+      data.packSize = packSize || 20;
+      currentPackSize = data.packSize;
+      
       if (data.packCount === 0) {
         data.packOpenTime = now;
         if (!data.packHistory || data.packHistory.length === 0) {
@@ -1592,21 +1623,55 @@
         }
         saveData(data);
         updateUI();
-        document.getElementById(`reportContent${tabId}`).innerText = '📦 تم تحديث وقت فتح العلبة (العداد صفر)';
+        document.getElementById(`reportContent${tabId}`).innerText = `📦 تم تحديث وقت فتح العلبة (العداد صفر) - ${data.packSize} سيجارة`;
         return;
       }
-      if (confirm('فتح علبة جديدة سيؤدي إلى تصفير عداد السجائر الحالي وزيادة عدد العلب. هل أنت متأكد؟')) {
-        data.packCount = 0;
-        data.packOpenTime = now;
-        if (!data.packHistory) data.packHistory = [];
-        data.packHistory.push({ openedAt: now });
-        data.totalPacks = (data.totalPacks || 0) + 1;
-        saveData(data);
-        updateUI();
-        document.getElementById(`reportContent${tabId}`).innerText = `📦 تم فتح علبة جديدة (العلبة رقم ${data.totalPacks})`;
-        showReport(tabId, 'daily');
-      }
+      
+      data.packCount = 0;
+      data.packOpenTime = now;
+      if (!data.packHistory) data.packHistory = [];
+      data.packHistory.push({ openedAt: now });
+      data.totalPacks = (data.totalPacks || 0) + 1;
+      saveData(data);
+      updateUI();
+      document.getElementById(`reportContent${tabId}`).innerText = `📦 تم فتح علبة جديدة (العلبة رقم ${data.totalPacks}) - ${data.packSize} سيجارة`;
+      showReport(tabId, 'daily');
     }
+
+    // عرض مودال اختيار عدد السجائر عند الضغط على زر فتح علبة جديدة
+    function showNewPackModal(tabId) {
+      const modal = document.getElementById('newPackModal');
+      const packSizeInput = document.getElementById('newPackSize');
+      const data = loadData();
+      packSizeInput.value = data.packSize || currentPackSize || 20;
+      
+      // تخزين التبويب الحالي لاستخدامه عند التأكيد
+      modal.dataset.tabId = tabId;
+      
+      modal.classList.add('open');
+    }
+
+    // ربط أحداث مودال فتح العلبة الجديدة
+    document.getElementById('newPackCancel').addEventListener('click', function() {
+      document.getElementById('newPackModal').classList.remove('open');
+    });
+
+    document.getElementById('newPackConfirm').addEventListener('click', function() {
+      const modal = document.getElementById('newPackModal');
+      const tabId = modal.dataset.tabId || 'M';
+      const packSize = parseInt(document.getElementById('newPackSize').value) || 20;
+      if (packSize < 1) {
+        alert('الرجاء إدخال عدد سجائر صحيح (1 على الأقل)');
+        return;
+      }
+      resetPackWithSize(tabId, packSize);
+      modal.classList.remove('open');
+    });
+
+    // إغلاق المودال عند النقر خارج المحتوى
+    document.getElementById('newPackModal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
 
     function clearAllData(tabId) {
       if (confirm('⚠️ سيتم حذف جميع السجائر والتوقيتات. هل أنت متأكد؟')) {
@@ -1619,9 +1684,10 @@
 
     function exportData(tabId) {
       const data = loadData();
+      const packSize = data.packSize || currentPackSize || 20;
       let text = '--- تقرير التصدير ---\n';
       text += `إجمالي السجائر: ${data.cigarettes.length}\n`;
-      text += `العلبة الحالية: ${data.packCount}/${MAX_PER_PACK}\n`;
+      text += `العلبة الحالية: ${data.packCount}/${packSize}\n`;
       text += `عدد العلب المفتوحة: ${data.totalPacks || 1}\n`;
       if (data.packHistory && data.packHistory.length > 0) {
         text += '--- تاريخ العلب ---\n';
@@ -1673,7 +1739,7 @@
     }
 
     // -------- تبويب تصحيح البيانات --------
-    let editingCigIndex = null; // نستخدم index بدلاً من timestamp
+    let editingCigIndex = null;
     let editingPackIndex = null;
     let isLoading = false;
     
@@ -1692,7 +1758,6 @@
       
       let html = '';
       sorted.forEach((ts, idx) => {
-        // تنسيق التاريخ بالصيغة المطلوبة: 01:40 AM 2026/6/28
         const d = new Date(ts);
         const hours24 = d.getHours();
         const hours12 = hours24 % 12 || 12;
@@ -1701,13 +1766,10 @@
         const dateStr = `${hours12}:${minutes} ${ampm} ${d.getFullYear()}/${d.getMonth() + 1}/${String(d.getDate()).padStart(2, '0')}`;
         const parts = getDatePartsFromTimestamp(ts);
         
-        // التحقق من حالة التعديل - استخدام index
         const isEditing = (editingCigIndex !== null && editingCigIndex === idx);
         
         if (isEditing) {
           const timeVal = formatTimeOnly(ts);
-          // استخدام معرف فريد مع index لتجنب تكرار المعرفات
-          const uniqueId = 'cig_' + idx + '_' + Date.now();
           html += `
             <div class="cig-list-item" style="background:#f0f7fa;border-color:#1f4b61;">
               <span class="cig-number">#${idx + 1}</span>
@@ -1825,15 +1887,12 @@
     }
 
     window.startCigEdit = function(index) {
-      // إلغاء أي تعديل قيد التنفيذ أولاً
       editingCigIndex = null;
       editingPackIndex = null;
-      // ثم تعيين التعديل الجديد
       editingCigIndex = index;
       loadDataToEdit();
     };
     
-    // حفظ تعديل السجارة
     window.saveCigEdit = function(index) {
       const dayInput = document.getElementById(`editCigDay_${index}`);
       const monthSelect = document.getElementById(`editCigMonth_${index}`);
@@ -1864,15 +1923,14 @@
       const data = loadData();
       const sorted = [...data.cigarettes].sort((a, b) => a - b);
       
-      // التحقق من أن index موجود في المصفوفة
       if (index >= 0 && index < sorted.length) {
-        // تحديث القيمة في المصفوفة الأصلية
         const oldTimestamp = sorted[index];
         const originalIndex = data.cigarettes.indexOf(oldTimestamp);
         if (originalIndex !== -1) {
           data.cigarettes[originalIndex] = localTimestamp;
           data.cigarettes.sort((a, b) => a - b);
-          data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+          const packSize = data.packSize || currentPackSize || 20;
+          data.packCount = Math.min(data.cigarettes.length, packSize);
           saveData(data);
           editingCigIndex = null;
           loadDataToEdit();
@@ -1893,17 +1951,13 @@
       loadDataToEdit();
     };
     
-    // بدء تعديل علبة باستخدام index
     window.startPackEdit = function(index) {
-      // إلغاء أي تعديل قيد التنفيذ أولاً
       editingPackIndex = null;
       editingCigIndex = null;
-      // ثم تعيين التعديل الجديد
       editingPackIndex = index;
       loadDataToEdit();
     };
     
-    // حفظ تعديل العلبة
     window.savePackEdit = function(index) {
       const dayInput = document.getElementById(`editPackDay_${index}`);
       const monthSelect = document.getElementById(`editPackMonth_${index}`);
@@ -1954,7 +2008,6 @@
       loadDataToEdit();
     };
     
-    // حذف سجارة باستخدام index
     window.deleteCigarette = function(index) {
       if (!confirm('هل أنت متأكد من حذف هذه السجارة؟')) return;
       const data = loadData();
@@ -1964,7 +2017,8 @@
         const originalIndex = data.cigarettes.indexOf(timestamp);
         if (originalIndex !== -1) {
           data.cigarettes.splice(originalIndex, 1);
-          data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+          const packSize = data.packSize || currentPackSize || 20;
+          data.packCount = Math.min(data.cigarettes.length, packSize);
           saveData(data);
           loadDataToEdit();
           showEditStatus('✅ تم حذف السجارة بنجاح', 'success');
@@ -1975,12 +2029,40 @@
       }
     };
     
-    // حذف علبة باستخدام index
     window.deletePackHistory = function(index) {
-      if (!confirm('هل أنت متأكد من حذف هذه العلبة؟')) return;
+      if (!confirm('هل أنت متأكد من حذف هذه العلبة؟ سيتم حذف جميع السجائر المسجلة في هذه العلبة.')) return;
       const data = loadData();
       if (data.packHistory && index >= 0 && index < data.packHistory.length) {
+        // تحديد وقت فتح العلبة التي سيتم حذفها
+        const packToDelete = data.packHistory[index];
+        const packOpenTime = packToDelete.openedAt;
+        
+        // تحديد وقت فتح العلبة التالية (إن وجدت) أو وقت الحالي
+        let nextPackOpenTime = null;
+        if (index < data.packHistory.length - 1) {
+          nextPackOpenTime = data.packHistory[index + 1].openedAt;
+        } else {
+          // إذا كانت آخر علبة، نستخدم وقت الحالي
+          nextPackOpenTime = Date.now();
+        }
+        
+        // حذف السجائر التي تنتمي لهذه العلبة (بين وقت فتح هذه العلبة ووقت فتح العلبة التالية)
+        const cigarettesToRemove = data.cigarettes.filter(ts => {
+          return ts >= packOpenTime && ts < nextPackOpenTime;
+        });
+        
+        // حذف السجائر من المصفوفة
+        cigarettesToRemove.forEach(ts => {
+          const idx = data.cigarettes.indexOf(ts);
+          if (idx !== -1) {
+            data.cigarettes.splice(idx, 1);
+          }
+        });
+        
+        // حذف العلبة من تاريخ العلب
         data.packHistory.splice(index, 1);
+        
+        // تحديث البيانات
         if (data.packHistory.length === 0) {
           const now = Date.now();
           data.packHistory = [{ openedAt: now }];
@@ -1991,9 +2073,14 @@
           const lastPack = data.packHistory[data.packHistory.length - 1];
           data.packOpenTime = lastPack.openedAt;
         }
+        
+        // تحديث packCount بناءً على عدد السجائر المتبقية
+        const packSize = data.packSize || currentPackSize || 20;
+        data.packCount = Math.min(data.cigarettes.length, packSize);
+        
         saveData(data);
         loadDataToEdit();
-        showEditStatus('✅ تم حذف العلبة بنجاح', 'success');
+        showEditStatus(`✅ تم حذف العلبة #${index + 1} وجميع السجائر التابعة لها (${cigarettesToRemove.length} سجارة)`, 'success');
         updateUI();
         showReport('M', 'daily');
         showReport('Q', 'daily');
@@ -2001,16 +2088,21 @@
     };
     
     function loadDataToEdit() {
-      // منع التحميل المتكرر
       if (isLoading) return;
       isLoading = true;
       
       try {
         const data = loadData();
+        const packSize = data.packSize || currentPackSize || 20;
         
         document.getElementById('editTotalCigarettes').value = data.cigarettes.length;
         document.getElementById('editPackCount').value = data.packCount || 0;
         document.getElementById('editTotalPacks').value = data.totalPacks || 1;
+        
+        // تحديث حدود الحقل بناءً على حجم العلبة
+        const packCountInput = document.getElementById('editPackCount');
+        packCountInput.max = packSize;
+        packCountInput.placeholder = `0-${packSize}`;
         
         if (data.packOpenTime) {
           const parts = getDatePartsFromTimestamp(data.packOpenTime);
@@ -2027,7 +2119,6 @@
           document.getElementById('editPackTime').value = '';
         }
         
-        // التأكد من أن index لا يتجاوز المصفوفة
         const sorted = [...data.cigarettes].sort((a, b) => a - b);
         if (editingCigIndex !== null && editingCigIndex >= sorted.length) {
           editingCigIndex = null;
@@ -2039,15 +2130,13 @@
         renderCigarettesList(data.cigarettes);
         renderPackHistory(data.packHistory);
         
-        // إظهار رسالة نجاح فقط إذا لم تكن هناك رسالة خطأ
         const statusEl = document.getElementById('editStatus');
         if (!statusEl.className.includes('error') && !statusEl.className.includes('warning')) {
-          showEditStatus('✅ تم تحميل البيانات الحالية بنجاح', 'success');
+          showEditStatus(`✅ تم تحميل البيانات الحالية بنجاح (حجم العلبة: ${packSize} سيجارة)`, 'success');
         }
       } catch (error) {
         showEditStatus('❌ خطأ في تحميل البيانات: ' + error.message, 'error');
       } finally {
-        // تأخير إعادة تعيين isLoading لتجنب التحميل المتكرر
         setTimeout(() => {
           isLoading = false;
         }, 300);
@@ -2058,10 +2147,11 @@
     function saveEditedData() {
       try {
         const data = loadData();
+        const packSize = data.packSize || currentPackSize || 20;
         
         const packCount = parseInt(document.getElementById('editPackCount').value);
-        if (isNaN(packCount) || packCount < 0 || packCount > 20) {
-          throw new Error('عدد السجائر في العلبة يجب أن يكون بين 0 و 20');
+        if (isNaN(packCount) || packCount < 0 || packCount > packSize) {
+          throw new Error(`عدد السجائر في العلبة يجب أن يكون بين 0 و ${packSize}`);
         }
         data.packCount = packCount;
         
@@ -2109,12 +2199,17 @@
           document.getElementById('editTotalCigarettes').value = totalCigs;
         }
         
+        // التأكد من أن packCount لا يتجاوز packSize
+        if (data.packCount > packSize) {
+          data.packCount = packSize;
+        }
+        
         saveData(data);
         updateUI();
         showReport('M', 'daily');
         showReport('Q', 'daily');
         
-        showEditStatus('✅ تم حفظ التعديلات بنجاح وتحديث جميع الإحصائيات', 'success');
+        showEditStatus(`✅ تم حفظ التعديلات بنجاح وتحديث جميع الإحصائيات (حجم العلبة: ${packSize})`, 'success');
         loadDataToEdit();
         
       } catch (error) {
@@ -2142,14 +2237,16 @@
         }
         
         const data = loadData();
+        const packSize = data.packSize || currentPackSize || 20;
         data.cigarettes.push(localTimestamp);
         data.cigarettes.sort((a, b) => a - b);
-        data.packCount = Math.min(data.cigarettes.length, MAX_PER_PACK);
+        data.packCount = Math.min(data.cigarettes.length, packSize);
         
         if (!data.packOpenTime) {
           data.packOpenTime = localTimestamp;
           data.totalPacks = 1;
           data.packHistory = [{ openedAt: localTimestamp }];
+          data.packSize = packSize;
         }
         
         saveData(data);
@@ -2180,17 +2277,19 @@
         }
         
         const data = loadData();
+        const packSize = data.packSize || currentPackSize || 20;
         if (!data.packHistory) data.packHistory = [];
         data.packHistory.push({ openedAt: localTimestamp });
         data.packHistory.sort((a, b) => a.openedAt - b.openedAt);
         data.totalPacks = data.packHistory.length;
         data.packOpenTime = data.packHistory[data.packHistory.length - 1].openedAt;
         data.packCount = 0;
+        data.packSize = packSize;
         
         saveData(data);
         loadDataToEdit();
         const dateStr = formatFullDateEnglish(localTimestamp);
-        showEditStatus(`✅ تم إضافة علبة جديدة بتاريخ ${dateStr}`, 'success');
+        showEditStatus(`✅ تم إضافة علبة جديدة بتاريخ ${dateStr} (حجم العلبة: ${packSize})`, 'success');
         updateUI();
         showReport('M', 'daily');
         showReport('Q', 'daily');
@@ -2239,12 +2338,16 @@
         addCigarette('M', e); 
       });
       document.getElementById('undoBtnM').addEventListener('click', function() { undoLastAction('M'); });
-      document.getElementById('resetPackBtnM').addEventListener('click', function() { resetPack('M'); });
+      document.getElementById('resetPackBtnM').addEventListener('click', function() { 
+        showNewPackModal('M');
+      });
       document.getElementById('clearAllBtnM').addEventListener('click', function() { clearAllData('M'); });
 
       document.getElementById('logCigBtnQ').addEventListener('click', function(e) { addCigarette('Q', e); });
       document.getElementById('undoBtnQ').addEventListener('click', function() { undoLastAction('Q'); });
-      document.getElementById('resetPackBtnQ').addEventListener('click', function() { resetPack('Q'); });
+      document.getElementById('resetPackBtnQ').addEventListener('click', function() { 
+        showNewPackModal('Q');
+      });
       document.getElementById('clearAllBtnQ').addEventListener('click', function() { clearAllData('Q'); });
 
       document.getElementById('exportDataBtnM').addEventListener('click', function() { exportData('M'); });
@@ -2341,6 +2444,7 @@
         data.totalPacks = 1;
         data.packHistory = [{ openedAt: now }];
         data.packCount = 0;
+        data.packSize = 20;
         saveData(data);
       }
 
